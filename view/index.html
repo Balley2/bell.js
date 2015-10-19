@@ -21,6 +21,10 @@
 Bell - {{ title() }}
 {% endblock %}
 
+{% block csslink %}
+<link rel="stylesheet" href="{{ url('static/css/index.css') }}" type="text/css" />
+{% endblock %}
+
 {% block navbar %}
 <div class="collapse navbar-collapse">
   <form action="{{ url('/') }}" method="get" accept-charset="utf-8" class="navbar-form navbar-left" role="search">
