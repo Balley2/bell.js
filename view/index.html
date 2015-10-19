@@ -7,11 +7,9 @@
 
 {% macro title() %}
   {% if params.dashboard %}
-    {% set dashGroupId = params.dashboard.split(':')[0] %}
-    {% set dashBoardId = params.dashboard.split(':')[1] %}
-    {% set dashGroup = dashGroups[dashGroupId] %}
-    {% set dashBoard = dashGroups.dashBoards[dashboardId] %}
-    {{ dashGroup.name }}: {{ dashBoard.name }}
+    {% set dashBoardId = params.dashboard %}
+    {% set dashBoard = dashBoards[dashboardId] %}
+    Dashboard: {{ dashBoard.name }}
   {% else %}
     Pattern: {{ params.pattern }}
   {% endif %}
@@ -50,15 +48,8 @@ Bell - {{ title() }}
   {% if params.pattern %}
     <li class="active"><a href="{{ switch({}) }}">Pattern: {{ params.pattern }}</a></li>
   {% endif %}
-  {% for dashGroupId, dashGroup in dashGroups %}
-  <li class="dropdown">
-    <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">{{ dashGroup.name }}<span class="caret"></span></a>
-    <ul class="dropdown-menu">
-      {% for dashBoardId, dashBoard in dashGroup.dashBoards %}
-        <li><a href="{{ switch({dashboard: dashGroupId + '-' + dashBoardId }) }}">{{ dashBoard.name }}</a></li>
-      {% endfor %}
-    </ul>
-  </li>
+  {% for dashBoard in dashBoards %}
+  <li class="active"><a href="{{ switch({dashboard: dashBoard.id}) }}">{{ dashBoard.name }}</a></li>
   {% endfor %}
 </ul>
 {% endblock %}

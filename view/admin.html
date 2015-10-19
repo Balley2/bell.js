@@ -1,1 +1,27 @@
 {% extends 'layout.html' %}
+
+{% block title %}
+Bell - Admin
+{% endblock %}
+
+{% block csslink %}
+<link rel="stylesheet" href="{{ url('static/css/admin.css') }}" type="text/css" />
+{% endblock %}
+
+{% block sidebarTitle %}Navigations{% endblock %}
+{% block sidebarContent %}
+<ul class="nav nav-pills nav-stacked">
+   <li class="dropdown">
+   <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
+     Dashboards<span class="caret"></span>
+   </a>
+   <ul class="dropdown-menu">
+     <li><a href="#">Create</a></li>
+     <li><a href="#">Another action</a></li>
+     <li><a href="#">Something else here</a></li>
+     <li class="divider"></li>
+     <li><a href="#">Separated link</a></li>
+   </ul>
+   </li>
+</ul>
+{% endblock %}
