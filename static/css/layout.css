@@ -1,0 +1,28 @@
+html, body {
+  height: 100%;
+}
+
+.container {
+  margin-top: 0px;
+  padding-top: 55px;  /* nav height + 15px */
+  width: 100%;
+  height: 100%; /* 1 - 40/768 */
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.container .row {
+  height: 100%;
+  vertical-align: top;
+}
+
+.main {
+  height: 100%;
+}
+
+.sidebar {
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  border-right: 1px solid #eee;
+}
