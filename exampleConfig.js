@@ -92,7 +92,7 @@
   webapp: {
     port: 2016,
     workers: 2,
-    auth: {name: 'admin', pass: 'secret'},
+    auth: {name: 'admin', pass: 'admin'},
   },
 
   cleaner: {
