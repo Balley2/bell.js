@@ -1,0 +1,25 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+Bell - Admin
+{% endblock %}
+
+{% block sidebarTitle %}Navigations{% endblock %}
+{% block sidebarContent %}
+<ul class="nav nav-pills nav-stacked">
+  <li {% block nav_admin_dashboards_class %}{% endblock %}><a href="{{ url('/admin/dashboards') }}">Dashboards</a></li>
+  <li {% block nav_admin_rules_class %}{% endblock %}><a href="{{ url('/admin/rules') }}">Rules</a></li>
+  <li {% block nav_admin_receivers_class %}{% endblock %}><a href="{{ url('/admin/receivers') }}">Receivers</a></li>
+</ul>
+{% endblock %}
+
+{% block mainContent %}
+{% if ctx.flash.msg %}
+<div class="alert alert-dismissible alert-{{ ctx.flash.className }}">
+  <button type="button" class="close" data-dismiss="alert">×</button>
+  {{ ctx.flash.msg }}
+</div>
+{% endif %}
+{% block adminMainContent %}
+{% endblock %}
+{% endblock %}
