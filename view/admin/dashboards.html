@@ -4,6 +4,10 @@
 Bell - Admin Dashboards
 {% endblock %}
 
+{% block csslink %}
+<link rel="stylesheet" href="{{ url('static/css/admin/dashboards.css') }}" type="text/css" />
+{% endblock %}
+
 {% block mainTitle %}
 Dashboards
 {% endblock %}
@@ -48,7 +52,28 @@ Dashboards
     </div>
   </div>
 </div>
-<br/>
-<!-- List dashboards -->
 
+<!-- List dashboards -->
+<table class="table table-bordered dashboards-list">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Dashboard Name</th>
+      <th>Patterns Count</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for id, dashboard in dashboards %}
+    <tr>
+      <td>{{ dashboard.id }}</td>
+      <td>{{ dashboard.name }}</td>
+      <td>{{ dashboard.patterns | length }}</td>
+      <td></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<ul class="list-group dashboards-list">
+</ul>
 {% endblock %}

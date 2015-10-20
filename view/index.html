@@ -48,8 +48,8 @@ Bell - {{ title() }}
   {% if params.pattern %}
     <li class="active"><a href="{{ switch({}) }}">Pattern: {{ params.pattern }}</a></li>
   {% endif %}
-  {% for dashboard in dashboards %}
-  <li class="active"><a href="{{ switch({dashboard: dashboard.id}) }}">{{ dashboard.name }}</a></li>
+  {% for id, dashboard in dashboards %}
+  <li {% if params.dashboard == dashboard.id %}class="active"{% endif %}><a href="{{ switch({dashboard: dashboard.id}) }}">{{ dashboard.name }}</a></li>
   {% endfor %}
 </ul>
 {% endblock %}
