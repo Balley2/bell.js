@@ -17,7 +17,7 @@ Dashboards
 {% block adminMainContent %}
 <!-- Create dashboard -->
 <button type="button" class="btn btn-default" data-toggle="modal" data-target="#createDashboard">Create Dashboard</button>
-<div class="modal fade" id="createDashboard" tabindex="-1" role="dialog" aria-labelledby="createDashboardLabel">
+<div class="modal fade in" id="createDashboard" tabindex="-1" role="dialog" aria-labelledby="createDashboardLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -54,26 +54,13 @@ Dashboards
 </div>
 
 <!-- List dashboards -->
-<table class="table table-bordered dashboards-list">
-  <thead>
-    <tr>
-      <th>#</th>
-      <th>Dashboard Name</th>
-      <th>Patterns Count</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for id, dashboard in dashboards %}
-    <tr>
-      <td>{{ dashboard.id }}</td>
-      <td>{{ dashboard.name }}</td>
-      <td>{{ dashboard.patterns | length }}</td>
-      <td></td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
 <ul class="list-group dashboards-list">
+  {% for dashboard in dashboards %}
+  <li class="list-group-item">
+    <a href="{{ url('/', {dashboard: dashboard.id}) }}">{{ dashboard.name }}</a>
+    <a href="#" class="pull-right dashboard-action">Delete</a>
+    <a href="#" class="pull-right dashboard-action">Edit</a>
+  </li>
+  {% endfor %}
 </ul>
 {% endblock %}
