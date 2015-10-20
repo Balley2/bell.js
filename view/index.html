@@ -1,4 +1,4 @@
-{% extends 'layout.html' %}
+  {% extends 'layout.html' %}
 
 {% macro switch(dict) %}
   {% set defaults = {pattern: '*', limit: 50, sort: '↑', past: '0s', type: 'm', stop: 0} %}
@@ -7,9 +7,9 @@
 
 {% macro title() %}
   {% if params.dashboard %}
-    {% set dashBoardId = params.dashboard %}
-    {% set dashBoard = dashBoards[dashboardId] %}
-    Dashboard: {{ dashBoard.name }}
+    {% set dashboardId = params.dashboard %}
+    {% set dashboard = dashboards[dashboardId] %}
+    Dashboard: {{ dashboard.name }}
   {% else %}
     Pattern: {{ params.pattern }}
   {% endif %}
@@ -48,8 +48,8 @@ Bell - {{ title() }}
   {% if params.pattern %}
     <li class="active"><a href="{{ switch({}) }}">Pattern: {{ params.pattern }}</a></li>
   {% endif %}
-  {% for dashBoard in dashBoards %}
-  <li class="active"><a href="{{ switch({dashboard: dashBoard.id}) }}">{{ dashBoard.name }}</a></li>
+  {% for dashboard in dashboards %}
+  <li class="active"><a href="{{ switch({dashboard: dashboard.id}) }}">{{ dashboard.name }}</a></li>
   {% endfor %}
 </ul>
 {% endblock %}
