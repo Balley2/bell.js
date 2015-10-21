@@ -55,7 +55,7 @@ Dashboards
 
 <!-- List dashboards -->
 <ul class="list-group dashboards-list">
-  {% for dashboard in dashboards %}
+  {% for dashboard in crons.dashboards %}
   <li class="list-group-item">
     <a href="{{ url('/', {dashboard: dashboard.id}) }}">{{ dashboard.name }}</a>
     <a href="#" class="pull-right dashboard-action">Delete</a>

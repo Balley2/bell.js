@@ -8,7 +8,7 @@
 {% macro title() %}
   {% if params.dashboard %}
     {% set dashboardId = params.dashboard %}
-    {% set dashboard = dashboardMap[dashboardId] %}
+    {% set dashboard = crons.dashboardMap[dashboardId] %}
     Dashboard: {{ dashboard.name }}
   {% else %}
     Pattern: {{ params.pattern }}
@@ -48,7 +48,7 @@ Bell - {{ title() }}
   {% if params.pattern %}
     <li class="active"><a href="{{ switch({}) }}">Pattern: {{ params.pattern }}</a></li>
   {% endif %}
-  {% for dashboard in dashboards %}
+  {% for dashboard in crons.dashboards %}
   <li {% if params.dashboard == dashboard.id %}class="active"{% endif %}><a href="{{ switch({dashboard: dashboard.id}) }}">{{ dashboard.name }}</a></li>
   {% endfor %}
 </ul>
