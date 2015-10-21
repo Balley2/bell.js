@@ -27,17 +27,17 @@ gulp.task('js', function() {
 
 // Minify vendor css
 gulp.task('vendor css', function() {
-  return gulp.src(['web/vendors/bootstrap/dist/css/bootstrap.css'])
+  return gulp.src(['web/vendor/bootstrap/dist/css/bootstrap.css'])
     .pipe(minify())
-    .pipe(concat('vendors.min.css'))
+    .pipe(concat('vendor.min.css'))
     .pipe(gulp.dest('web/dist/css'));
 });
 
 // Minify vendor js
 gulp.task('vendor js', function() {
-  return gulp.src(['web/vendors/jquery/jquery.js',
-                  'web/vendors/angular/angular.js',
-                  'web/vendors/bootstrap/dist/js/bootstrap.js'])
+  return gulp.src(['web/vendor/jquery/jquery.js',
+                  'web/vendor/angular/angular.js',
+                  'web/vendor/bootstrap/dist/js/bootstrap.js'])
     .pipe(uglify())
     .pipe(concat('vendors.min.js'))
     .pipe(gulp.dest('web/dist/js'));
