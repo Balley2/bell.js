@@ -39,7 +39,7 @@ gulp.task('vendor js', function() {
                   'web/vendor/angular/angular.js',
                   'web/vendor/bootstrap/dist/js/bootstrap.js'])
     .pipe(uglify())
-    .pipe(concat('vendors.min.js'))
+    .pipe(concat('vendor.min.js'))
     .pipe(gulp.dest('web/dist/js'));
 });
 
