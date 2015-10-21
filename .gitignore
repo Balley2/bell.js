@@ -4,4 +4,4 @@ heapdump-*
 npm-debug.log
 test-*
 *.db
-web/components/
+web/vendors/
