@@ -36,8 +36,10 @@
     "strftime": "^0.8.2"
   },
   "devDependencies": {
-    "ntt": ">=0.0.5",
-    "jshint": "2.8.0"
+    "bower": "~1.6.3",
+    "gulp": "~3.9.0",
+    "jshint": "~2.8.0",
+    "ntt": ">=0.0.5"
   },
   "scripts": {
     "test": "node --harmony test.js"
