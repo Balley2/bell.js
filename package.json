@@ -32,8 +32,7 @@
     "request": "~2.40.0",
     "sequelize": "3.12.1",
     "sqlite3": "3.1.0",
-    "ssdb": "~0.3.5",
-    "strftime": "^0.8.2"
+    "ssdb": "~0.3.5"
   },
   "devDependencies": {
     "bower": "~1.6.3",
