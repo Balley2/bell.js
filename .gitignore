@@ -5,3 +5,4 @@ npm-debug.log
 test-*
 *.db
 web/vendors/
+web/dist
