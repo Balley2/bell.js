@@ -25,22 +25,22 @@ gulp.task('js', function() {
     .pipe(gulp.dest('web/dist/js'));
 });
 
-// Minify vendor css
-gulp.task('vendor css', function() {
-  return gulp.src(['web/vendor/bootstrap/dist/css/bootstrap.css'])
+// Minify lib css
+gulp.task('lib css', function() {
+  return gulp.src(['web/lib/bootstrap/dist/css/bootstrap.css'])
     .pipe(minify())
-    .pipe(concat('vendor.min.css'))
+    .pipe(concat('lib.min.css'))
     .pipe(gulp.dest('web/dist/css'));
 });
 
 // Minify vendor js
-gulp.task('vendor js', function() {
-  return gulp.src(['web/vendor/jquery/jquery.js',
-                  'web/vendor/angular/angular.js',
-                  'web/vendor/bootstrap/dist/js/bootstrap.js'])
+gulp.task('lib js', function() {
+  return gulp.src(['web/lib/jquery/jquery.js',
+                  'web/lib/angular/angular.js',
+                  'web/lib/bootstrap/dist/js/bootstrap.js'])
     .pipe(uglify())
-    .pipe(concat('vendor.min.js'))
+    .pipe(concat('lib.min.js'))
     .pipe(gulp.dest('web/dist/js'));
 });
 
-gulp.task('default', ['css', 'js', 'vendor css', 'vendor js']);
+gulp.task('default', ['css', 'js', 'lib css', 'lib js']);
