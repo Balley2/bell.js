@@ -5,8 +5,6 @@
  *   interval       incoming metrics time interval (in sec). [default: 10]
  *   autoReload     if set true, config will be auto reread and applied, note
  *                  that not all options are auto reloading. [default: true]
- *   logging        the directory to place logs (including analyzer.log,
- *                  analyzer.err etc), [default: logging to stderr].
  *
  * Beanstalkd Options
  *   host           hostname/IP of beanstalkd server. [default: '0.0.0.0']
@@ -61,7 +59,6 @@
 {
   interval: 10,
   autoReload: true,
-  logging: 'stderr',
 
   beanstalkd: {
     host: '0.0.0.0',
