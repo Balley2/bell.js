@@ -1,89 +1,96 @@
-.chart-box, .chart-box-top {
+/**
+ * Chart
+ */
+.index .chart-box, .chart-box-top {
   width: 100%;
   overflow-x: scroll;
   border: 0;
 }
 
-.chart-box-top {
+.index .chart-box-top {
   overflow-y: hidden;
   padding: 0;
   margin: 0;
 }
 
-.chart-box-top-div {
+.index .chart-box-top-div {
   width: 1080px;
   height: 20px;
 }
 
-.chart {
+.index .chart {
   position: relative;
   width: 1080px;
   margin: 0 auto;
   padding: 15px 0;
 }
 
-.chart .title {
+.index .chart .title {
   background-color: rgba(255, 255, 255, .85);
   margin-left: 0;
   padding: 0 7px;
 }
 
-.chart .title a {
+.index .chart .title a {
   color: #333;
 }
 
-.chart .title a.anomalous {
+.index .chart .title a.anomalous {
   color: #c03;
 }
 
-.chart .value {
+.index .chart .value {
   color: black;
 }
 
-input[name="pattern"] {
+/**
+ * Misc
+ */
+
+.index input[name="pattern"] {
   min-width: 250px;
 }
 
-.main-info-each {
+.index .main-info-each {
   margin-right: 25px;
 }
 
-.loader {
+.index .loader {
   text-align: center;
   padding: 2em;
   display: block;
 }
 
-.tooltip-inner {
+.index .tooltip-inner {
   text-align: left;
   display: block;
   min-width: 160px;
 }
 
-.nav-tabs>li.active>a,
-.nav-tabs>li.active>a:hover,
-.nav-tabs>li.active>a:focus
+.index .nav-tabs>li.active>a,
+.index .nav-tabs>li.active>a:hover,
+.index .nav-tabs>li.active>a:focus
 {
   background-color: #fff;
 }
 
 /* Force chart-box scrollbars to display on mac */
-.chart-box-force-scrollbar::-webkit-scrollbar {
+.index .chart-box-force-scrollbar::-webkit-scrollbar {
   height: 8px;
 }
 
-.chart-box-force-scrollbar::-webkit-scrollbar-track {
+.index .chart-box-force-scrollbar::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 6px #bbb;
   -webkit-border-radius: 6px;
   border-radius: 6px;
 }
 
-.chart-box-force-scrollbar::-webkit-scrollbar-thumb {
+.index .chart-box-force-scrollbar::-webkit-scrollbar-thumb {
   -webkit-border-radius: 6px;
   border-radius: 6px;
   background: #aaa;
 }
 
-.chart-box-force-scrollbar::-webkit-scrollbar-thumb:window-inactive {
+.index .chart-box-force-scrollbar::-webkit-scrollbar-thumb:window-inactive {
   background: #eee;
 }
