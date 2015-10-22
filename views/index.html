@@ -1,139 +1,125 @@
-  {% extends 'layout.html' %}
+{% extends "layout.html" %}
 
-{% macro switch(dict) %}
-  {% set defaults = {pattern: '*', limit: 50, sort: '↑', past: '0s', type: 'm', stop: 0} %}
-  {{ url('/', util.cleanWith(extend(clone(params), dict), defaults)) }}
+{# Get clean url by switching params with key-value pairs #}
+{% macro switch(pairs) %}
+{{ url('/', switchParams(params, pairs)) }}
 {% endmacro %}
 
-{% macro title() %}
-  {% if params.dashboard %}
-    {% set dashboardId = params.dashboard %}
-    {% set dashboard = crons.dashboardMap[dashboardId] %}
-    Dashboard: {{ dashboard.name }}
-  {% else %}
-    Pattern: {{ params.pattern }}
-  {% endif %}
-{% endmacro %}
+{# Html class namespace #}
+{% block classNameSpace %}index{% endblock %}
 
-{% block title %}
-Bell - {{ title() }}
+{# Navbar right #}
+{% block navbarRight %}
+<li><a href="{{ url('/admin') }}">Administration</a></li>
 {% endblock %}
 
-{% block csslink %}
-<link rel="stylesheet" href="{{ url('static/css/index.css') }}" type="text/css" />
-{% endblock %}
-
-{% block navbar %}
-<div class="collapse navbar-collapse">
-  <form action="{{ url('/') }}" method="get" accept-charset="utf-8" class="navbar-form navbar-left" role="search">
-    <div class="form-group">
-      <div class="input-group">
-        <input name="pattern" type="text" class="form-control" placeholder="Search e.g. timer.count_ps.*">
-        <span class="input-group-btn">
-          <button class="btn btn-primary" type="Submit">Go</button>
-        </span>
-      </div>
+{# Navbar search form #}
+{% block navbarCollapse %}
+<form class="navbar-form navbar-left" action="{{ url('/') }}" method="get">
+  <div class="form-group">
+    <div class="input-group">
+      <input name="pattern" type="text" class="form-control" placeholder="Search by wildcard">
+      <span class="input-group-btn">
+        <button class="btn btn-primary" type="submit">Go</button>
+      </span>
     </div>
-  </form>
-</div>
+  </div>
+</form>
 {% endblock %}
 
-{% block navbar_right %}
-<li><a href="{{ url('/admin') }}">Admin</a></li>
+{# Sidebar #}
+{% block sidebarTitle %}
+Projects
 {% endblock %}
 
-{% block sidebarTitle %}Dashboards{% endblock %}
 {% block sidebarContent %}
 <ul class="nav nav-pills nav-stacked">
-  {% if params.pattern %}
-    <li class="active"><a href="{{ switch({}) }}">Pattern: {{ params.pattern }}</a></li>
-  {% endif %}
-  {% for dashboard in crons.dashboards %}
-  <li {% if params.dashboard == dashboard.id %}class="active"{% endif %}><a href="{{ switch({dashboard: dashboard.id}) }}">{{ dashboard.name }}</a></li>
-  {% endfor %}
+  <li class="active"><a href="#">FIXME</a></li>
 </ul>
 {% endblock %}
 
+{# Main #}
 {% block mainTitle %}
-<a href="{{ switch({}) }}">{{ title() }}</a>
-<span class="pull-right">date ranging to<span id="chart-until"></span></a></span>
+FIXME (Project Name or Pattern)
 {% endblock %}
+
 {% block mainContent %}
-<div class="alert alert-dismissible" id="main-info">
-  <button type="button" class="close" data-dismiss="alert">×</button>
-  <p>
-  <span class="main-info-each">Hit metrics count: <strong id="info-total"></strong></span>
-  <span class="main-info-each">Returned metrics count: <strong id="info-returns"></strong></span>
-  <span class="main-info-each">Anomalous metrics count: <strong id="info-mcount"></strong></span>
+<!-- Query statistics -->
+<div class="alert alert-dismissible">
+  <button type="button" class="close" data-dismiss="alert">x</button>
+  <p id="query-statistics" class="query-statistics">
+  FIXME (Fillin data with js)
+  {% raw %}
+  <script id="template-query-statistics" type="x-tmpl-mustache">
+    <span>Number of metrics hit: <strong>{{ numHit }}</strong></span>
+    <span>Number of metrics return: <strong>{{ numReturn }}</strong></span>
+    <span>Number of metrics anomalous: <strong>{{ numAnomalies }}</strong></span>
+  </script>
+  {% endraw %}
   </p>
 </div>
-{% set tabs = {
+
+<!-- Query options tabs -->
+<ul class="nav nav-tabs">
+  <!-- Tab `past` -->
+  {# tabMap = {past: meaning} #}
+  {% set tabMap = {
   '0s': 'Now',
   '3h': '3 hours ago',
   '6h': '6 hours ago',
   '1d': '1 day ago',
   '2d': '2 days ago'
-} %}
-<ul class="nav nav-tabs">
-  <!-- past tabs -->
-  {% for key, val in tabs %}
+  } %}
+  {% for key, val in tabMap %}
   <li {% if params.past == key %}class="active"{% endif %}>
-    <a href="{{ switch({past: key}) }}" data-toggle="tooltip" data-placement="top", {% if key != '0s' %}title="Shift date to {{ val }}"{% endif %}>{{ val }}</a>
+    <a href="{{ switch({past: key}) }}">{{ val }}</a>
   </li>
   {% endfor %}
-  {% if not tabs.hasOwnProperty(params.past) %}
-  <li class="active"><a href="{{ switch({past: params.past})  }}">{{ params.past }}</a></li>
+  {% if not tabMap.hasOwnProperty(params.past) %}
+  <li class="active">
+    <a href="{{ switch({past: params.past}) }}">{{ params.past }}</a>
+  </li>
   {% endif %}
-  <!-- end past tabs -->
-
-  <!-- tab reset -->
-  <li class="dropdown pull-right" data-toggle="tooltip" data-placement="top", title="Reset query options (excluding pattern/dashboard)">
-    {% if params.dashboard %}
-    <a href="{{ url('/', {dashboard: params.dashboard}) }}">
-    {% else %}
-    <a href="{{ url('/', {pattern: params.pattern}) }}">
-    {% endif %}Reset</a>
+  <!-- Tab `reset` -->
+  <li class="dropdown pull-right">
+    <a href="{{ url('/', {project: params.project} if params.project else {pattern: params.pattern}) }}">
+      Reset
+    </a>
   </li>
-
-  <!-- tab switch -->
-  <li class="dropdown pull-right" data-toggle="tooltip" data-placement="top", title="Switch data type between anomalous-factor(m) and real-value(v)">
-    <a href="{{ switch({type: 'v' if params.type == 'm' else 'm'})  }}">Switch</a>
+  <!-- Tab `switch` -->
+  <li class="dropdown pull-right">
+    <a href="{{ switch({type: 'v' if params.type == 'm' else 'm'}) }}">Switch</a>
   </li>
-  <!-- end tab switch -->
-
-  <!-- tab stop -->
-  <li class="dropdown pull-right" data-toggle="tooltip" data-placement="top", title="Enable/Disable data realtime update">
-    {% if params.stop == 0 %}
-    <a href="{{ switch({stop: 1})  }}">Pause</a>
-    {% else %}
-    <a href="{{ switch({stop: 0})  }}">Realtime</a>
-    {% endif %}
+  <!-- Tab `stop` -->
+  <li class="dropdown pull-right">
+    <a href="{{ switch({stop: 0 if params.stop == 1 else 1 })}}">Pause</a>
   </li>
-  <!-- end tab stop -->
-
-  <!-- tab sort -->
-  <li class="dropdown pull-right" data-toggle="tooltip" data-placement="top", title="Sort by trending">
-    <a class="dropdown-toggle" data-toggle="dropdown" href="javascript: void(0);" aria-expanded="true">Sort By {{ params.sort }}<span class="caret"></span></a>
+  <!-- Tab sort -->
+  <li class="dropdown pull-right">
+    <a class="dropdown-toggle" data-toggle="dropdown" href="javascript: void(0);" aria-expanded="true">
+      Sort {{ params.sort }}
+      <span class="caret"></span>
+    </a>
     <ul class="dropdown-menu">
-      <li><a href="{{ switch({sort: '↑'})  }}">Trending Up ↑</a></li>
-      <li><a href="{{ switch({sort: '↓'})  }}">Trending Down ↓</a></li>
+       <li><a href="{{ switch({sort: 'up'}) }}">Trending Up</a></li>
+       <li><a href="{{ switch({sort: 'down'}) }}">Trending Down</a></li>
     </ul>
   </li>
-  <!-- end tab sort -->
-
-  <!-- tab limit -->
-  <li class="dropdown pull-right" data-toggle="tooltip" data-placement="top", title="Only return frist N items">
-    <a class="dropdown-toggle" data-toggle="dropdown" href="javascript: void(0);" aria-expanded="true">Limit{{ params.limit }} <span class="caret"></span></a>
+  <!-- Tab limit -->
+  <li class="dropdown pull-right">
+    <a class="dropdown-toggle" data-toggle="dropdown" href="javascript: void(0);" aria-expanded="true">
+      Limit {{ params.limit }}
+      <span class="caret"></span>
+    </a>
     <ul class="dropdown-menu">
       {% for limit in [1, 30, 50, 100, 500, 1000] %}
-        <li><a href="{{ switch({limit: limit})  }}">{{ limit }}</a></li>
+      <li><a href="{{ switch({limit: limit}) }}">{{ limit }}</a></li>
       {% endfor %}
     </ul>
   </li>
-  <!-- end tab limit -->
 </ul>
 
-<!-- chart -->
+<!-- Chart -->
 <div class="chart-box-top chart-box-force-scrollbar">
   <div class="chart-box-top-div">
   </div>
@@ -141,33 +127,8 @@ Bell - {{ title() }}
 <div class="chart-box chart-box-force-scrollbar">
   <div class="chart" id="chart">
     <div class="loader" id="loader">
-      <img src="{{ url('static/img/spinner.gif') }}"/>
+      <img src="{{ url('/public/img/spinner.gif') }}"/>
     </div>
   </div>
 </div>
-<!-- end chart -->
-{% endblock %}
-
-{% block scriptsrc %}
-<script src="{{ url('static/js/d3.min.js') }}"></script>
-<script src="{{ url('static/js/cubism.v1.min.js') }}"></script>
-<script src="{{ url('static/js/script.js')  }}"></script>
-{% endblock %}
-
-{% block script %}
-// vars required by script.js
-var api = '{{ url('/api')  }}'
-var root = '{{ url('/')  }}';
-var step = {{ config.interval  }};
-{% set options = JSON.stringify(params) %}
-window.onload = function() {
-  $('[data-toggle="tooltip"]').tooltip();
-  $('.chart-box-top').scroll(function() {
-    $('.chart-box').scrollLeft($('.chart-box-top').scrollLeft());
-  });
-  $('.chart-box').scroll(function() {
-    $('.chart-box-top').scrollLeft($('.chart-box').scrollLeft());
-  });
-  initBell({{ options }})
-};
 {% endblock %}
