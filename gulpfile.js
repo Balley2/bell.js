@@ -6,12 +6,16 @@ const del = require('del');
 
 // Clean build
 gulp.task('clean', function() {
-  return del(['web/css', 'web/js']);
+  return del(['static/css', 'static/js']);
 });
 
 // Minify css
 gulp.task('css', function() {
-  return gulp.src(['static/src/css/*.css'])
+  var files = [
+    'static/lib/bootstrap/dist/css/bootstrap.css',
+    'static/src/css/*.css',
+  ];
+  return gulp.src(files)
     .pipe(minify())
     .pipe(concat('all.min.css'))
     .pipe(gulp.dest('static/css'));
@@ -19,28 +23,17 @@ gulp.task('css', function() {
 
 // Minify js
 gulp.task('js', function() {
-  return gulp.src(['static/src/js/*.js'])
+  var files = [
+    'static/lib/jquery/jquery.js',
+    'static/lib/bootstrap/dist/js/bootstrap.js',
+    'static/lib/d3/d3.js',
+    'static/lib/cubism/cubism.v1.js',
+    'static/src/js/*.js',
+  ];
+  return gulp.src(files)
     .pipe(uglify())
     .pipe(concat('all.min.js'))
-    .pipe(gulp.dest('web/js'));
-});
-
-// Minify lib css
-gulp.task('lib css', function() {
-  return gulp.src(['static/lib/bootstrap/dist/css/bootstrap.css'])
-    .pipe(minify())
-    .pipe(concat('lib.min.css'))
-    .pipe(gulp.dest('static/css'));
-});
-
-// Minify vendor js
-gulp.task('lib js', function() {
-  return gulp.src(['static/lib/jquery/jquery.js',
-                  'static/lib/angular/angular.js',
-                  'static/lib/bootstrap/dist/js/bootstrap.js'])
-    .pipe(uglify())
-    .pipe(concat('lib.min.js'))
     .pipe(gulp.dest('static/js'));
 });
 
-gulp.task('default', ['css', 'js', 'lib css', 'lib js']);
+gulp.task('default', ['css', 'js']);
