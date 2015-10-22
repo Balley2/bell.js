@@ -15,6 +15,7 @@
   "main": "./statsd.js",
   "dependencies": {
     "bluebird": "2.3.11",
+    "clone": "1.0.2",
     "co": "^4.4.0",
     "commander": "2.3.0",
     "fivebeans": "1.1.1",
