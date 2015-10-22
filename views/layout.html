@@ -23,13 +23,13 @@
         <div class="collapse navbar-collapse">
           {% block navbarCollapse %}
           {% endblock %}
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="{{ url('/admin') }}">Administration</a></li>
+            <li><a href="{{ package.repository.url }}">bell.js@v{{ package.version }}</a></li>
+            {% block navbarRight %}
+            {% endblock %}
+          </ul>
         </div>
-        <ul class="nav navbar-nav navbar-right">
-          <li><a href="{{ url('/admin') }}">Administration</a></li>
-          <li><a href="{{ package.repository.url }}">bell.js@v{{ package.version }}</a></li>
-          {% block navbarRight %}
-          {% endblock %}
-        </ul>
       </div><!-- /.container-fluid -->
     </nav>
     <!-- Container -->
@@ -70,8 +70,6 @@
     <script>
       {% if config.webapp.root %}
       window._root = "{{ config.webapp.root }}";
-      {% else %}
-      window._root = null;
       {% endif %}
       {% block script %}
       {% endblock %}
