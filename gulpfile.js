@@ -28,6 +28,7 @@ gulp.task('js', function() {
     'static/lib/bootstrap/dist/js/bootstrap.js',
     'static/lib/d3/d3.js',
     'static/lib/cubism/cubism.v1.js',
+    'static/lib/mustache.js/mustache.js',
     'static/src/js/*.js',
   ];
   return gulp.src(files)
