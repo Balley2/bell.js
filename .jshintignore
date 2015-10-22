@@ -3,5 +3,5 @@ node_modules
 test-1
 bin
 exampleConfig.js
-web/dist
-web/vendor
+static/lib
+view
