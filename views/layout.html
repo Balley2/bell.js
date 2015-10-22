@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Bell - Metrics Monitor</title>
+    <!-- Include styles -->
     <link href="{{ url('/public/css/all.min.css') }}" rel="stylesheet">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -13,7 +14,69 @@
     <![endif]-->
   </head>
   <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="{{ url('/') }}"> Bell - Metrics Monitor</a>
+        </div>
+        <div class="collapse navbar-collapse">
+          {% block navbarCollapse %}
+          {% endblock %}
+        </div>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="{{ url('/admin') }}">Administration</a></li>
+          <li><a href="{{ package.repository.url }}">bell.js@v{{ package.version }}</a></li>
+          {% block navbarRight %}
+          {% endblock %}
+        </ul>
+      </div><!-- /.container-fluid -->
+    </nav>
+    <!-- Container -->
+    <div class="container-fluid container">
+      <div class="row">
+        <!-- Sidebar -->
+        <div class="col-sm-2 sidebar">
+          <div class="panel panel-primary">
+            <div class="panel-heading">
+              <h3 class="panel-title">
+                {% block sidebarTitle %}
+                {% endblock %}
+              </h3>
+            </div>
+            <div class="panel-body">
+              {% block sidebarContent %}
+              {% endblock %}
+            </div>
+          </div>
+        </div><!-- /.sidebar -->
+        <!-- Main -->
+        <div class="col-sm-10 main">
+          <div class="panel panel-primary">
+            <div class="panel-heading">
+              <h3 class="panel-title">
+                {% block mainTitle %}
+                {% endblock %}
+              </h3>
+            </div>
+            <div class="panel-body">
+              {% block mainContent %}
+              {% endblock %}
+            </div>
+          </div>
+        </div><!-- /.main -->
+      </div>
+    </div><!-- /.container -->
+    <script>
+      {% if config.webapp.root %}
+      window._root = "{{ config.webapp.root }}";
+      {% else %}
+      window._root = null;
+      {% endif %}
+      {% block script %}
+      {% endblock %}
+    </script>
+    <!-- Include scripts -->
     <script src="{{ url('/public/js/all.min.js') }}"></script>
   </body>
 </html>
-
