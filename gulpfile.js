@@ -1,8 +1,9 @@
 const gulp = require('gulp');
 const concat = require('gulp-concat');
-const uglify = require('gulp-uglify');
-const minify = require('gulp-minify-css');
 const del = require('del');
+const debug = require('gulp-debug');
+const minify = require('gulp-minify-css');
+const uglify = require('gulp-uglify');
 
 // Clean build
 gulp.task('clean', function() {
@@ -17,14 +18,16 @@ gulp.task('css', function() {
   ];
   return gulp.src(files)
     .pipe(minify())
+    .pipe(debug({title: 'Css:'}))
     .pipe(concat('all.min.css'))
+    .pipe(debug({title: 'Css minified:'}))
     .pipe(gulp.dest('static/css'));
 });
 
 // Minify js
 gulp.task('js', function() {
   var files = [
-    'static/lib/jquery/jquery.js',
+    'static/lib/jquery/dist/jquery.js',
     'static/lib/bootstrap/dist/js/bootstrap.js',
     'static/lib/d3/d3.js',
     'static/lib/cubism/cubism.v1.js',
@@ -32,8 +35,10 @@ gulp.task('js', function() {
     'static/src/js/*.js',
   ];
   return gulp.src(files)
+    .pipe(debug({title: 'Js:'}))
     .pipe(uglify())
     .pipe(concat('all.min.js'))
+    .pipe(debug({title: 'Js minified:'}))
     .pipe(gulp.dest('static/js'));
 });
 
