@@ -17,8 +17,8 @@ gulp.task('css', function() {
     'static/src/css/*.css',
   ];
   return gulp.src(files)
-    .pipe(minify())
     .pipe(debug({title: 'Css:'}))
+    .pipe(minify())
     .pipe(concat('all.min.css'))
     .pipe(debug({title: 'Css minified:'}))
     .pipe(gulp.dest('static/css'));
@@ -32,7 +32,10 @@ gulp.task('js', function() {
     'static/lib/d3/d3.js',
     'static/lib/cubism/cubism.v1.js',
     'static/lib/mustache.js/mustache.js',
-    'static/src/js/*.js',
+    'static/src/js/app.js',
+    'static/src/js/util.js',
+    'static/src/js/handlers/*.js',
+    'static/src/js/controllers/*.js',
   ];
   return gulp.src(files)
     .pipe(debug({title: 'Js:'}))
