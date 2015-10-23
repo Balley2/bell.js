@@ -31,7 +31,7 @@ gulp.task('js', function() {
     'static/lib/bootstrap/dist/js/bootstrap.js',
     'static/lib/d3/d3.js',
     'static/lib/cubism/cubism.v1.js',
-    'static/lib/mustache.js/mustache.js',
+    'static/lib/nunjucks/browser/nunjucks.js',
     'static/src/js/app.js',
     'static/src/js/util.js',
     'static/src/js/handlers/*.js',
