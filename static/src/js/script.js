@@ -257,51 +257,6 @@ function buildUrlParams(dict) {
 }
 
 
-// convert string format timespan to seconds
-//
-// example:
-//
-//   timespan2secs('1d')
-//   // => 86400
-//   timespan2secs('1h')
-//   // => 3600
-//   timespan2secs('1h2m')
-//   // => 3720
-//
-// @param {String} timespan
-// @return {Number}
-//
-function timespan2secs(timespan) {
-  var map = {
-    's': 1,
-    'm': 60,
-    'h': 60 * 60,
-    'd': 24 * 60 * 60
-  };
-
-  var secs = 0;
-
-  while (timespan.length > 0) {
-    for (var i = 0; i < timespan.length; i++) {
-      var ch = timespan[i];
-      var measure = map[ch];
-
-      if (!isNaN(measure)) {
-        var count = +timespan.slice(0, i);
-        secs += count * measure;
-        timespan = timespan.slice(i + 1);
-        break;
-      }
-    }
-
-    if (i === timespan.length) {
-      return secs;
-    }
-  }
-
-  return secs;
-}
-
 // convert unix timestamp to readable string format
 //
 // @param {Number} secs

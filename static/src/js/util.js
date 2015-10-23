@@ -9,8 +9,8 @@
  * @param {Number} secs
  * @return {String}
  */
-app.util.secs2str = function(secs) {
-  var date = new Date(secs * 1000);
+app.util.secondsToString = function(seconds) {
+  var date = new Date(seconds * 1000);
   // getMonth() return 0~11 numbers
   var month = date.getMonth() + 1;
   var day = date.getDate();
@@ -62,8 +62,8 @@ app.util.url = function(route, params) {
   var list = [], key;
   if (route[0] !== '/')
     throw new Error('except route starts with /');
-  if (window._root)
-    route = '/' + window._root + route;
+  if (window._ctx.root)
+    route = '/' + window._ctx.root + route;
   if (params) {
     for (key in params)
       list.push([key, '=', params[key]].join(''));
@@ -116,4 +116,46 @@ app.util.post = function(url, data, cb) {
       return cb(err, null);
     }
   });
+};
+
+/**
+ * Convert string format timeSpan to seconds
+ *   timeSpanToSeconds('1d')
+ *   // => 86400
+ *   timeSpanto('1h')
+ *   // => 3600
+ *   timeSpanToSeconds('1h2m')
+ *   // => 3720
+ * @param {String} timeSpan
+ * @return {Number}
+ */
+app.util.timeSpanToSeconds = function(timeSpan) {
+  var map = {
+    's': 1,
+    'm': 60,
+    'h': 60 * 60,
+    'd': 24 * 60 * 60
+  };
+  var secs = 0, i, ch, measure, count;
+
+  while (timeSpan.length > 0) {
+    for (i = 0; i < timeSpan.length; i++) {
+      ch = timeSpan[i];
+      measure = map[ch];
+      if (!isNaN(measure)) {
+        count = +timeSpan.slice(0, i);
+        secs += count * measure;
+        timeSpan = timeSpan.slice(i + 1);
+        break;
+      }
+    }
+    if (i === timeSpan.length)
+      return secs;
+  }
+  return secs;
+};
+
+app.util.setIntervalAndRunNow = function(fn, ms) {
+  fn();
+  return setInterval(fn, ms);
 };
