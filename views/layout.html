@@ -69,8 +69,20 @@
       </div>
     </div><!-- /.container -->
     <script>
+      {# Bind data to javascript global window #}
+      {% macro bindJSON(key, obj) %}
+      window._ctx.{{ key }} = {{ JSON.stringify(obj) | safe }};
+      {% endmacro %}
+      {% macro bindString(key, str) %}
+      window._ctx.{{ key }} = "{{ str | safe }}";
+      {% endmacro %}
+      {% macro bindNumber(key, val) %}
+      window._ctx.{{ key }} = {{ val }};
+      {% endmacro %}
+
+      window._ctx = {};
       {% if config.webapp.root %}
-      window._root = "{{ config.webapp.root }}";
+      window._ctx.root = "{{ config.webapp.root }}";
       {% endif %}
       {% block script %}
       {% endblock %}
