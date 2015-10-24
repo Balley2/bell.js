@@ -32,7 +32,7 @@ app.handler('chart', function(self, util) {
     context.on('focus', function(i) {
       var offset = $(selector)[0].offsetWidth - i;
       d3.selectAll('value')
-      .style('right', i == null ? null : offset + 'px');
+      .style('right', i === null ? null : offset + 'px');
     });
     return context;
   };

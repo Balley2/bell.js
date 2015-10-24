@@ -69,7 +69,8 @@ app.controller('index', function(self, handlers, util) {
           start += step;
         }
         callback(null, values);
-        cb && cb(data);
+        if (cb)
+          cb(data);
       });
     }, name);
   };
@@ -92,7 +93,8 @@ app.controller('index', function(self, handlers, util) {
       if (err)
         return handlers.error.fatal(err);
       loader.hide();
-      cb && cb(data);
+      if (cb)
+        cb(data);
     });
   };
   /**

@@ -9,8 +9,8 @@
  * @param {Number} secs
  * @return {String}
  */
-app.util.secondsToString = function(seconds) {
-  var date = new Date(seconds * 1000);
+app.util.secondsToString = function(secs) {
+  var date = new Date(secs * 1000);
   // getMonth() return 0~11 numbers
   var month = date.getMonth() + 1;
   var day = date.getDate();
