@@ -1,60 +1,51 @@
 /**
- * @overview  Index controller..
+ * @overview  Index controller.
  * @author    Chao Wang (hit9)
  * @copyright 2015 Eleme, Inc. All rights reserved.
  */
 
-app.controller('index', function(controller, handlers, util) {
-  // global vars
-  var context;
+app.controller('index', function(self, handlers, util) {
   var options;
-  var interval;
-  var pastSecs;
-
-  controller.init = function() {
-    options = window._ctx.options;
-    interval = window._ctx.interval;
-    pastSecs = util.timeSpanToSeconds(options.past);
-    initContext();
-    util.setIntervalAndRunNow(function() {
-      d3.select('#chart').selectAll('*').remove();
-      pullMetricNames(function(data) {
-        // renderQueryStatistics(data);
-        // plotChart(data);
-      });
-    }, 10 * 60 * 1000); // replot every 10 min
-  };
-
+  var delay;
+  var loader = $('#loader');
   /**
-   * Create chart with options.
+   * Index entry.
    */
-  function initContext() {
-    context = cubism.context()
-    .serverDelay(pastSecs * 1000)
-    .clientDelay(0)
-    .step(interval * 1000)
-    .size(3 * 60 * 60 / 10)  // 3 hours, step 10s
-    ;
-    if (options.stop == 1)
-      context.stop();
-    context.on('focus', function(i) {
-      var offset = $('#chart')[0].offsetWidth - i;
-      d3.selectAll('.value')
-      .style('right', i === null ? null : offset + 'px');
+  self.init = function() {
+    options = window._ctx.options;
+    delay = util.timeSpanToSeconds(options.past);
+    // init chart
+    handlers.chart.init({
+      selector: '#chart',
+      serverDelay: delay * 1000,
+      step: window._ctx.interval * 1000,
+      stop: options.stop == 1,
+      type: options.type
     });
+    // init scrollbars
+    self.initScrollbars();
+    // start plot
+    util.setIntervalAndRunNow(function() {
+      handlers.chart.remove();
+      self.getNames(function(data) {
+        self.renderStats(data);
+        self.plot(data);
+        self.initTitles(data);
+      });
+    }, 10 * 60 * 1000);
   };
-
   /**
-   * Pull metric data.
+   * Feed metric.
    * @param {String} name
    * @param {Function} cb // function(data)
+   * @return {Metric}
    */
-  function pullMetricData(name, cb) {
-    return context.metric(function(start, stop, step, callback) {
+  self.feed = function(name, cb) {
+    return handlers.chart.metric(function(start, stop, step, callback) {
       var values = [], i = 0;
       // cast to timestamp from date
-      start = (+start - pastSecs) / 1000;
-      stop = (+stop - pastSecs) / 1000;
+      start = (+start - delay) / 1000;
+      stop = (+stop - delay) / 1000;
       step = +step / 1000;
       // parameters to pull data
       var params = {
@@ -66,6 +57,8 @@ app.controller('index', function(controller, handlers, util) {
       // request data and call `callback` with values
       // data schema: {name: {String}, times: {Array}, vals: {Array}}
       handlers.metric.getData(params, function(err, data) {
+        if (err)
+          return handlers.error.fatal(err);
         // the timestamps from statsd DONT have exactly steps `10`
         while (start < stop) {
           while (start < data.times[i]) {
@@ -79,102 +72,117 @@ app.controller('index', function(controller, handlers, util) {
         cb && cb(data);
       });
     }, name);
-  }
-
+  };
   /**
-   * Pull metric names.
-   *
+   * Fetch names
    * @param {Function} cb // function(data)
    */
-  function pullMetricNames(cb) {
+  self.getNames = function(cb) {
     var params = {
       limit: options.limit,
       sort: options.sort,
     };
-
     if (options.project) {
       params.project = options.project;
     } else {
       params.pattern = options.pattern;
     }
-
     // request metric names by params
     handlers.metric.getNames(params, function(err, data) {
-      var stat = {}; // {name: trend}
-      var list = [], i;
-      var pairs, name, trend;
-      $('#loader').hide();
-      for (i = 0; i < data.names.length; i++) {
-        pairs = data.names[i];
-        name = pairs[0];
-        trend = pairs[1];
-        list.push(pullMetricData(name, renderMetricTitle));
-        stat[name] = trend;
-      }
-      // cb && cb(list);
-      renderQueryStatistics(data);
-      plotChart(list);
+      if (err)
+        return handlers.error.fatal(err);
+      loader.hide();
+      cb && cb(data);
     });
-  }
-
+  };
   /**
-   * Get a horizon chart.
+   * Plot.
    */
-  function getHorizonChart() {
-      var horizon = context.horizon();
-      if (options.type == 'v')
-        return horizon;
-      return horizon
-      .extent([-2, 2])
-      .mode('mirror')
-      .colors(['#dd1144', 'teal', 'teal', '#dd1144']);
-  }
-
+  self.plot = function(data) {
+    var name, i, metrics = [];
+    for (i = 0; i < data.names.length; i++) {
+      name = data.names[i][0];
+      metrics.push(self.feed(name, self.refreshTitle));
+    }
+    return handlers.chart.plot(metrics);
+  };
   /**
-   * Plot chart on data.
+   * Render statistics
    */
-  function plotChart(data) {
-    d3.select('#chart').call(function(div) {
-      div.append('div')
-      .attr('class', 'axis')
-      .call(context.axis().orient('top'));
-
-      div.selectAll('.horizon')
-      .data(data)
-      .enter().append('div')
-      .attr('class', 'horizon')
-      .call(getHorizonChart());
-
-      div.append('div')
-      .attr('class', 'rule')
-      .call(context.rule());
-    });
-  }
-
-  /**
-   * Polt master.
-   */
-  function plot(data) {
-
-  }
-
-  /**
-   * Render metric title.
-   */
-  function renderMetricTitle(data) {
-    // FIXME
-  }
-
-  /**
-   * Render query statistics.
-   */
-  function renderQueryStatistics(data) {
+  self.renderStats = function(data) {
     var template = $("#template-query-statistics").html();
-    var html = nunjucks.renderString(template, {
-      numHit: data.total,
-      numReturn: data.length,
-      numAnomalous: data.mcount
+    var html = nunjucks.renderString(template, data);
+    return $('#query-statistics').html(html);
+  };
+  /**
+   * Init titles
+   */
+  self.initTitles = function(data) {
+    var stats = {}, i, name, trend;
+    for (i = 0; i < data.names.length; i++) {
+      name = data.names[i][0];
+      trend = data.names[i][1];
+      stats[name] = trend;
+    }
+    return handlers.chart.title(function(name) {
+      var template = $('#template-title').html();
+      var trend = stats[name];
+      return nunjucks.renderString(template, {
+        name: name,
+        trend: trend,
+        trendText: self.getTextByTrend(trend),
+        className: self.getClassNameByTrend(trend),
+        url: util.url('/', {
+          pattern: name,
+          sort: options.sort,
+          limit: 1,
+          type: options.type,
+          past: options.past,
+        })
+      });
     });
-    $('#query-statistics').html(html);
-  }
+  };
+  /**
+   * Refresh title
+   * @param {Object} data
+   */
+  self.refreshTitle = function(data) {
+    $(util.format("title-%s", data.name))
+    .toggleClass(self.getClassNameByTrend(data.trend));
+    $(util.format("title-trend-%s", data.name))
+    .html(self.getTextByTrend(data.trend));
+  };
+  /**
+   * Get title class name.
+   * @param {Number} trend
+   * @return {String}
+   */
+  self.getClassNameByTrend = function(trend) {
+    if (Math.abs(trend) >= 1)
+      return 'anomalous';
+    return 'normal';
+  };
+  /**
+   * Get trend text.
+   * @param {Number} trend
+   * @return {String}
+   */
+  self.getTextByTrend = function(trend) {
+    if (trend > 0)
+      return '↑';
+    if (trend < 0)
+      return '↓';
+    return '-';
+  };
+  /**
+   * Scrollbars
+   */
+  self.initScrollbars = function() {
+    $('.chart-box-top').scroll(function() {
+      $('.chart-box').scrollLeft($('.chart-box-top').scrollLeft());
+    });
+    $('.chart-box').scroll(function() {
+      $('.chart-box-top').scrollLeft($('.chart-box').scrollLeft());
+    });
+  };
 });
