@@ -40,7 +40,11 @@ Projects
 
 {# Main #}
 {% block mainTitle %}
-FIXME (Project Name or Pattern)
+{% if params.project %}
+Project: {{ params.project }}
+{% else %}
+Pattern: {{ params.pattern }}
+{% endif %}
 {% endblock %}
 
 {% block mainContent %}
@@ -48,15 +52,23 @@ FIXME (Project Name or Pattern)
 <div id="query-statistics"></div>
 {% raw %}
 <script id="template-query-statistics" type="text/nunjucks">
-<div class="alert alert-dismissible">
+  {% if total == 0 %}
+    {% set className = "info" %}
+  {% elif mcount == 0 %}
+    {% set className = "success" %}
+  {% elif mcount / total > 0.5 %}
+    {% set className = "danger" %}
+  {% else %}
+    {% set className = "warning" %}
+  {% endif %}
+  <div class="alert alert-dismissible alert-{{ className }}">
   <button type="button" class="close" data-dismiss="alert">x</button>
   <p class="query-statistics">
-  FIXME (Fillin data with js)
-    <span>Number of metrics hit: <strong>{{ numHit }}</strong></span>
-    <span>Number of metrics return: <strong>{{ numReturn }}</strong></span>
-    <span>Number of metrics anomalous: <strong>{{ numAnomalous }}</strong></span>
+    <span>Number metrics hit: <strong>{{ total }}</strong></span>
+    <span>Number metrics return: <strong>{{ names.length }}</strong></span>
+    <span>Number metrics anomalous: <strong>{{ mcount }}</strong></span>
   </p>
-</div>
+  </div>
 </script>
 {% endraw %}
 
@@ -132,6 +144,14 @@ FIXME (Project Name or Pattern)
     </div>
   </div>
 </div>
+{% raw %}
+<script id="template-title" type="text/nunjucks">
+  <a id="title-{{ name }}" class="{{ className }}" href="{{ url }}">
+    <span id="title-trend-{{ name }}">{{ trendText }}</span>
+    {{ name }}
+  </a>
+</script>
+{% endraw %}
 {% endblock %}
 
 <!-- Scripts -->
