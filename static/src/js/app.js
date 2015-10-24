@@ -6,7 +6,6 @@
 
 (function() {
   this.app = {};
-
   app.util = {};
 
   app.handler = function(name, register) {
