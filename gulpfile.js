@@ -1,7 +1,9 @@
 const gulp = require('gulp');
+const argv = require('yargs').argv;
 const concat = require('gulp-concat');
 const del = require('del');
 const debug = require('gulp-debug');
+const gulpif = require('gulp-if');
 const minify = require('gulp-minify-css');
 const uglify = require('gulp-uglify');
 
@@ -39,7 +41,7 @@ gulp.task('js', function() {
   ];
   return gulp.src(files)
     .pipe(debug({title: 'Js:'}))
-    .pipe(uglify())
+    .pipe(gulpif(!argv.dev, uglify()))
     .pipe(concat('all.min.js'))
     .pipe(debug({title: 'Js minified:'}))
     .pipe(gulp.dest('static/js'));
