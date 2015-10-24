@@ -12,6 +12,8 @@ app.handler('error', function(self, util) {
    * @param {Error} err
    */
   self.fatal = function(err) {
+    if (!err)
+      return;
     var html = nunjucks.renderString(template, {
       type: 'danger',
       msg: err.toString()
