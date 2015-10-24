@@ -19,7 +19,6 @@
 }
 
 .index .horizon {
-  border-bottom: solid 1px #000;
   overflow: hidden;
   position: relative;
 }
@@ -29,7 +28,7 @@
   border-bottom: solid 1px #000;
 }
 
-.index .horizon + .index .horizon {
+.index .horizon + .horizon {
   border-top: none;
 }
 
