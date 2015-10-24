@@ -61,6 +61,13 @@
               </h3>
             </div>
             <div class="panel-body">
+              <div id="error">
+                {% raw %}
+                <script id="template-error" type="text/nunjucks">
+                  <div class="alert alert-{{ type }}">{{ msg }}</div>
+                </script>
+                {% endraw %}
+              </div>
               {% block mainContent %}
               {% endblock %}
             </div>
