@@ -4,16 +4,18 @@
  * @copyright 2015 Eleme, Inc. All rights reserved.
  */
 
-app.handler('chart', function(handler, util) {
+app.handler('chart', function(self, util) {
   var selector;
   var context;
+  var dataType;
   /**
    * Init chart context.
    * @param {Object} options
    */
-  handler.init = function(options) {
+  self.init = function(options) {
     options = options || {};
-    selector = options.selector || '#chart':
+    selector = options.selector || '#chart';
+    dataType = options.type || 'm';
     options.serverDelay = options.serverDelay || 0;
     options.clientDelay = options.clientDelay || 0;
     options.step = options.step || 10 * 1000;
@@ -37,14 +39,14 @@ app.handler('chart', function(handler, util) {
   /**
    * Remove chart.
    */
-  handler.remove = function() {
+  self.remove = function() {
     return d3.select(selector).selectAll('*')
     .remove();
   };
   /**
    * Plot chart with metrics.
    */
-  handler.polt = function(metrics) {
+  self.plot = function(metrics) {
     d3.select(selector).call(function(div) {
       div.append('div')
       .attr('class', 'axis')
@@ -55,7 +57,7 @@ app.handler('chart', function(handler, util) {
       .enter()
       .append('div')
       .attr('class', 'horizon')
-      .call(handler.horizon());
+      .call(self.horizon());
 
       div.append('div')
       .attr('class', 'rule')
@@ -65,9 +67,9 @@ app.handler('chart', function(handler, util) {
   /**
    * Horizon chart.
    */
-  handler.horizon = function() {
+  self.horizon = function() {
     var horizon = context.horizon();
-    if (options.type == 'v')
+    if (dataType == 'v')
       return horizon;
     return horizon
     .extent([-2, 2])
@@ -80,14 +82,14 @@ app.handler('chart', function(handler, util) {
    * @param {String} name
    * @return {Metric}
    */
-  handler.metric = function(source, name) {
-    return context.metric(source, nmame);
+  self.metric = function(source, name) {
+    return context.metric(source, name);
   };
   /**
    * Custom metric title.
    * @param {Function} cb // function(name)
    */
-  handler.title = function(cb) {
+  self.title = function(cb) {
     d3.selectAll('.title')
     .html(function(data) {
       return cb(data.toString());
