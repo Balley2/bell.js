@@ -4,12 +4,12 @@
  * @copyright 2015 Eleme, Inc. All rights reserved.
  */
 
-app.handler('config', function(handler, util) {
+app.handler('config', function(self, util) {
   /**
    * Get config.
    * @param {Function} cb // function(err, data)
    */
-  handler.get = function(cb) {
+  self.get = function(cb) {
     return util.get(util.url('/api/config'), cb);
   };
 });

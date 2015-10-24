@@ -4,13 +4,13 @@
  * @copyright 2015 Eleme, Inc. All rights reserved.
  */
 
-app.handler('metric', function(handler, util) {
+app.handler('metric', function(self, util) {
   /**
    * Get metric names
    * @param {Object} params
    * @param {Function} cb // function(err, data)
    */
-  handler.getNames = function(params, cb) {
+  self.getNames = function(params, cb) {
     return util.get(util.url('/api/metric/names', params), cb);
   };
   /**
@@ -18,7 +18,7 @@ app.handler('metric', function(handler, util) {
    * @param {Object} params
    * @param {Function} cb
    */
-  handler.getData = function(params, cb) {
+  self.getData = function(params, cb) {
     return util.get(util.url('/api/metric/data', params), cb);
   };
 });
