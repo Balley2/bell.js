@@ -1,25 +1,16 @@
 {% extends 'layout.html' %}
 
-{% block title %}
-Bell - Admin
+{# Html class namespace #}
+{% block classNameSpace %}admin{% endblock %}
+
+{# Sidebar #}
+{% block sidebarTitle %}
+Navigation
 {% endblock %}
 
-{% block sidebarTitle %}Navigations{% endblock %}
 {% block sidebarContent %}
 <ul class="nav nav-pills nav-stacked">
-  <li {% block nav_admin_dashboards_class %}{% endblock %}><a href="{{ url('/admin/dashboards') }}">Dashboards</a></li>
-  <li {% block nav_admin_rules_class %}{% endblock %}><a href="{{ url('/admin/rules') }}">Rules</a></li>
-  <li {% block nav_admin_receivers_class %}{% endblock %}><a href="{{ url('/admin/receivers') }}">Receivers</a></li>
+  <li {% block nav_admin_projects_class %}{% endblock %}><a href="#">Projects</a></li>
+  <li {% block nav_admin_receivers_class %}{% endblock %}><a href="#">Receivers</a></li>
 </ul>
-{% endblock %}
-
-{% block mainContent %}
-{% for fl in ctx.getFlashes() %}
-<div class="alert alert-dismissible alert-{{ fl.className }}">
-  <button type="button" class="close" data-dismiss="alert">×</button>
-  {{ fl.msg }}
-</div>
-{% endfor %}
-{% block adminMainContent %}
-{% endblock %}
 {% endblock %}
