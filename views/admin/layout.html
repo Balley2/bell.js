@@ -10,7 +10,8 @@ Navigation
 
 {% block sidebarContent %}
 <ul class="nav nav-pills nav-stacked">
-  <li {% block nav_admin_projects_class %}{% endblock %}><a href="#">Projects</a></li>
-  <li {% block nav_admin_receivers_class %}{% endblock %}><a href="#">Receivers</a></li>
+  <li {% block nav_admin_projects_class %}{% endblock %}><a href="{{ url('/admin/projects') }}">Projects</a></li>
+  <li {% block nav_admin_receivers_class %}{% endblock %}><a href="{{ url('/admin/receivers') }}">Receivers</a></li>
+  <li {% block nav_admin_config_class %}{% endblock %}><a href="{{ url('/admin/config') }}">Configuration</a></li>
 </ul>
 {% endblock %}
