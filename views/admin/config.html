@@ -1,0 +1,25 @@
+{% extends 'admin/layout.html' %}
+
+{# Html class namespace #}
+{% block classNameSpace %}
+{{ super() }}
+config
+{% endblock %}
+
+{% block nav_admin_config_class %}
+class="active"
+{% endblock %}
+
+{# Main #}
+{% block mainTitle %}
+Server configuration
+{% endblock %}
+
+{% block mainContent %}
+<pre id="container-server-config">
+</pre>
+{% endblock %}
+
+<!-- Scripts -->
+{# Js entry onload #}
+{% block onload %}app.controllers.config.init(){% endblock %}
