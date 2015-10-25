@@ -16,7 +16,7 @@ app.handler('error', function(self, util) {
     if (!err)
       return;
     var html = nunjucks.renderString(template, {
-      type: className,
+      className: className,
       msg: err.toString()
     });
     return $(selector).html(html);
