@@ -86,9 +86,14 @@ app.util.get = function(url, cb) {
       return cb(null, data);
     },
     error: function(xhr, status) {
-      var data = JSON.parse(xhr.responseText);
-      var text = app.util.format('%s: %s', xhr.status, data.msg);
-      var err = new Error(text);
+      var msg, text, err;
+      try {
+        msg = JSON.parse(xhr.responseText).msg;
+      } catch(e) {
+        msg = xhr.responseText;
+      }
+      text = app.util.format('%s: %s', xhr.status, msg);
+      err = new Error(text);
       return cb(err, null);
     }
   });
@@ -111,9 +116,14 @@ app.util.post = function(url, data, cb) {
       return cb(null, data);
     },
     error: function(xhr, status) {
-      var data = JSON.parse(xhr.responseText);
-      var text = app.util.format('%s: %s', xhr.status, data.msg);
-      var err = new Error(text);
+      var msg, text, err;
+      try {
+        msg = JSON.parse(xhr.responseText).msg;
+      } catch(e) {
+        msg = xhr.responseText;
+      }
+      text = app.util.format('%s: %s', xhr.status, msg);
+      err = new Error(text);
       return cb(err, null);
     }
   });
@@ -133,9 +143,14 @@ app.util.delete = function(url, cb) {
       return cb(null, null);
     },
     error: function(xhr, status) {
-      var data = JSON.parse(xhr.responseText);
-      var text = app.util.format('%s: %s', xhr.status, data.msg);
-      var err = new Error(text);
+      var msg, text, err;
+      try {
+        msg = JSON.parse(xhr.responseText).msg;
+      } catch(e) {
+        msg = xhr.responseText;
+      }
+      text = app.util.format('%s: %s', xhr.status, msg);
+      err = new Error(text);
       return cb(err, null);
     }
   });
