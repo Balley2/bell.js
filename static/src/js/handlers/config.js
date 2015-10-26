@@ -10,6 +10,6 @@ app.handler('config', function(self, util) {
    * @param {Function} cb // function(err, data)
    */
   self.get = function(cb) {
-    return util.get(util.url('/api/config'), cb);
+    return util.get(util.url('/api/admin/config'), cb);
   };
 });
