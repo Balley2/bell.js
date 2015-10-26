@@ -29,7 +29,6 @@
           <ul class="nav navbar-nav navbar-right">
             {% block navbarRight %}
             {% endblock %}
-            <li><a href="{{ package.repository.url }}">bell.js@v{{ package.version }}</a></li>
           </ul>
         </div>
       </div><!-- /.container-fluid -->
@@ -76,6 +75,13 @@
         </div><!-- /.main -->
       </div>
     </div><!-- /.container -->
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <p class="text-muted">Built and maintained by <a href="{{ package.author.url }}">{{ package.author.name }}</a>.
+        Code licensed under MIT (c) Eleme, Inc and hosted on <a href="{{ package.repository.url }}">Github</a>.</p>
+      </div>
+    </footer><!-- /.footer-->
     <script>
       {# Bind data to javascript global window #}
       {% macro bindJSON(key, obj) %}
