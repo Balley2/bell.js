@@ -9,6 +9,7 @@
 const co = require('co');
 const program = require('commander');
 const config = require('./lib/config');
+const errors = require('./lib/errors');
 const log = require('./lib/log');
 const version = require('./package').version;
 
@@ -64,5 +65,5 @@ co(function *() {
 
   yield service.serve();
 }).catch(function(err) {
-  throw err;
+  errors.dispatch(err);
 });
