@@ -11,7 +11,7 @@ app.handler('project', function(self, util) {
    * @param {Function} cb // function(err, data)
    */
   self.create = function(name, cb) {
-    return util.post(util.url('/api/admin/project/create'), {name: name}, cb);
+    return util.post(util.url('/api/admin/project'), {name: name}, cb);
   };
   /**
    * Get all projects
