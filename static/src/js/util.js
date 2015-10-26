@@ -155,7 +155,25 @@ app.util.timeSpanToSeconds = function(timeSpan) {
   return secs;
 };
 
+/**
+ * SetInterval and run right now.
+ * @param {Function} fn
+ * @param {Number} ms // milliseconds
+ */
 app.util.setIntervalAndRunNow = function(fn, ms) {
   fn();
   return setInterval(fn, ms);
+};
+
+/**
+ * Collect form data.
+ * @param {FormElement} form
+ */
+app.util.collectForm = function(form) {
+  var data = {};
+  $(form).serializeArray().map(function(child) {
+    if (child.name)
+      data[child.name] = child.value;
+  });
+  return data;
 };
