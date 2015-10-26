@@ -4,7 +4,7 @@
  * @copyright 2015 Eleme, Inc. All rights reserved.
  */
 
-app.controller('projects', function(self, handlers, util) {
+app.controller('project', function(self, handlers, util) {
   var formCreate = '#form-create';
   var modalCreate = '#modal-create';
   var errorCreate = '#error-create';

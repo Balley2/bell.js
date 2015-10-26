@@ -3,7 +3,7 @@
 {# Html class namespace #}
 {% block classNameSpace %}
 {{ super() }}
-projects
+project
 {% endblock %}
 
 {% block nav_admin_projects_class %}
@@ -12,7 +12,7 @@ class="active"
 
 {# Main #}
 {% block mainTitle %}
-Projects
+Project
 {% endblock %}
 
 {% block mainContent %}
@@ -78,4 +78,4 @@ Projects
 <!-- Scripts -->
 {# Js entry onload #}
 
-{% block onload %}app.controllers.projects.init(){% endblock %}
+{% block onload %}app.controllers.project.init(){% endblock %}
