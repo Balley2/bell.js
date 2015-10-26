@@ -6,7 +6,11 @@
     "url": "https://github.com/eleme/bell.js"
   },
   "description": "Realtime anomalous metrics detection",
-  "author": "hit9 <hit9@icloud.com>",
+  "author": {
+    "name": "Chao Wang",
+    "email": "hit9@icloud.com",
+    "url": "https://github.com/hit9"
+  },
   "keywords": ["anomaly", "outlier", "metric", "realtime", "statsd"],
   "engines": {
     "iojs": ">=1.1",
