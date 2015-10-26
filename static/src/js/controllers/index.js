@@ -195,15 +195,16 @@ app.controller('index', function(self, handlers, util) {
     handlers.project.getAll(function(err, data) {
       if (err)
         return handlers.error.error(err);
-      var name, url, list, src, template, node;
+      var i, project, url, list, src, template, node;
 
       list = $('#projects');
       template = $('#template-project-node').html();
 
-      for (name in data) {
-        url = util.url('/', {project: name});
+      for (i = 0; i < data.length; i++) {
+        project = data[i];
+        url = util.url('/', {project: project.name});
         node = nunjucks.renderString(template, {
-          name: name,
+          name: project.name,
           url: url,
           current: options.project
         });
