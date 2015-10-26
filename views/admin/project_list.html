@@ -17,7 +17,7 @@
     <tr>
       <td>{{ project.id }}</td>
       <td><a href="{{ url('/', {project: project.name}) }}">{{ project.name }}</a></td>
-      <td>Edit</td>
+      <td><a href="javascript:void(0);" data-name="{{ project.name }}">Edit</a></td>
     </tr>
   </script>
   {% endraw %}

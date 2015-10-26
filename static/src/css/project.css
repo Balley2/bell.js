@@ -4,3 +4,15 @@
 .admin.project .project-create {
   margin-bottom: 20px;
 }
+
+.admin.project .project-edit .project-name input {
+  width: 300px;
+}
+
+.admin.project .project-edit .project-name label {
+  padding-right: 10px;
+}
+
+.admin.project .project-edit .project-edit-section {
+  padding-bottom: 10px;
+}
