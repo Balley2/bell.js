@@ -68,7 +68,8 @@ app.util.url = function(route, params) {
     for (key in params)
       list.push([key, '=', params[key]].join(''));
   }
-  return route + '?' + list.join('&');
+  var s = route + '?' + list.join('&');
+  return s.replace(/\?$/g, '');
 };
 
 /**
@@ -86,7 +87,8 @@ app.util.get = function(url, cb) {
     },
     error: function(xhr, status) {
       var data = JSON.parse(xhr.responseText);
-      var err = new Error(data.msg);
+      var text = app.util.format('%s: %s', xhr.status, data.msg);
+      var err = new Error(text);
       return cb(err, null);
     }
   });
@@ -110,7 +112,8 @@ app.util.post = function(url, data, cb) {
     },
     error: function(xhr, status) {
       var data = JSON.parse(xhr.responseText);
-      var err = new Error(data.msg);
+      var text = app.util.format('%s: %s', xhr.status, data.msg);
+      var err = new Error(text);
       return cb(err, null);
     }
   });
