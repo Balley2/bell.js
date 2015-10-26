@@ -5,64 +5,63 @@
  */
 
 app.controller('project', function(self, handlers, util) {
-  var formCreate = '#form-create';
-  var modalCreate = '#modal-create';
-  var errorCreate = '#error-create';
-  var tableProjects = '#table-projects';
-  var templateProjectNode = '#template-project-node';
-  var hrefDelete = '.href-delete';
-  /**
-   * Entry.
-   */
   self.init = function() {
-    self.initCreate();
-    self.list();
+    self.initProjectCreate();
+    self.listProject();
   };
-  /**
-   * Init create-project.
-   */
-  self.initCreate = function() {
-    $(formCreate).submit(self.create);
-    $(modalCreate).on('hidden.bs.modal', function(e) {
-      $(errorCreate).html('');
+  //-----------------------------------------
+  // DOM
+  //-----------------------------------------
+  var dom = {};
+  dom.project = {};
+  dom.project.create = {};
+  dom.project.create.modal = $('.project-create .modal');
+  dom.project.create.form = $('.project-create form');
+  dom.project.create.error = $('.project-create .error');
+  dom.project.list = {};
+  dom.project.list.tbody = $('.project-list table tbody');
+  dom.project.list.template = $('#template-project-node');
+  //-----------------------------------------
+  // Project Create
+  //-----------------------------------------
+  self.initProjectCreate = function() {
+    // form on submit
+    dom.project.create.form.submit(function(e) {
+      e.preventDefault();
+      var data = util.collectForm(this);
+      handlers.project.create(data.name, function(err, project) {
+        if (err) {
+          handlers.error.error(err, dom.project.create.error);
+          return;
+        }
+        dom.project.create.modal.modal('hide');
+        handlers.error.ok('Project created');
+        self.appendProject(project);
+      });
+    });
+    // modal on hide
+    dom.project.create.modal.on('hidden.bs.modal', function(e) {
+      dom.project.create.error.html('');
     });
   };
-  /**
-   * Create project.
-   */
-  self.create = function(event) {
-    event.preventDefault();
-    var form = this;
-    var data = util.collectForm(form);
-    handlers.project.create(data.name, function(err, data) {
-      if (err) {
-        handlers.error.error(err, errorCreate);
+  //-----------------------------------------
+  // Project List
+  //-----------------------------------------
+  self.appendProject = function(project) {
+    var template = dom.project.list.template.html();
+    var node = nunjucks.renderString(template, {
+      project: project,
+      url: util.url,
+    });
+    return dom.project.list.tbody.append(node);
+  };
+  self.listProject = function() {
+    handlers.project.getAll(function(err, projects) {
+      if (err)  {
+        handlers.error.error(err);
         return;
       }
-      $(modalCreate).modal('hide');
-      handlers.error.ok('project created');
-      $(tableProjects).html('');
-      self.list();
-    });
-  };
-  /**
-   * List projects.
-   * @param {Function}
-   */
-  self.list = function(cb) {
-    handlers.project.getAll(function(err, data) {
-      var i, project, node, template;
-      template = $(templateProjectNode).html();
-      for (i = 0; i < data.length; i++) {
-        project = data[i];
-        node = nunjucks.renderString(template, {
-          project: project,
-          url: util.url,
-          createdAt: util.dateToString(project.createdAt),
-          updatedAt: util.dateToString(project.updatedAt)
-        });
-        $(tableProjects).append(node);
-      }
+      projects.forEach(self.appendProject);
     });
   };
 });

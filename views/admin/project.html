@@ -14,68 +14,20 @@ class="active"
 {% block mainTitle %}
 Project
 {% endblock %}
-
 {% block mainContent %}
-<!-- Create project -->
-<div class="container-create">
-  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-create">Create project</button>
-  <div class="modal fade" id="modal-create" tabindex="-1">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-          <h4 class="modal-title">Create project</h4>
-        </div>
-        <div class="modal-body">
-          <form class="form-horizontal" id="form-create">
-            <div id="error-create"></div>
-            <div class="form-group">
-              <label class="col-sm-2 control-label">Name</label>
-              <div class="col-sm-8">
-                <input name="name" type="text" class="form-control" placeholder="Project name">
-              </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-              <button type="sunmit" class="btn btn-primary">Submit</button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<br>
-<!-- List projects -->
-<div class="container-list">
-  <table class="table table-hover table-bordered">
-    <thead>
-      <tr>
-        <td>ID</td>
-        <td>Name</td>
-        <td>Created at</td>
-        <td>Updated at</td>
-        <td>Edit</td>
-      </tr>
-    </thead>
-    <tbody id="table-projects">
-    </tbody>
-  </table>
-  {% raw %}
-  <script id="template-project-node" type="text/nunjucks">
-    <tr>
-      <td>{{ project.id }}</td>
-      <td><a href="{{ url('/', {project: project.name}) }}">{{ project.name }}</a></td>
-      <td>{{ createdAt }}</td>
-      <td>{{ updatedAt }}</td>
-      <td><a href="{{ url('/admin/project/' + project.name) }}">Edit</a></td>
-    </tr>
-  </script>
-  {% endraw %}
-</div>
+{# Project create #}
+{% block projectCreate %}
+{% include 'admin/project_create.html' %}
+{% endblock%}
+{# Project list #}
+{% block projectList %}
+{% include 'admin/project_list.html' %}
+{% endblock%}
+{# Project edit #}
+{% block projectEdit %}
+{% include 'admin/project_edit.html' %}
+{% endblock%}
 {% endblock %}
-
 <!-- Scripts -->
 {# Js entry onload #}
-
 {% block onload %}app.controllers.project.init(){% endblock %}

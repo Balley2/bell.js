@@ -1,0 +1,25 @@
+{% block projectList %}
+<!-- Project List -->
+<div class="project-list">
+  <table class="table table-hover table-bordered">
+    <thead>
+      <tr>
+        <td>ID</td>
+        <td>Name</td>
+        <td>Edit</td>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+  {% raw %}
+  <script id="template-project-node" type="text/nunjucks">
+    <tr>
+      <td>{{ project.id }}</td>
+      <td><a href="{{ url('/', {project: project.name}) }}">{{ project.name }}</a></td>
+      <td>Edit</td>
+    </tr>
+  </script>
+  {% endraw %}
+</div><!-- /.container-project-list -->
+{% endblock %}
