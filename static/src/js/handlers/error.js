@@ -47,14 +47,14 @@ app.handler('error', function(self, util) {
    * Render info
    * @param {Error} err
    */
-  self.info = function(err) {
+  self.info = function(err, selector) {
     return self.render(err, 'info', selector);
   };
   /**
    * Render success
    * @param {Error} err
    */
-  self.ok = function(err) {
+  self.ok = function(err, selector) {
     return self.render(err, 'success', selector);
   };
 });
