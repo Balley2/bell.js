@@ -5,11 +5,12 @@
  */
 
 app.controller('project', function(self, handlers, util) {
-  var formCreate = $('#form-create');
-  var modalCreate = $('#modal-create');
-  var errorCreate = $('#error-create');
-  var tableProjects = $('#table-projects');
-  var templateProjectNode = $('#template-project-node');
+  var formCreate = '#form-create';
+  var modalCreate = '#modal-create';
+  var errorCreate = '#error-create';
+  var tableProjects = '#table-projects';
+  var templateProjectNode = '#template-project-node';
+  var hrefDelete = '.href-delete';
   /**
    * Entry.
    */
@@ -46,18 +47,21 @@ app.controller('project', function(self, handlers, util) {
   };
   /**
    * List projects.
+   * @param {Function}
    */
-  self.list = function() {
+  self.list = function(cb) {
     handlers.project.getAll(function(err, data) {
       var i, project, node, template;
-      template = templateProjectNode.html();
+      template = $(templateProjectNode).html();
       for (i = 0; i < data.length; i++) {
         project = data[i];
         node = nunjucks.renderString(template, {
           project: project,
-          url: util.url
+          url: util.url,
+          createdAt: util.dateToString(project.createdAt),
+          updatedAt: util.dateToString(project.updatedAt)
         });
-        tableProjects.append(node);
+        $(tableProjects).append(node);
       }
     });
   };

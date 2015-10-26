@@ -53,8 +53,9 @@ Projects
       <tr>
         <td>ID</td>
         <td>Name</td>
+        <td>Created at</td>
+        <td>Updated at</td>
         <td>Edit</td>
-        <td>Delete</td>
       </tr>
     </thead>
     <tbody id="table-projects">
@@ -65,8 +66,9 @@ Projects
     <tr>
       <td>{{ project.id }}</td>
       <td><a href="{{ url('/', {project: project.name}) }}">{{ project.name }}</a></td>
+      <td>{{ createdAt }}</td>
+      <td>{{ updatedAt }}</td>
       <td><a href="{{ url('/admin/project/' + project.name) }}">Edit</a></td>
-      <td>Delete (FIXME)</td>
     </tr>
   </script>
   {% endraw %}

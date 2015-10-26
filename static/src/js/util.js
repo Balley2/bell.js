@@ -5,25 +5,28 @@
  */
 
 /**
- * Convert unix timestamp to readable string format
- * @param {Number} secs
+ * Convert date to readable string format
+ * @param {Date} date
  * @return {String}
  */
-app.util.secondsToString = function(secs) {
-  var date = new Date(secs * 1000);
+app.util.dateToString = function(date) {
+  if (!(date instanceof Date))
+    date = new Date(date);
   // getMonth() return 0~11 numbers
+  var year = date.getFullYear();
   var month = date.getMonth() + 1;
   var day = date.getDate();
   var hours = date.getHours();
   var minutes = date.getMinutes();
   var seconds = date.getSeconds();
   // normalize
+  year = '' + year;
   month = ('00' + month).slice(-2);
   day = ('00' + day).slice(-2);
   hours = ('00' + hours).slice(-2);
   minutes = ('00' + minutes).slice(-2);
   seconds = ('00' + seconds).slice(-2);
-  return [month, day].join('/') + ' ' + [hours, minutes, seconds].join(':');
+  return [year, month, day].join('/') + ' ' + [hours, minutes, seconds].join(':');
 };
 
 /**
