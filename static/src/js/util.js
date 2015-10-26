@@ -220,6 +220,19 @@ app.util.collectForm = function(form) {
 };
 
 /**
+ * Fill form with data.
+ * @param {FormElement} form
+ * @param {Object} data
+ */
+app.util.fillForm = function(form, data) {
+  $(form).find('input,textarea').each(function(i, child) {
+    if (child.name in data) {
+      $(child).val(data[child.name]);
+    }
+  });
+};
+
+/**
  * Render html from src to dest with data.
  * @param {String} src
  * @param {Strings} dest
