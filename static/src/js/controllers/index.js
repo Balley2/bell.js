@@ -24,6 +24,8 @@ app.controller('index', function(self, handlers, util) {
     });
     // init scrollbars
     self.initScrollbars();
+    // init sidebar
+    self.initSidebar();
     // start plot
     util.setIntervalAndRunNow(function() {
       handlers.chart.remove();
@@ -112,9 +114,8 @@ app.controller('index', function(self, handlers, util) {
    * Render statistics
    */
   self.renderStats = function(data) {
-    var template = $("#template-query-statistics").html();
-    var html = nunjucks.renderString(template, data);
-    return $('#query-statistics').html(html);
+    return util.render('#template-query-statistics',
+                       '#query-statistics', data);
   };
   /**
    * Init titles
@@ -185,6 +186,29 @@ app.controller('index', function(self, handlers, util) {
     });
     $('.chart-box').scroll(function() {
       $('.chart-box-top').scrollLeft($('.chart-box').scrollLeft());
+    });
+  };
+  /**
+   * Init sidebar.
+   */
+  self.initSidebar = function() {
+    handlers.project.getAll(function(err, data) {
+      if (err)
+        return handlers.error.error(err);
+      var name, url, list, src, template, node;
+
+      list = $('#projects');
+      template = $('#template-project-node').html();
+
+      for (name in data) {
+        url = util.url('/', {project: name});
+        node = nunjucks.renderString(template, {
+          name: name,
+          url: url,
+          current: options.project
+        });
+        list.append(node);
+      }
     });
   };
 });

@@ -13,4 +13,11 @@ app.handler('project', function(self, util) {
   self.create = function(name, cb) {
     return util.post(util.url('/api/admin/project/create'), {name: name}, cb);
   };
+  /**
+   * Get all projects
+   * @param {Function} cb // function(err, data)
+   */
+  self.getAll = function(cb) {
+    return util.get(util.url('/api/projects'), cb);
+  };
 });
