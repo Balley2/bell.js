@@ -178,3 +178,15 @@ app.util.collectForm = function(form) {
   });
   return data;
 };
+
+/**
+ * Render html from src to dest with data.
+ * @param {String} src
+ * @param {Strings} dest
+ * @param {Object} data
+ */
+app.util.render = function(src, dest, data) {
+  var template = $(src).html();
+  var html = nunjucks.renderString(template, data);
+  return $(dest).html(html);
+};
