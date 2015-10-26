@@ -5,18 +5,18 @@
  */
 
 app.handler('error', function(self, util) {
-  var selector = "#error";
   var template = $("#template-error").html();
   /**
    * Render error message.
    * @param {Error} err
    * @param {String} className
    */
-  self.render = function(err, className) {
+  self.render = function(err, type, selector) {
     if (!err)
       return;
+    selector = selector || '#error';
     var html = nunjucks.renderString(template, {
-      className: className,
+      type: type,
       msg: err.toString()
     });
     return $(selector).html(html);
@@ -25,35 +25,36 @@ app.handler('error', function(self, util) {
    * Render fatal error
    * @param {Error} err
    */
-  self.fatal = function(err) {
-    return self.render(err, 'danger');
+  self.fatal = function(err, selector) {
+    self.render(err, 'danger', selector);
+    throw new Error(err);
   };
   /**
    * Render error
    * @param {Error} err
    */
-  self.error = function(err) {
-    return self.render(err, 'danger');
+  self.error = function(err, selector) {
+    return self.render(err, 'danger', selector);
   };
   /**
    * Render warning
    * @param {Error} err
    */
-  self.warn = function(err) {
-    return self.render(err, 'warning');
+  self.warn = function(err, selector) {
+    return self.render(err, 'warning', selector);
   };
   /**
    * Render info
    * @param {Error} err
    */
   self.info = function(err) {
-    return self.render(err, 'info');
+    return self.render(err, 'info', selector);
   };
   /**
    * Render success
    * @param {Error} err
    */
   self.ok = function(err) {
-    return self.render(err, 'success');
+    return self.render(err, 'success', selector);
   };
 });
