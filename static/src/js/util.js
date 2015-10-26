@@ -86,8 +86,7 @@ app.util.get = function(url, cb) {
     },
     error: function(xhr, status) {
       var data = JSON.parse(xhr.responseText);
-      var text = status + ':' + data.msg;
-      var err = new Error(text);
+      var err = new Error(data.msg);
       return cb(err, null);
     }
   });
@@ -111,8 +110,7 @@ app.util.post = function(url, data, cb) {
     },
     error: function(xhr, status) {
       var data = JSON.parse(xhr.responseText);
-      var text = status + ':' + data.msg;
-      var err = new Error(text);
+      var err = new Error(data.msg);
       return cb(err, null);
     }
   });
