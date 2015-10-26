@@ -20,4 +20,11 @@ app.handler('project', function(self, util) {
   self.getAll = function(cb) {
     return util.get(util.url('/api/projects'), cb);
   };
+  /**
+   * Delete project by name
+   * @param {Function} cb // function(err)
+   */
+  self.delete = function(name, cb) {
+    return util.delete(util.url('/api/admin/project/' + name), cb);
+  };
 });

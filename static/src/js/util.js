@@ -75,7 +75,7 @@ app.util.url = function(route, params) {
 /**
  * GET request with json.
  * @param {String} url
- * @param {callback} cb // function(err, data)
+ * @param {Function} cb // function(err, data)
  */
 app.util.get = function(url, cb) {
   return $.ajax({
@@ -97,7 +97,7 @@ app.util.get = function(url, cb) {
 /**
  * POST request with json.
  * @param {String} url
- * @param {callback} cb // function(err, data)
+ * @param {Function} cb // function(err, data)
  */
 app.util.post = function(url, data, cb) {
   return $.ajax({
@@ -109,6 +109,28 @@ app.util.post = function(url, data, cb) {
     data: JSON.stringify(data),
     success: function(data) {
       return cb(null, data);
+    },
+    error: function(xhr, status) {
+      var data = JSON.parse(xhr.responseText);
+      var text = app.util.format('%s: %s', xhr.status, data.msg);
+      var err = new Error(text);
+      return cb(err, null);
+    }
+  });
+};
+
+/**
+ * DELETE request with json.
+ * @param {String} url
+ * @param {Function} cb // function(err)
+ */
+app.util.delete = function(url, cb) {
+  return $.ajax({
+    type: 'DELETE',
+    url: url,
+    processData: false,
+    success: function() {
+      return cb(null, null);
     },
     error: function(xhr, status) {
       var data = JSON.parse(xhr.responseText);
