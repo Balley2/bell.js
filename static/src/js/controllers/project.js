@@ -8,11 +8,14 @@ app.controller('project', function(self, handlers, util) {
   var formCreate = $('#form-create');
   var modalCreate = $('#modal-create');
   var errorCreate = $('#error-create');
+  var tableProjects = $('#table-projects');
+  var templateProjectNode = $('#template-project-node');
   /**
    * Entry.
    */
   self.init = function() {
     self.initCreate();
+    self.list();
   };
   /**
    * Init create-project.
@@ -36,6 +39,26 @@ app.controller('project', function(self, handlers, util) {
         return;
       }
       $(modalCreate).modal('hide');
+      handlers.error.ok('project created');
+      $(tableProjects).html('');
+      self.list();
+    });
+  };
+  /**
+   * List projects.
+   */
+  self.list = function() {
+    handlers.project.getAll(function(err, data) {
+      var i, project, node, template;
+      template = templateProjectNode.html();
+      for (i = 0; i < data.length; i++) {
+        project = data[i];
+        node = nunjucks.renderString(template, {
+          project: project,
+          url: util.url
+        });
+        tableProjects.append(node);
+      }
     });
   };
 });

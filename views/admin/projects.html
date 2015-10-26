@@ -48,10 +48,32 @@ Projects
 <br>
 <!-- List projects -->
 <div class="container-list">
-FIXME: request projects
+  <table class="table table-hover table-bordered">
+    <thead>
+      <tr>
+        <td>ID</td>
+        <td>Name</td>
+        <td>Edit</td>
+        <td>Delete</td>
+      </tr>
+    </thead>
+    <tbody id="table-projects">
+    </tbody>
+  </table>
+  {% raw %}
+  <script id="template-project-node" type="text/nunjucks">
+    <tr>
+      <td>{{ project.id }}</td>
+      <td><a href="{{ url('/', {project: project.name}) }}">{{ project.name }}</a></td>
+      <td><a href="{{ url('/admin/project/' + project.name) }}">Edit</a></td>
+      <td>Delete (FIXME)</td>
+    </tr>
+  </script>
+  {% endraw %}
 </div>
 {% endblock %}
 
 <!-- Scripts -->
 {# Js entry onload #}
+
 {% block onload %}app.controllers.project.init(){% endblock %}
