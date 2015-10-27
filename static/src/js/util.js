@@ -76,30 +76,55 @@ app.util.url = function(route, params) {
 };
 
 /**
+ * Send requests with options
+ * @param {Object} options
+ * @param {Function} cb
+ */
+app.util.request = function(options, cb) {
+  options = options || {};
+  options.noReturn = options.noReturn || false;
+  if (!options.noReturn)
+    options.dataType = 'json';
+  if (!options.type || !options.url)
+    throw new Error('invalid options to send request');
+  if (options.data) {
+    options.contentType = 'application/json';
+    options.processData = false;
+    options.data = JSON.stringify(options.data);
+  }
+  if (options.noReturn) {
+    options.success = options.success || function() {
+      return cb(null, null);
+    };
+  } else {
+    options.success = options.success || function(data) {
+      return cb(null, data);
+    };
+  }
+  options.error = options.error || function(xhr, status) {
+    var msg, text, err;
+    try {
+      msg = JSON.parse(xhr.responseText).msg;
+    } catch(e) {
+      msg = xhr.responseText;
+    }
+    text = app.util.format('%s: %s', xhr.status, msg);
+    err = new Error(text);
+    return cb(err, null);
+  };
+  return $.ajax(options);
+};
+
+/**
  * GET request with json.
  * @param {String} url
  * @param {Function} cb // function(err, data)
  */
 app.util.get = function(url, cb) {
-  return $.ajax({
+  return app.util.request({
     type: 'GET',
-    url: url,
-    dataType: 'json',
-    success: function(data) {
-      return cb(null, data);
-    },
-    error: function(xhr, status) {
-      var msg, text, err;
-      try {
-        msg = JSON.parse(xhr.responseText).msg;
-      } catch(e) {
-        msg = xhr.responseText;
-      }
-      text = app.util.format('%s: %s', xhr.status, msg);
-      err = new Error(text);
-      return cb(err, null);
-    }
-  });
+    url: url
+  }, cb);
 };
 
 /**
@@ -108,28 +133,11 @@ app.util.get = function(url, cb) {
  * @param {Function} cb // function(err, data)
  */
 app.util.post = function(url, data, cb) {
-  return $.ajax({
+  return app.util.request({
     type: 'POST',
     url: url,
-    dataType: 'json',
-    contentType: 'application/json',
-    processData: false,
-    data: JSON.stringify(data),
-    success: function(data) {
-      return cb(null, data);
-    },
-    error: function(xhr, status) {
-      var msg, text, err;
-      try {
-        msg = JSON.parse(xhr.responseText).msg;
-      } catch(e) {
-        msg = xhr.responseText;
-      }
-      text = app.util.format('%s: %s', xhr.status, msg);
-      err = new Error(text);
-      return cb(err, null);
-    }
-  });
+    data: data
+  }, cb);
 };
 
 /**
@@ -138,24 +146,23 @@ app.util.post = function(url, data, cb) {
  * @param {Function} cb // function(err)
  */
 app.util.delete = function(url, cb) {
-  return $.ajax({
+  return app.util.request({
     type: 'DELETE',
     url: url,
-    processData: false,
-    success: function() {
-      return cb(null, null);
-    },
-    error: function(xhr, status) {
-      var msg, text, err;
-      try {
-        msg = JSON.parse(xhr.responseText).msg;
-      } catch(e) {
-        msg = xhr.responseText;
-      }
-      text = app.util.format('%s: %s', xhr.status, msg);
-      err = new Error(text);
-      return cb(err, null);
-    }
+    noReturn: true
+  });
+};
+
+/**
+ * PATCH request with json.
+ * @param {String} url
+ * @param {Function} cb // function(err)
+ */
+app.util.patch = function(url, data, cb) {
+  return app.util.request({
+    type: 'PATCH',
+    url: url,
+    noReturn: true
   });
 };
 
