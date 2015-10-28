@@ -87,6 +87,7 @@ app.controller('project', function(self, handlers, util) {
       var el = $(e.relatedTarget);
       var id = el.data('id');
       self.fillProjectEditModal(id);
+      self.initProjectEditName(id);
     });
   };
   self.fillProjectEditModal = function(id) {
@@ -99,11 +100,17 @@ app.controller('project', function(self, handlers, util) {
       // FIXME (list rules and receivers)
     });
   };
-  self.initProjectEditName = function() {
+  self.initProjectEditName = function(id) {
     dom.project.edit.form.projectName.submit(function(e) {
       e.preventDefault();
       var data = util.collectForm(this);
-      // handlers.project.patch() DOPATCH
+      handlers.project.patch(id, data.name, function(err, data) {
+        if (err) {
+          handlers.error.error(err, dom.project.edit.error);
+          return;
+        }
+        handlers.error.ok("project name updated", dom.project.edit.error);
+      });
     });
   };
 });

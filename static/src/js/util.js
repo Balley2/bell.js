@@ -150,7 +150,7 @@ app.util.delete = function(url, cb) {
     type: 'DELETE',
     url: url,
     noReturn: true
-  });
+  }, cb);
 };
 
 /**
@@ -162,8 +162,9 @@ app.util.patch = function(url, data, cb) {
   return app.util.request({
     type: 'PATCH',
     url: url,
+    data: data,
     noReturn: true
-  });
+  }, cb);
 };
 
 /**
