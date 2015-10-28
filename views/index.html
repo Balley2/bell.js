@@ -36,7 +36,9 @@ Projects
 <ul id="projects" class="nav nav-pills nav-stacked">
   {% raw %}
   <script id="template-project-node" type="text/nunjucks">
-    <li {% if current == name %}class="active"{% endif %}><a href="{{ url }}">{{ name }}</a></li>
+    <li {% if current == name %}class="active"{% endif %}>
+      <a href="{{ url }}">{{ name }}</a>
+    </li>
   </script>
   {% endraw %}
 </ul>
