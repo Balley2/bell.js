@@ -9,7 +9,6 @@ app.controller('project', function(self, handlers, util) {
   // HTML DOM Selectors
   //------------------------------------------------------
   var dom = {};
-  dom = {};
   dom.create = {};
   dom.create.form = $('.project-create form');
   dom.list = {};

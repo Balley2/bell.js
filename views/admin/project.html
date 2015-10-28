@@ -43,7 +43,7 @@ Project
   <script id="template-project-node" type="text/nunjucks">
     <tr>
       <td>{{ project.id }}</td>
-      <td><a href="{{ url('/', {project: project.name}) }}">
+      <td><a href="{{ url('/', {project: project.id}) }}">
       {{ project.name }}</a></td>
       <td><a class="btn btn-default btn-sm" href="{{ url('/admin/project/' + project.id) }}">Edit</a></td>
     </tr>

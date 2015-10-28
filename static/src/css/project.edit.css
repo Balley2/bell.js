@@ -1,0 +1,15 @@
+/**
+ * Edit project
+ */
+
+.admin.project-edit .section-project-name form input {
+  width: 300px;
+}
+
+.admin.project-edit .section-project-name label {
+  padding-right: 10px;
+}
+
+.admin.project-edit .project-edit-section {
+  padding-bottom: 10px;
+}

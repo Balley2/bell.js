@@ -1,0 +1,74 @@
+{% extends 'admin/layout.html' %}
+
+{# Html class namespace #}
+{% block classNameSpace %}
+{{ super() }}
+project-edit
+{% endblock %}
+
+{% block nav_admin_projects_class %}
+class="active"
+{% endblock %}
+
+{# Main #}
+{% block mainTitle %}
+Edit Project
+{% endblock %}
+{% block mainContent %}
+<!-- Project Name -->
+<div class="project-edit-section section-project-name">
+  <legend>Name</legend>
+  <form class="form-inline">
+    <div class="form-group">
+      <label>Name</label>
+      <input name="name" type="text" class="form-control">
+    </div>
+    <button type="submit" class="btn btn-primary">Save</button>
+  </form>
+</div>
+
+<!-- Project Rules -->
+<div class="project-edit-section section-project-rules">
+  <legend>Alerting Rules</legend>
+  FIXME
+</div>
+
+<!-- Project Receivers -->
+<div class="project-edit-section section-project-receivers">
+  <legend>Alerting Receivers</legend>
+  FIXME
+</div>
+
+<!-- Project Delete -->
+<div class="project-edit-section section-project-delete">
+  <legend>Delete</legend>
+  <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#project-delete-modal">Delete</button>
+  <div class="modal" tabindex="-1" id="project-delete-modal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Confirm</h4>
+        </div>
+        <div class="modal-body">
+          <p>This will delete <strong>this project with all its rules and receivers</strong>,
+          do you want to proceed?</p>
+          <p class="error"></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-danger project-delete-confirmed">Confirmed</button>
+        </div>
+      </div>
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+</div>
+{% endblock %}
+
+<!-- Scripts -->
+{# Js entry onload #}
+{% block onload %}app.controllers['project.edit'].init(){% endblock %}
+
+{% block script %}
+{{ bindNumber("id", id) }}
+{% endblock %}
