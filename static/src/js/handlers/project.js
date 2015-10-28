@@ -34,7 +34,7 @@ app.handler('project', function(self, util) {
    * @param {Function} cb // function(err, data)
    */
   self.get = function(id, cb) {
-    return util.get(util.url('/api/admin/project/' + id), cb);
+    return util.get(util.url('/api/project/' + id), cb);
   };
   /**
    * Patch project by id

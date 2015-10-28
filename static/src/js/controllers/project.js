@@ -61,7 +61,7 @@ app.controller('project', function(self, handlers, util) {
       url: util.url,
     });
     dom.project.list.tbody.append(node);
-    var selector = util.format(".project-list table a[data-name*='%s']", project.name);
+    var selector = util.format(".project-list table a[data-id*='%d']", project.id);
     $(selector).click(function(e) {
       e.preventDefault();
       dom.project.edit.modal.modal('show', $(this));
@@ -85,18 +85,25 @@ app.controller('project', function(self, handlers, util) {
   self.initProjectEditModal = function() {
     dom.project.edit.modal.on('show.bs.modal', function(e) {
       var el = $(e.relatedTarget);
-      var name = el.data('name');
-      self.fillProjectEditModal(name);
+      var id = el.data('id');
+      self.fillProjectEditModal(id);
     });
   };
-  self.fillProjectEditModal = function(name) {
-    handlers.project.get(name, function(err, project) {
+  self.fillProjectEditModal = function(id) {
+    handlers.project.get(id, function(err, project) {
       if (err) {
         handlers.error.error(err, dom.project.edit.error);
         return;
       }
       util.fillForm(dom.project.edit.form.projectName, project);
       // FIXME (list rules and receivers)
+    });
+  };
+  self.initProjectEditName = function() {
+    dom.project.edit.form.projectName.submit(function(e) {
+      e.preventDefault();
+      var data = util.collectForm(this);
+      // handlers.project.patch() DOPATCH
     });
   };
 });
