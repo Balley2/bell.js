@@ -202,7 +202,7 @@ app.controller('index', function(self, handlers, util) {
 
       for (i = 0; i < data.length; i++) {
         project = data[i];
-        url = util.url('/', {project: project.name});
+        url = util.url('/', {project: project.id});
         node = nunjucks.renderString(template, {
           name: project.name,
           url: url,
