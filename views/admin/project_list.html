@@ -16,8 +16,9 @@
   <script id="template-project-node" type="text/nunjucks">
     <tr>
       <td>{{ project.id }}</td>
-      <td><a href="{{ url('/', {project: project.name}) }}">{{ project.name }}</a></td>
-      <td><a href="javascript:void(0);" data-id="{{ project.id }}">Edit</a></td>
+      <td><a href="{{ url('/', {project: project.name}) }}">
+      {{ project.name }}</a></td>
+      <td><a class="btn btn-default btn-sm" href="javascript:void(0);" data-id="{{ project.id }}">Edit</a></td>
     </tr>
   </script>
   {% endraw %}
