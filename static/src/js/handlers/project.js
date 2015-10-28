@@ -21,17 +21,28 @@ app.handler('project', function(self, util) {
     return util.get(util.url('/api/projects'), cb);
   };
   /**
-   * Delete project by name
+   * Delete project by id
+   * @param {Number} id
    * @param {Function} cb // function(err)
    */
-  self.delete = function(name, cb) {
-    return util.delete(util.url('/api/admin/project/' + name), cb);
+  self.delete = function(id, cb) {
+    return util.delete(util.url('/api/admin/project/' + id), cb);
   };
   /**
-   * Get project by name
+   * Get project by id
+   * @param {Number} id
    * @param {Function} cb // function(err, data)
    */
-  self.get = function(name, cb) {
-    return util.get(util.url('/api/admin/project/' + name), cb);
+  self.get = function(id, cb) {
+    return util.get(util.url('/api/admin/project/' + id), cb);
+  };
+  /**
+   * Patch project by id
+   * @param {Number} id
+   * @param {String} name
+   * @param {Function} cb
+   */
+  self.patch = function(id, name, cb) {
+    return util.patch(util.url('/api/admin/project/' + id), {name: name}, cb);
   };
 });
