@@ -25,8 +25,8 @@ app.handler('project', function(self, util) {
    * @param {Number} id
    * @param {Function} cb // function(err)
    */
-  self.delete = function(id, cb) {
-    return util.delete(util.url('/api/admin/project/' + id), cb);
+  self.del = function(id, cb) {
+    return util.del(util.url('/api/admin/project/' + id), cb);
   };
   /**
    * Get project by id

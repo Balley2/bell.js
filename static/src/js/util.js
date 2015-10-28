@@ -145,7 +145,7 @@ app.util.post = function(url, data, cb) {
  * @param {String} url
  * @param {Function} cb // function(err)
  */
-app.util.delete = function(url, cb) {
+app.util.del = function(url, cb) {
   return app.util.request({
     type: 'DELETE',
     url: url,
