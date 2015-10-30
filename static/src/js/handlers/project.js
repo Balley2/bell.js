@@ -42,18 +42,6 @@ app.handler('project', function(self, util) {
     return util.get(util.url('/api/project/' + id, options), cb);
   };
   /**
-   * Get project by id with rules and receivers.
-   * @param {Number} id
-   * @param {Function} cb // function(err, data)
-   */
-  self.getFull = function(id, cb) {
-    var options = {
-      rules: 1, // with rules
-      receivers: 1 // with receivers
-    };
-    return self.get(id, options, cb);
-  };
-  /**
    * Patch project by id
    * @param {Number} id
    * @param {String} name
