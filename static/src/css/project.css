@@ -5,6 +5,10 @@
   margin-bottom: 20px;
 }
 
+.admin.project .project-create form input {
+  width: 300px;
+}
+
 .admin.project .project-list .list-group-item {
   list-style: decimal inside;
   display: list-item;
