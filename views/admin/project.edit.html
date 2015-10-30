@@ -36,17 +36,7 @@ Edit Project
       <div class="col-md-10">
         <input name="pattern" type="text" class="form-control" placeholder="Pattern">
       </div>
-    </div>
-    <div class="form-group">
-      <label class="col-md-2">Alerting</label>
-      <div class="col-md-10">
-        <div class="input-group">
-          <span class="input-group-addon">
-            <input name="up" type="checkbox" checked="checked">
-            on anomalous raising trend ↑
-          </span>
-          <span class="input-group-addon">
-            <input name="down" type="checkbox" checked="checked">
+    </div> <div class="form-group"> <label class="col-md-2">Alerting</label> <div class="col-md-10"> <div class="input-group"> <span class="input-group-addon"> <input name="up" type="checkbox" checked="checked"> on anomalous raising trend ↑ </span> <span class="input-group-addon"> <input name="down" type="checkbox" checked="checked">
             on anomalous decline trend ↓
           </span>
         </div>
@@ -70,17 +60,17 @@ Edit Project
   <ol class="list-group rule-list">
     {% raw %}
     <script id="template-rule-node" type="text/nunjucks">
-      <li class="list-group-item">
+      <li class="list-group-item" data-id="{{ rule.id }}" style="display: none;">
         <kbd>{{ rule.pattern }}</kbd>
-        <button type="button" class="btn btn-xs btn-warning pull-right rule-delete">delete</button>
+        <button type="button" data-id="{{ rule.id }}" class="btn btn-xs btn-warning pull-right rule-delete">delete</button>
         <code class="pull-right">
           {% if rule.up %}trend ↑{% endif %}
           {% if rule.up and rule.down %}or{% endif %}
           {% if rule.down %}trend ↓{% endif %}
           {% if rule.min != null or rule.max != null %}and{% endif %}
-          {% if rule.min != null %}value>={{ rule.min }}{% endif %}
-          {% if rule.max != null %},{% endif %}
-          {% if rule.max != null %}value<={{ rule.max }}{% endif %}
+          {% if rule.min != null %}{{ rule.min }} <= {% endif %}
+          value
+          {% if rule.max != null %} <= {{ rule.max }}{% endif %}
         </code>
       </li>
     </script>

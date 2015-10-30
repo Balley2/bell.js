@@ -74,11 +74,25 @@ app.controller('project.edit', function(self, handlers, util) {
   /**
    * Append rule node.
    * @param {Object} rule
+   * @param {String} speed
    */
-  self.appendRule = function(rule) {
+  self.appendRule = function(rule, speed) {
     var template = dom.rule.list.template.html();
     var html = nunjucks.renderString(template, {rule: rule});
     dom.rule.list.list.append(html);
+    var selector = util.format(".rule-list li[data-id*=%d]", rule.id);
+    $(selector).appendTo(dom.rule.list.list).show(speed);
+    $(selector).find('.rule-delete').click(self.deleteRule);
+  };
+  /**
+   * Remove rule node.
+   * @param {Number} id
+   */
+  self.removeRule = function(id) {
+    var selector = util.format(".rule-list li[data-id*=%d]", id);
+    $(selector).hide(500, function() {
+      $(selector).remove();
+    });
   };
   //------------------------------------------------------
   // Event listeners
@@ -132,14 +146,22 @@ app.controller('project.edit', function(self, handlers, util) {
         handlers.error.error(err);
         return;
       }
-      self.appendRule(rule);
+      self.appendRule(rule, 500);
     });
   };
   /**
    * Delete rule.
    * @param {Event} event
    */
-  self.delRule = function(event) {
-    // FIXME
+  self.deleteRule = function(event) {
+    var id = +$(this).data('id');
+    handlers.rule.del(id, function(err, data) {
+      if (err) {
+        handlers.error.error(err);
+        return;
+      }
+      handlers.error.ok("Rule deleted");
+      self.removeRule(id);
+    });
   };
 });
