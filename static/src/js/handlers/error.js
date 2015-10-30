@@ -6,6 +6,7 @@
 
 app.handler('error', function(self, util) {
   var template = $("#template-error").html();
+  var expiration = 3 * 1000;
   /**
    * Render error message.
    * @param {Error} err
@@ -19,7 +20,10 @@ app.handler('error', function(self, util) {
       type: type,
       msg: err.toString()
     });
-    return $(selector).html(html);
+    $(selector).html(html);
+    setTimeout(function() {
+      $(selector).html('');
+    }, expiration);
   };
   /**
    * Render fatal error
