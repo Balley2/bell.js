@@ -15,3 +15,8 @@ Navigation
   <li {% block nav_admin_config_class %}{% endblock %}><a href="{{ url('/admin/config') }}">Configuration</a></li>
 </ul>
 {% endblock %}
+
+{# Navbar right #}
+{% block navbarRight %}
+<li><a href="{{ url('/') }}">Front Page</a></li>
+{% endblock %}

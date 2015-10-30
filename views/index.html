@@ -48,6 +48,9 @@ Projects
 {% block mainTitle %}
 {% if params.project %}
 Project: {{ params.project }}
+<div class="pull-right">
+  <a class="btn btn-default btn-xs" href="{{ url('/admin/project/' + params.project) }}">Edit</a>
+</div>
 {% else %}
 Pattern: {{ params.pattern }}
 {% endif %}
