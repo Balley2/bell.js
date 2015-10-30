@@ -36,8 +36,8 @@ Projects
 <ul id="projects" class="nav nav-pills nav-stacked">
   {% raw %}
   <script id="template-project-node" type="text/nunjucks">
-    <li {% if current == name %}class="active"{% endif %}>
-      <a href="{{ url }}">{{ name }}</a>
+    <li {% if current == project.id %}class="active"{% endif %}>
+      <a href="{{ url }}">{{ project.name }}</a>
     </li>
   </script>
   {% endraw %}
@@ -47,7 +47,8 @@ Projects
 {# Main #}
 {% block mainTitle %}
 {% if params.project %}
-Project: {{ params.project }}
+Project:
+<span class="current-project-name">{{ params.project }}</span>
 <div class="pull-right">
   <a class="btn btn-default btn-xs" href="{{ url('/admin/project/' + params.project) }}">Edit</a>
 </div>

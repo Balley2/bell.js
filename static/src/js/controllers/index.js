@@ -26,6 +26,8 @@ app.controller('index', function(self, handlers, util) {
     self.initScrollbars();
     // init sidebar
     self.initSidebar();
+    // init main title
+    self.initMainTitle();
     // start plot
     util.setIntervalAndRunNow(function() {
       handlers.chart.remove();
@@ -204,12 +206,25 @@ app.controller('index', function(self, handlers, util) {
         project = data[i];
         url = util.url('/', {project: project.id});
         node = nunjucks.renderString(template, {
-          name: project.name,
+          project: project,
           url: url,
           current: options.project
         });
         list.append(node);
       }
     });
+  };
+  /**
+   * Init main title.
+   */
+  self.initMainTitle = function() {
+    var id = options.project;
+    if (id) {
+      handlers.project.get(id, function(err, project) {
+        if (err)
+          return handlers.error.error(err);
+        $('.current-project-name').text(project.name);
+      });
+    }
   };
 });
