@@ -12,7 +12,7 @@ app.controller('project', function(self, handlers, util) {
   dom.create = {};
   dom.create.form = $('.project-create form');
   dom.list = {};
-  dom.list.table = $('.project-list tbody');
+  dom.list.list = $('.project-list .list-group');
   dom.list.template = $('.project-list #template-project-node');
   //------------------------------------------------------
   // Events Handlers
@@ -33,7 +33,7 @@ app.controller('project', function(self, handlers, util) {
       project: project,
       url: util.url
     });
-    dom.list.table.append(node);
+    dom.list.list.append(node);
   };
   /**
    * List projects

@@ -2,14 +2,29 @@
  * Edit project
  */
 
-.admin.project-edit .section-project-name form input {
+.admin.project-edit .project-edit-section {
+  padding-bottom: 20px;
+}
+
+.admin.project-edit .section-project-name .form-inline input {
   width: 300px;
 }
 
-.admin.project-edit .section-project-name label {
+.admin.project-edit .section-project-rules .rule-add {
+  width: 50%;
+}
+
+.admin.project-edit .section-project-rules .rule-list .list-group-item {
+  list-style: decimal inside;
+  display: list-item;
+  padding-left: 10px;
   padding-right: 10px;
 }
 
-.admin.project-edit .project-edit-section {
-  padding-bottom: 10px;
+.admin.project-edit .section-project-rules .rule-list code {
+  margin-right: 10px;
+}
+
+.admin.project-edit .section-project-receivers .form-inline input {
+  width: 300px;
 }

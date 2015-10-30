@@ -15,13 +15,22 @@ app.controller('project.edit', function(self, handlers, util) {
   dom.del = {};
   dom.del.button = $('.section-project-delete button.project-delete-confirmed');
   dom.del.error = $('.section-project-delete .error');
+  dom.rule = {};
+  dom.rule.add = {};
+  dom.rule.add.form = $('.section-project-rules form.rule-add');
+  dom.rule.list = {};
+  dom.rule.list.list = $('.section-project-rules .rule-list');
+  dom.rule.list.template = $('.section-project-rules #template-rule-node');
+  dom.rule.del = {};
+  dom.rule.del.button = $('.section-project-rules button.rule-delete');
 
   //------------------------------------------------------
   // Initializations
   //------------------------------------------------------
   self.init = function() {
     id = window._ctx.id;
-    self.load();
+    self.loadProject();
+    self.loadRules();
     self.initEvents();
   };
   /**
@@ -30,28 +39,46 @@ app.controller('project.edit', function(self, handlers, util) {
   self.initEvents = function() {
     dom.name.form.submit(self.patchName);
     dom.del.button.click(self.deleteProject);
+    dom.rule.add.form.submit(self.addRule);
   };
   //------------------------------------------------------
-  // Handler functions
+  // Loaders.
   //------------------------------------------------------
   /**
    * Load project to dom.
    */
-  self.load = function() {
-    handlers.project.getFull(id, function(err, project) {
+  self.loadProject = function() {
+    handlers.project.get(id, function(err, project) {
       if (err) {
         handlers.error.error(err);
         return;
       }
-      self.fillName(project);
+      util.fillForm(dom.name.form, project);
     });
   };
   /**
-   * Fill name form.
-   * @param {Object} project
+   * Load rules.
    */
-  self.fillName = function(project) {
-    return util.fillForm(dom.name.form, project);
+  self.loadRules = function() {
+    handlers.rule.gets(id, function(err, rules) {
+      if (err) {
+        handlers.error.error(err);
+        return;
+      }
+      rules.forEach(self.appendRule);
+    });
+  };
+  //------------------------------------------------------
+  // Rule nodes
+  //------------------------------------------------------
+  /**
+   * Append rule node.
+   * @param {Object} rule
+   */
+  self.appendRule = function(rule) {
+    var template = dom.rule.list.template.html();
+    var html = nunjucks.renderString(template, {rule: rule});
+    dom.rule.list.list.append(html);
   };
   //------------------------------------------------------
   // Event listeners
@@ -82,11 +109,37 @@ app.controller('project.edit', function(self, handlers, util) {
         return;
       }
       handlers.error.ok(
-        "Project deleted, redirecting page in 3 seconds..",
+        "Project deleted, redirecting page in 2 seconds..",
         dom.del.error);
       setTimeout(function() {
         window.location.href = util.url('/admin/project');
-      }, 3000);
+      }, 2000);
     });
+  };
+  /**
+   * Add rule on submit.
+   * @param {Event} event
+   */
+  self.addRule = function(event) {
+    event.preventDefault();
+    var data = util.collectForm(this);
+    data.up = data.up === 'on';
+    data.down = data.down === 'on';
+    data.min = +data.min ? +data.min : null;
+    data.max = +data.max ? +data.max : null;
+    handlers.rule.add(id, data, function(err, rule) {
+      if (err) {
+        handlers.error.error(err);
+        return;
+      }
+      self.appendRule(rule);
+    });
+  };
+  /**
+   * Delete rule.
+   * @param {Event} event
+   */
+  self.delRule = function(event) {
+    // FIXME
   };
 });

@@ -20,7 +20,6 @@ Edit Project
   <legend>Name</legend>
   <form class="form-inline">
     <div class="form-group">
-      <label>Name</label>
       <input name="name" type="text" class="form-control">
     </div>
     <button type="submit" class="btn btn-primary">Save</button>
@@ -29,14 +28,75 @@ Edit Project
 
 <!-- Project Rules -->
 <div class="project-edit-section section-project-rules">
-  <legend>Alerting Rules</legend>
-  FIXME
+  <legend>Rules</legend>
+  <!-- Project Add Rule -->
+  <form class="form-horizontal rule-add">
+    <div class="form-group">
+      <label class="col-md-2">Pattern</label>
+      <div class="col-md-10">
+        <input name="pattern" type="text" class="form-control" placeholder="Pattern">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-md-2">Alerting</label>
+      <div class="col-md-10">
+        <div class="input-group">
+          <span class="input-group-addon">
+            <input name="up" type="checkbox" checked="checked">
+            on anomalous raising trend ↑
+          </span>
+          <span class="input-group-addon">
+            <input name="down" type="checkbox" checked="checked">
+            on anomalous decline trend ↓
+          </span>
+        </div>
+        <div class="input-group">
+          <span class="input-group-addon">
+            alert only when metric value >=
+          </span>
+          <input name="min" type="text" class="rule-value form-control" placeholder="optional number">
+        </div>
+        <div class="input-group">
+          <span class="input-group-addon">
+            alert only when metric value <=
+          </span>
+          <input name="max" type="text" class="rule-value form-control" placeholder="optional number">
+        </div>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Add</button>
+  </form>
+  <hr>
+  <ol class="list-group rule-list">
+    {% raw %}
+    <script id="template-rule-node" type="text/nunjucks">
+      <li class="list-group-item">
+        <kbd>{{ rule.pattern }}</kbd>
+        <button type="button" class="btn btn-xs btn-warning pull-right rule-delete">delete</button>
+        <code class="pull-right">
+          {% if rule.up %}trend ↑{% endif %}
+          {% if rule.up and rule.down %}or{% endif %}
+          {% if rule.down %}trend ↓{% endif %}
+          {% if rule.min != null or rule.max != null %}and{% endif %}
+          {% if rule.min != null %}value>={{ rule.min }}{% endif %}
+          {% if rule.max != null %},{% endif %}
+          {% if rule.max != null %}value<={{ rule.max }}{% endif %}
+        </code>
+      </li>
+    </script>
+    {% endraw %}
+  </ol>
 </div>
 
 <!-- Project Receivers -->
 <div class="project-edit-section section-project-receivers">
-  <legend>Alerting Receivers</legend>
-  FIXME
+  <legend>Receivers</legend>
+  <form class="form-inline">
+    <div class="form-group">
+      <input name="name" type="text" class="form-control" placeholder="Receiver name">
+    </div>
+    <button type="submit" class="btn btn-primary">Add</button>
+  </form>
 </div>
 
 <!-- Project Delete -->
@@ -44,7 +104,7 @@ Edit Project
   <legend>Delete</legend>
   <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#project-delete-modal">Delete</button>
   <div class="modal" tabindex="-1" id="project-delete-modal">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-sm">
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
