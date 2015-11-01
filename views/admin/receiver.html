@@ -20,6 +20,7 @@ Receiver
 <div class="receiver-create">
   <form class="form-horizontal col-md-6">
     <legend>Create</legend>
+    <div class="error"></div>
     <div class="form-group">
       <label class="col-md-2">Name</label>
       <div class="col-md-10">
@@ -42,6 +43,16 @@ Receiver
       <div class="col-md-offset-2 col-md-10">
         <div class="checkbox">
           <label>
+            <input name="enableEmail" type="checkbox" checked="checked"> Enable email
+          </label>
+        </div>
+        <div class="checkbox">
+          <label>
+            <input name="enablePhone" type="checkbox" checked="checked"> Enable phone
+          </label>
+        </div>
+        <div class="checkbox">
+          <label>
             <input name="universal" type="checkbox"> Universal
           </label>
         </div>
@@ -57,23 +68,34 @@ Receiver
 </div>
 <!-- Receiver List -->
 <div class="receiver-list">
-  <ul class="list-group">
+  <table class="table">
     <legend>Receivers</legend>
-  </ul>
+    <div class="error"></div>
+    <thead>
+      <tr>
+        <td>Name</td>
+        <td>Email</td>
+        <td>Phone</td>
+        <td>Universal</td>
+        <td>Edit</td>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
   {% raw %}
   <script id="template-receiver-node" type="text/nunjucks">
-    <li class="list-group-item" data-id="{{ receiver.id }}" style="display: none;">
-      <a href="{{ url('/admin/receiver/' + receiver.id) }}">
-        <kbd>{{ receiver.name }}</kbd>
-      </a>
-      {% if receiver.universal %}
-      <span class="label label-success">universal</span>
-      {% endif %}
-      <a href="{{ url('/admin/receiver/' + receiver.id) }}" class="btn btn-primary btn-xs pull-right">Edit</a>
-      <code class="pull-right">
-        {{ receiver.email }}, {{ receiver.phone }}
-      </code>
-    </li>
+    <tr data-id="{{ receiver.id }}" style="display: none;">
+      <td class="{% if receiver.enableEmail or receiver.enablePhone %}success{% else %}active{% endif%}">{{ receiver.name }}</td>
+      <td class="{% if receiver.enableEmail %}success{% else %}active{% endif %}">{{ receiver.email }}</td>
+      <td class="{% if receiver.enablePhone %}success{% else %}active{% endif %}">{{ receiver.phone }}</td>
+      <td class="{% if receiver.universal %}success{% else %}active{% endif%}">
+        {% if receiver.universal %}Yes{% else %}No{% endif %}
+      </td>
+      <td class="info">
+        <a href="{{ url('/admin/receiver/' + receiver.id) }}" class="btn btn-primary btn-xs">Edit</a>
+      </td>
+    </tr>
   </script>
   {% endraw %}
 </div>

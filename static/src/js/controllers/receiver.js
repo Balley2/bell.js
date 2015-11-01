@@ -11,9 +11,11 @@ app.controller('receiver', function(self, handlers, util) {
   var dom = {};
   dom.create = {};
   dom.create.form = $('.receiver-create form');
+  dom.create.error = ('.receiver-create .error');
   dom.list = {};
-  dom.list.list = $('.receiver-list .list-group');
+  dom.list.list = $('.receiver-list tbody');
   dom.list.template = $('.receiver-list #template-receiver-node');
+  dom.list.error = $('.receiver-list .error');
   //------------------------------------------------------
   // Event handlers
   //------------------------------------------------------
@@ -36,8 +38,7 @@ app.controller('receiver', function(self, handlers, util) {
       url: util.url,
     });
     dom.list.list.append(node);
-    var selector = util.format(".receiver-list li[data-id*=%d]", receiver.id);
-    console.log($(selector));
+    var selector = util.format(".receiver-list tr[data-id*=%d]", receiver.id);
     $(selector).appendTo(dom.list.list).show(speed);
   };
   /**
@@ -46,7 +47,7 @@ app.controller('receiver', function(self, handlers, util) {
   self.list = function() {
     handlers.receiver.getAll(function(err, receivers) {
       if (err) {
-        handlers.error.error(err);
+        handlers.error.error(err, dom.list.error);
         return;
       }
       receivers.forEach(self.append);
@@ -61,14 +62,17 @@ app.controller('receiver', function(self, handlers, util) {
       var data = util.collectForm(this);
       var form = this;
       data.universal = data.universal === 'on';
+      data.enableEmail = data.enableEmail === 'on';
+      data.enablePhone = data.enablePhone === 'on';
+      console.log(data)
       handlers.receiver.create(data, function(err, receiver) {
         if (err) {
-          handlers.error.error(err);
+          handlers.error.error(err, dom.create.error);
           return;
         }
         self.append(receiver, 500);
         form.reset();
-        handlers.error.ok("Receiver created");
+        handlers.error.ok("Receiver created", dom.create.error);
       });
     });
   };
