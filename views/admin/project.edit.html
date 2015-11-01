@@ -74,7 +74,7 @@ Edit Project
     <button type="reset" class="btn btn-default">Reset</button>
   </form>
   <hr>
-  <ol class="list-group rule-list">
+  <ol class="list-group rule-list col-md-10">
     <div class="error"></div>
     {% raw %}
     <script id="template-rule-node" type="text/nunjucks">
@@ -103,25 +103,18 @@ Edit Project
     <div class="error"></div>
     <div class="form-group">
       <input name="name" type="text" class="form-control" placeholder="Receiver name">
-      <div class="checkbox">
-        <label>
-          <input name="email" type="checkbox" checked="checked"> email
-        </label>
-      </div>
-      <div class="checkbox">
-        <label>
-          <input name="phone" type="checkbox" checked="checked"> phone
-        </label>
-      </div>
     </div>
     <button type="submit" class="btn btn-primary">Add</button>
   </form>
   <hr>
-  <ol class="list-group receiver-list">
+  <ol class="list-group receiver-list col-md-6">
     <div class="error"></div>
     {% raw %}
     <script id="template-receiver-node" type="text/nunjucks">
-      <li class="list-group-item" data-id="{{ row.id }}" style="display: none;">
+      <li class="list-group-item" data-id="{{ receiver.id }}" style="display: none;">
+        <a href="{{ url('/admin/receiver/' + receiver.id) }}">{{ receiver.name }}</a>
+        {% if receiver.universal %}<span class="label label-success">universal</span>{% endif %}
+        <button type="button" data-id="{{ receiver.id }}" class="btn btn-xs btn-warning pull-right receiver-delete">delete</button>
       </li>
     </script>
     {% endraw %}

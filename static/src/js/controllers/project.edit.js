@@ -34,7 +34,7 @@ app.controller('project.edit', function(self, handlers, util) {
   dom.receiver.list = {};
   dom.receiver.list.error = $('.section-project-receivers .receiver-list .error');
   dom.receiver.list.list = $('.section-project-receivers .receiver-list');
-  dom.receiver.list.list = $('.section-project-receivers .receiver-list #template-receiver-node');
+  dom.receiver.list.template = $('.section-project-receivers #template-receiver-node');
 
   //------------------------------------------------------
   // Initializations
@@ -43,6 +43,7 @@ app.controller('project.edit', function(self, handlers, util) {
     id = window._ctx.id;
     self.loadProject();
     self.loadRules();
+    self.loadReceivers();
     self.initEvents();
   };
   /**
@@ -86,9 +87,9 @@ app.controller('project.edit', function(self, handlers, util) {
    * // FIXME Wait testing
    */
   self.loadReceivers = function() {
-    handlers.receivers.gets(id, function(err, receivers) {
+    handlers.receiver.gets(id, function(err, receivers) {
       if (err) {
-        handlers.error.error(err, dom.receivers.list.error);
+        handlers.error.error(err, dom.receiver.list.error);
         return;
       }
       receivers.forEach(self.appendReceiver);
@@ -125,8 +126,15 @@ app.controller('project.edit', function(self, handlers, util) {
    * @param {Object} reciever
    * @param {String} speed
    */
-  self.appendReceiver = function(rule, speed) {
-    // FIXME wait implementation
+  self.appendReceiver = function(receiver, speed) {
+    var template = dom.receiver.list.template.html();
+    var node = nunjucks.renderString(template, {
+      receiver: receiver,
+      url: util.url
+    });
+    dom.receiver.list.list.append(node);
+    var selector = util.format(".receiver-list li[data-id*=%d]", receiver.id);
+    $(selector).appendTo(dom.receiver.list.list).show(speed);
   };
   //------------------------------------------------------
   // Event listeners
@@ -209,14 +217,14 @@ app.controller('project.edit', function(self, handlers, util) {
     event.preventDefault();
     var data = util.collectForm(this);
     var form = this;
-    data.email = data.email === 'on';
-    data.phone = data.phone === 'on';
-    handlers.receiver.add(id, data, function(err, data) {
+    handlers.receiver.add(id, data, function(err, receiver) {
       if (err) {
         handlers.error.error(err, dom.receiver.add.error);
         return;
       }
       handlers.error.ok("Receiver added", dom.receiver.add.error);
+      self.appendReceiver(receiver, 500);
+      form.reset();
     });
   };
 });
