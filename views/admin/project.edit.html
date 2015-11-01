@@ -21,13 +21,15 @@ Edit Project
 <!-- Project Name -->
 <div class="project-edit-section section-project-name">
   <legend>Name</legend>
-  <div class="error"></div>
-  <form class="form-inline">
-    <div class="form-group">
-      <input name="name" type="text" class="form-control">
-    </div>
-    <button type="submit" class="btn btn-primary">Save</button>
-  </form>
+  <div class="row">
+    <form class="form-inline col-md-6">
+      <div class="error"></div>
+      <div class="form-group">
+        <input name="name" type="text" class="form-control">
+      </div>
+      <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+  </div>
 </div>
 
 <!-- Project Rules -->
@@ -97,8 +99,8 @@ Edit Project
 <!-- Project Receivers -->
 <div class="project-edit-section section-project-receivers">
   <legend>Receivers</legend>
-  <div class="error"></div>
-  <form class="form-inline">
+  <form class="form-inline receiver-add">
+    <div class="error"></div>
     <div class="form-group">
       <input name="name" type="text" class="form-control" placeholder="Receiver name">
       <div class="checkbox">
