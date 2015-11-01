@@ -15,7 +15,7 @@ app.controller('project', function(self, handlers, util) {
   dom.list.list = $('.project-list .list-group');
   dom.list.template = $('.project-list #template-project-node');
   //------------------------------------------------------
-  // Events Handlers
+  // Event Handlers
   //------------------------------------------------------
   /**
    * Entry.
@@ -38,7 +38,7 @@ app.controller('project', function(self, handlers, util) {
   /**
    * List projects
    */
-  self.list = function(project) {
+  self.list = function() {
     handlers.project.getAll(function(err, projects) {
       if (err) {
         handlers.error.error(err);
