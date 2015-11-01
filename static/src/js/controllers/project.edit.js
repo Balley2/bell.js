@@ -11,8 +11,8 @@ app.controller('project.edit', function(self, handlers, util) {
   //------------------------------------------------------
   var dom = {};
   dom.name = {};
-  dom.name.error = $('.section-project-name .error');
   dom.name.form = $('.section-project-name form');
+  dom.name.error = $('.section-project-name form .error');
   dom.del = {};
   dom.del.button = $('.section-project-delete button.project-delete-confirmed');
   dom.del.error = $('.section-project-delete .error');
@@ -28,7 +28,13 @@ app.controller('project.edit', function(self, handlers, util) {
   dom.rule.del.error = $('.section-project-rules .rule-list .error');
   dom.rule.del.button = $('.section-project-rules button.rule-delete');
   dom.receiver = {};
-  dom.receiver.error = $('.section-project-receivers .error');
+  dom.receiver.add = {};
+  dom.receiver.add.error = $('.section-project-receivers .receiver-add .error');
+  dom.receiver.add.form = $('.section-project-receivers form.receiver-add');
+  dom.receiver.list = {};
+  dom.receiver.list.error = $('.section-project-receivers .receiver-list .error');
+  dom.receiver.list.list = $('.section-project-receivers .receiver-list');
+  dom.receiver.list.list = $('.section-project-receivers .receiver-list #template-receiver-node');
 
   //------------------------------------------------------
   // Initializations
@@ -46,6 +52,7 @@ app.controller('project.edit', function(self, handlers, util) {
     dom.name.form.submit(self.patchName);
     dom.del.button.click(self.deleteProject);
     dom.rule.add.form.submit(self.addRule);
+    dom.receiver.add.form.submit(self.addReceiver);
   };
   //------------------------------------------------------
   // Loaders.
@@ -74,6 +81,19 @@ app.controller('project.edit', function(self, handlers, util) {
       rules.forEach(self.appendRule);
     });
   };
+  /**
+   * Load receivers.
+   * // FIXME Wait testing
+   */
+  self.loadReceivers = function() {
+    handlers.receivers.gets(id, function(err, receivers) {
+      if (err) {
+        handlers.error.error(err, dom.receivers.list.error);
+        return;
+      }
+      receivers.forEach(self.appendReceiver);
+    });
+  };
   //------------------------------------------------------
   // Rule nodes
   //------------------------------------------------------
@@ -99,6 +119,14 @@ app.controller('project.edit', function(self, handlers, util) {
     $(selector).hide(500, function() {
       $(selector).remove();
     });
+  };
+  /**
+   * Append receiver node.
+   * @param {Object} reciever
+   * @param {String} speed
+   */
+  self.appendReceiver = function(rule, speed) {
+    // FIXME wait implementation
   };
   //------------------------------------------------------
   // Event listeners
@@ -184,7 +212,11 @@ app.controller('project.edit', function(self, handlers, util) {
     data.email = data.email === 'on';
     data.phone = data.phone === 'on';
     handlers.receiver.add(id, data, function(err, data) {
-
+      if (err) {
+        handlers.error.error(err, dom.receiver.add.error);
+        return;
+      }
+      handlers.error.ok("Receiver added", dom.receiver.add.error);
     });
   };
 });

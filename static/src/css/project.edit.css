@@ -32,3 +32,10 @@
 .admin.project-edit .section-project-receivers .form-inline input[name*=name] {
   width: 200px;
 }
+
+.admin.project-edit .section-project-receivers .receiver-list .list-group-item {
+  list-style: decimal inside;
+  display: list-item;
+  padding-left: 10px;
+  padding-right: 10px;
+}

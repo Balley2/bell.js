@@ -116,6 +116,16 @@ Edit Project
     </div>
     <button type="submit" class="btn btn-primary">Add</button>
   </form>
+  <hr>
+  <ol class="list-group receiver-list">
+    <div class="error"></div>
+    {% raw %}
+    <script id="template-receiver-node" type="text/nunjucks">
+      <li class="list-group-item" data-id="{{ row.id }}" style="display: none;">
+      </li>
+    </script>
+    {% endraw %}
+  </ol>
 </div>
 
 <!-- Project Delete -->

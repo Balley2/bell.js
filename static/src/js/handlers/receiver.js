@@ -29,4 +29,12 @@ app.handler('receiver', function(self, util) {
   self.add = function(id, data, cb) {
     return util.post(util.url('/api/admin/project/' + id + '/receiver'), data, cb);
   };
+  /**
+   * Get receivers by project id.
+   * @param {Number} id
+   * @param {Function} cb
+   */
+  self.gets = function(id, cb) {
+    return util.get(util.url('/api/admin/project/' + id + '/receivers'), cb);
+  };
 });
