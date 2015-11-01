@@ -137,6 +137,7 @@ app.controller('project.edit', function(self, handlers, util) {
   self.addRule = function(event) {
     event.preventDefault();
     var data = util.collectForm(this);
+    var form = this;
     data.up = data.up === 'on';
     data.down = data.down === 'on';
     data.min = +data.min ? +data.min : null;
@@ -147,6 +148,7 @@ app.controller('project.edit', function(self, handlers, util) {
         return;
       }
       self.appendRule(rule, 500);
+      form.reset();
     });
   };
   /**

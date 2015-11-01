@@ -54,12 +54,14 @@ app.controller('project', function(self, handlers, util) {
     dom.create.form.submit(function(e) {
       e.preventDefault();
       var data = util.collectForm(this);
+      var form = this;
       handlers.project.create(data.name, function(err, project) {
         if (err) {
           handlers.error.error(err);
           return;
         }
         self.append(project);
+        form.reset();
         handlers.error.ok("Project created");
       });
     });
