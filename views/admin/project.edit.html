@@ -82,7 +82,7 @@ Edit Project
           {% if rule.down %}trend ↓{% endif %}
           {% if rule.min != null or rule.max != null %}and{% endif %}
           {% if rule.min != null %}{{ rule.min }} <= {% endif %}
-          value
+          {% if rule.min != null or rule.max != null %}value{% endif %}
           {% if rule.max != null %} <= {{ rule.max }}{% endif %}
         </code>
       </li>
