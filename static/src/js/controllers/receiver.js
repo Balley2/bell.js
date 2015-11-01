@@ -59,6 +59,7 @@ app.controller('receiver', function(self, handlers, util) {
     dom.create.form.submit(function(event) {
       event.preventDefault();
       var data = util.collectForm(this);
+      var form = this;
       data.universal = data.universal === 'on';
       handlers.receiver.create(data, function(err, receiver) {
         if (err) {
@@ -66,6 +67,7 @@ app.controller('receiver', function(self, handlers, util) {
           return;
         }
         self.append(receiver, 500);
+        form.reset();
         handlers.error.ok("Receiver created");
       });
     });
