@@ -130,6 +130,7 @@ app.util.get = function(url, cb) {
 /**
  * POST request with json.
  * @param {String} url
+ * @param {Object} data
  * @param {Function} cb // function(err, data)
  */
 app.util.post = function(url, data, cb) {
@@ -156,6 +157,7 @@ app.util.del = function(url, cb) {
 /**
  * PATCH request with json.
  * @param {String} url
+ * @param {Object} data
  * @param {Function} cb // function(err)
  */
 app.util.patch = function(url, data, cb) {
