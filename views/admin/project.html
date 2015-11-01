@@ -32,7 +32,7 @@ Project
   </ul>
   {% raw %}
   <script id="template-project-node" type="text/nunjucks">
-    <li class="list-group-item">
+    <li class="list-group-item" data-id="{{ project.id }}" style="display: none;">
       <a href="{{ url('/admin/project/' + project.id) }}">
         {{ project.name }}
       </a>

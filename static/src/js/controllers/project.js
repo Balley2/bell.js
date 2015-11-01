@@ -26,14 +26,18 @@ app.controller('project', function(self, handlers, util) {
   };
   /**
    * Append project to list.
+   * @param {Object} project
+   * @param {String} speed
    */
-  self.append = function(project) {
+  self.append = function(project, speed) {
     var template = dom.list.template.html();
     var node = nunjucks.renderString(template, {
       project: project,
       url: util.url
     });
     dom.list.list.append(node);
+    var selector = util.format(".project-list li[data-id*=%d]", project.id);
+    $(selector).appendTo(dom.list.list).show(speed);
   };
   /**
    * List projects
@@ -60,7 +64,7 @@ app.controller('project', function(self, handlers, util) {
           handlers.error.error(err);
           return;
         }
-        self.append(project);
+        self.append(project, 500);
         form.reset();
         handlers.error.ok("Project created");
       });
