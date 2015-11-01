@@ -29,6 +29,6 @@
   margin-right: 10px;
 }
 
-.admin.project-edit .section-project-receivers .form-inline input {
-  width: 300px;
+.admin.project-edit .section-project-receivers .form-inline input[name*=name] {
+  width: 200px;
 }

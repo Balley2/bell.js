@@ -6,7 +6,7 @@
 
 app.handler('error', function(self, util) {
   var template = $("#template-error").html();
-  var expiration = 3 * 1000;
+  var expiration = 5 * 1000;
   /**
    * Render error message.
    * @param {Error} err

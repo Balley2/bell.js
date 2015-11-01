@@ -11,11 +11,13 @@ app.controller('project.edit', function(self, handlers, util) {
   //------------------------------------------------------
   var dom = {};
   dom.name = {};
+  dom.name.error = $('.section-project-name .error');
   dom.name.form = $('.section-project-name form');
   dom.del = {};
   dom.del.button = $('.section-project-delete button.project-delete-confirmed');
   dom.del.error = $('.section-project-delete .error');
   dom.rule = {};
+  dom.rule.error = $('.section-project-rules .error');
   dom.rule.add = {};
   dom.rule.add.form = $('.section-project-rules form.rule-add');
   dom.rule.list = {};
@@ -23,6 +25,8 @@ app.controller('project.edit', function(self, handlers, util) {
   dom.rule.list.template = $('.section-project-rules #template-rule-node');
   dom.rule.del = {};
   dom.rule.del.button = $('.section-project-rules button.rule-delete');
+  dom.receiver = {};
+  dom.receiver.error = $('.section-project-receivers .error');
 
   //------------------------------------------------------
   // Initializations
@@ -106,10 +110,10 @@ app.controller('project.edit', function(self, handlers, util) {
     var data = util.collectForm(this);
     handlers.project.patch(id, data.name, function(err, data) {
       if (err) {
-        handlers.error.error(err);
+        handlers.error.error(err, dom.name.error);
         return;
       }
-      handlers.error.ok('Project name updated');
+      handlers.error.ok('Project name updated', dom.name.error);
     });
   };
   /**
@@ -119,7 +123,7 @@ app.controller('project.edit', function(self, handlers, util) {
   self.deleteProject = function(event) {
     handlers.project.del(id, function(err, data) {
       if (err) {
-        handlers.error.error(err);
+        handlers.error.error(err, dom.del.error);
         return;
       }
       handlers.error.ok(
@@ -144,9 +148,10 @@ app.controller('project.edit', function(self, handlers, util) {
     data.max = +data.max ? +data.max : null;
     handlers.rule.add(id, data, function(err, rule) {
       if (err) {
-        handlers.error.error(err);
+        handlers.error.error(err, dom.rule.error);
         return;
       }
+      handlers.error.ok("Rule added", dom.rule.error);
       self.appendRule(rule, 500);
       form.reset();
     });
@@ -159,11 +164,25 @@ app.controller('project.edit', function(self, handlers, util) {
     var id = +$(this).data('id');
     handlers.rule.del(id, function(err, data) {
       if (err) {
-        handlers.error.error(err);
+        handlers.error.error(err, dom.rule.error);
         return;
       }
-      handlers.error.ok("Rule deleted");
+      handlers.error.ok("Rule deleted", dom.rule.error);
       self.removeRule(id);
+    });
+  };
+  /**
+   * Add receiver on submit.
+   * @param {Event} event
+   */
+  self.addReceiver = function(event) {
+    event.preventDefault();
+    var data = util.collectForm(this);
+    var form = this;
+    data.email = data.email === 'on';
+    data.phone = data.phone === 'on';
+    handlers.receiver.add(id, data, function(err, data) {
+
     });
   };
 });
