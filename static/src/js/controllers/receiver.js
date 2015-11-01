@@ -11,6 +11,9 @@ app.controller('receiver', function(self, handlers, util) {
   var dom = {};
   dom.create = {};
   dom.create.form = $('.receiver-create form');
+  dom.list = {};
+  dom.list.list = $('.receiver-list .list-group');
+  dom.list.template = $('.receiver-list #template-receiver-node');
   //------------------------------------------------------
   // Event handlers
   //------------------------------------------------------
@@ -18,19 +21,36 @@ app.controller('receiver', function(self, handlers, util) {
    * Entry
    */
   self.init = function() {
-    // self.list(); // FIXME
+    self.list();
     self.initCreate();
   };
   /**
    * Append receiver to list.
+   * @param {Object} receiver
+   * @param {String} speed
    */
-  self.append = function(receiver) {
-    // FIXME
+  self.append = function(receiver, speed) {
+    var template = dom.list.template.html();
+    var node = nunjucks.renderString(template, {
+      receiver: receiver,
+      url: util.url,
+    });
+    dom.list.list.append(node);
+    var selector = util.format(".receiver-list li[data-id*=%d]", receiver.id);
+    console.log($(selector));
+    $(selector).appendTo(dom.list.list).show(speed);
   };
   /**
    * List rceivers.
    */
   self.list = function() {
+    handlers.receiver.getAll(function(err, receivers) {
+      if (err) {
+        handlers.error.error(err);
+        return;
+      }
+      receivers.forEach(self.append);
+    });
   };
   /**
    * Init create.
@@ -45,7 +65,7 @@ app.controller('receiver', function(self, handlers, util) {
           handlers.error.error(err);
           return;
         }
-        // self.append(receiver); // FIXME
+        self.append(receiver, 500);
         handlers.error.ok("Receiver created");
       });
     });

@@ -57,6 +57,25 @@ Receiver
 </div>
 <!-- Receiver List -->
 <div class="receiver-list">
+  <ul class="list-group">
+    <legend>Receivers</legend>
+  </ul>
+  {% raw %}
+  <script id="template-receiver-node" type="text/nunjucks">
+    <li class="list-group-item" data-id="{{ receiver.id }}" style="display: none;">
+      <a href="{{ url('/admin/receiver/' + receiver.id) }}">
+        <kbd>{{ receiver.name }}</kbd>
+      </a>
+      {% if receiver.universal %}
+      <span class="label label-success">universal</span>
+      {% endif %}
+      <a href="{{ url('/admin/receiver/' + receiver.id) }}" class="btn btn-primary btn-xs pull-right">Edit</a>
+      <code class="pull-right">
+        {{ receiver.email }}, {{ receiver.phone }}
+      </code>
+    </li>
+  </script>
+  {% endraw %}
 </div>
 {% endblock %}
 
