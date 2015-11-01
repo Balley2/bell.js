@@ -21,6 +21,7 @@ Edit Project
 <!-- Project Name -->
 <div class="project-edit-section section-project-name">
   <legend>Name</legend>
+  <div class="error"></div>
   <form class="form-inline">
     <div class="form-group">
       <input name="name" type="text" class="form-control">
@@ -34,6 +35,7 @@ Edit Project
   <legend>Rules</legend>
   <!-- Project Add Rule -->
   <form class="form-horizontal rule-add">
+    <div class="error"></div>
     <div class="form-group">
       <label class="col-md-2">Pattern</label>
       <div class="col-md-10">
@@ -71,6 +73,7 @@ Edit Project
   </form>
   <hr>
   <ol class="list-group rule-list">
+    <div class="error"></div>
     {% raw %}
     <script id="template-rule-node" type="text/nunjucks">
       <li class="list-group-item" data-id="{{ rule.id }}" style="display: none;">
@@ -94,9 +97,20 @@ Edit Project
 <!-- Project Receivers -->
 <div class="project-edit-section section-project-receivers">
   <legend>Receivers</legend>
+  <div class="error"></div>
   <form class="form-inline">
     <div class="form-group">
       <input name="name" type="text" class="form-control" placeholder="Receiver name">
+      <div class="checkbox">
+        <label>
+          <input name="email" type="checkbox" checked="checked"> email
+        </label>
+      </div>
+      <div class="checkbox">
+        <label>
+          <input name="phone" type="checkbox" checked="checked"> phone
+        </label>
+      </div>
     </div>
     <button type="submit" class="btn btn-primary">Add</button>
   </form>
@@ -116,7 +130,7 @@ Edit Project
         <div class="modal-body">
           <p>This will delete <strong>this project with all its rules and receivers</strong>,
           do you want to proceed?</p>
-          <p class="error"></p>
+          <div class="error"></div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>

@@ -17,13 +17,15 @@ app.controller('project.edit', function(self, handlers, util) {
   dom.del.button = $('.section-project-delete button.project-delete-confirmed');
   dom.del.error = $('.section-project-delete .error');
   dom.rule = {};
-  dom.rule.error = $('.section-project-rules .error');
   dom.rule.add = {};
+  dom.rule.add.error = $('.section-project-rules .rule-add .error');
   dom.rule.add.form = $('.section-project-rules form.rule-add');
   dom.rule.list = {};
+  dom.rule.list.error = $('.section-project-rules .rule-list .error');
   dom.rule.list.list = $('.section-project-rules .rule-list');
   dom.rule.list.template = $('.section-project-rules #template-rule-node');
   dom.rule.del = {};
+  dom.rule.del.error = $('.section-project-rules .rule-list .error');
   dom.rule.del.button = $('.section-project-rules button.rule-delete');
   dom.receiver = {};
   dom.receiver.error = $('.section-project-receivers .error');
@@ -66,7 +68,7 @@ app.controller('project.edit', function(self, handlers, util) {
   self.loadRules = function() {
     handlers.rule.gets(id, function(err, rules) {
       if (err) {
-        handlers.error.error(err);
+        handlers.error.error(err, dom.rule.list.error);
         return;
       }
       rules.forEach(self.appendRule);
@@ -148,10 +150,10 @@ app.controller('project.edit', function(self, handlers, util) {
     data.max = +data.max ? +data.max : null;
     handlers.rule.add(id, data, function(err, rule) {
       if (err) {
-        handlers.error.error(err, dom.rule.error);
+        handlers.error.error(err, dom.rule.add.error);
         return;
       }
-      handlers.error.ok("Rule added", dom.rule.error);
+      handlers.error.ok("Rule added", dom.rule.add.error);
       self.appendRule(rule, 500);
       form.reset();
     });
@@ -164,10 +166,10 @@ app.controller('project.edit', function(self, handlers, util) {
     var id = +$(this).data('id');
     handlers.rule.del(id, function(err, data) {
       if (err) {
-        handlers.error.error(err, dom.rule.error);
+        handlers.error.error(err, dom.rule.del.error);
         return;
       }
-      handlers.error.ok("Rule deleted", dom.rule.error);
+      handlers.error.ok("Rule deleted", dom.rule.del.error);
       self.removeRule(id);
     });
   };
