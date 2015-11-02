@@ -107,14 +107,14 @@ Edit Project
     <button type="submit" class="btn btn-primary">Add</button>
   </form>
   <hr>
-  <ol class="list-group receiver-list col-md-6">
+  <ol class="list-group receiver-list col-md-5">
     <div class="error"></div>
     {% raw %}
     <script id="template-receiver-node" type="text/nunjucks">
       <li class="list-group-item" data-id="{{ receiver.id }}" style="display: none;">
         <a href="{{ url('/admin/receiver/' + receiver.id) }}">{{ receiver.name }}</a>
         {% if receiver.universal %}<span class="label label-success">universal</span>{% endif %}
-        <button type="button" data-id="{{ receiver.id }}" class="btn btn-xs btn-warning pull-right receiver-delete">delete</button>
+        <button type="button" data-id="{{ receiver.id }}" class="btn btn-xs btn-warning pull-right receiver-remove">remove</button>
       </li>
     </script>
     {% endraw %}

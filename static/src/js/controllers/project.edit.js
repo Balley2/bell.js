@@ -35,6 +35,9 @@ app.controller('project.edit', function(self, handlers, util) {
   dom.receiver.list.error = $('.section-project-receivers .receiver-list .error');
   dom.receiver.list.list = $('.section-project-receivers .receiver-list');
   dom.receiver.list.template = $('.section-project-receivers #template-receiver-node');
+  dom.receiver.remove = {};
+  dom.receiver.remove.error = $('.section-project-receivers .receiver-list .error');
+  dom.receiver.remove.button = $('.section-project-receivers button.receiver-remove');
 
   //------------------------------------------------------
   // Initializations
@@ -79,7 +82,7 @@ app.controller('project.edit', function(self, handlers, util) {
         handlers.error.error(err, dom.rule.list.error);
         return;
       }
-      rules.forEach(self.appendRule);
+      rules.forEach(self.appendRuleNode);
     });
   };
   /**
@@ -92,7 +95,7 @@ app.controller('project.edit', function(self, handlers, util) {
         handlers.error.error(err, dom.receiver.list.error);
         return;
       }
-      receivers.forEach(self.appendReceiver);
+      receivers.forEach(self.appendReceiverNode);
     });
   };
   //------------------------------------------------------
@@ -103,7 +106,7 @@ app.controller('project.edit', function(self, handlers, util) {
    * @param {Object} rule
    * @param {String} speed
    */
-  self.appendRule = function(rule, speed) {
+  self.appendRuleNode = function(rule, speed) {
     var template = dom.rule.list.template.html();
     var html = nunjucks.renderString(template, {rule: rule});
     dom.rule.list.list.append(html);
@@ -115,7 +118,7 @@ app.controller('project.edit', function(self, handlers, util) {
    * Remove rule node.
    * @param {Number} id
    */
-  self.removeRule = function(id) {
+  self.removeRuleNode = function(id) {
     var selector = util.format(".rule-list li[data-id*=%d]", id);
     $(selector).hide(500, function() {
       $(selector).remove();
@@ -126,7 +129,7 @@ app.controller('project.edit', function(self, handlers, util) {
    * @param {Object} reciever
    * @param {String} speed
    */
-  self.appendReceiver = function(receiver, speed) {
+  self.appendReceiverNode = function(receiver, speed) {
     var template = dom.receiver.list.template.html();
     var node = nunjucks.renderString(template, {
       receiver: receiver,
@@ -135,6 +138,17 @@ app.controller('project.edit', function(self, handlers, util) {
     dom.receiver.list.list.append(node);
     var selector = util.format(".receiver-list li[data-id*=%d]", receiver.id);
     $(selector).appendTo(dom.receiver.list.list).show(speed);
+    $(selector).find('.receiver-remove').click(self.removeReceiver);
+  };
+  /**
+   * Remove receiver node.
+   * @param {Number} id
+   */
+  self.removeReceiverNode = function() {
+    var selector = util.format(".receiver-list li[data-id*=%d]", id);
+    $(selector).hide(500, function() {
+      $(selector).remove();
+    });
   };
   //------------------------------------------------------
   // Event listeners
@@ -190,7 +204,7 @@ app.controller('project.edit', function(self, handlers, util) {
         return;
       }
       handlers.error.ok("Rule added", dom.rule.add.error);
-      self.appendRule(rule, 500);
+      self.appendRuleNode(rule, 500);
       form.reset();
     });
   };
@@ -206,7 +220,7 @@ app.controller('project.edit', function(self, handlers, util) {
         return;
       }
       handlers.error.ok("Rule deleted", dom.rule.del.error);
-      self.removeRule(id);
+      self.removeRuleNode(id);
     });
   };
   /**
@@ -223,8 +237,23 @@ app.controller('project.edit', function(self, handlers, util) {
         return;
       }
       handlers.error.ok("Receiver added", dom.receiver.add.error);
-      self.appendReceiver(receiver, 500);
+      self.appendReceiverNode(receiver, 500);
       form.reset();
+    });
+  };
+  /**
+   * Remove receiver from project.
+   * @param {Event} event
+   */
+  self.removeReceiver = function(event) {
+    var receiverId = +$(this).data('id');
+    handlers.receiver.remove(id, receiverId, function(err, data) {
+      if (err) {
+        handlers.error.error(err, dom.receiver.remove.error);
+        return;
+      }
+      handlers.error.ok("Receiver removed", dom.receiver.remove.error);
+      self.removeReceiverNode(receiverId);
     });
   };
 });

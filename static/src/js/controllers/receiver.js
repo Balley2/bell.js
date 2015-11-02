@@ -64,7 +64,6 @@ app.controller('receiver', function(self, handlers, util) {
       data.universal = data.universal === 'on';
       data.enableEmail = data.enableEmail === 'on';
       data.enablePhone = data.enablePhone === 'on';
-      console.log(data)
       handlers.receiver.create(data, function(err, receiver) {
         if (err) {
           handlers.error.error(err, dom.create.error);
