@@ -87,7 +87,6 @@ app.controller('project.edit', function(self, handlers, util) {
   };
   /**
    * Load receivers.
-   * // FIXME Wait testing
    */
   self.loadReceivers = function() {
     handlers.receiver.gets(id, function(err, receivers) {
