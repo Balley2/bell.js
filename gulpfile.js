@@ -15,7 +15,6 @@ gulp.task('clean', function() {
 // Minify css
 gulp.task('css', function() {
   var files = [
-    // 'static/lib/bootstrap/dist/css/bootstrap.css',
     'static/lib/bootswatch-dist/css/bootstrap.css',
     'static/src/css/*.css',
   ];
