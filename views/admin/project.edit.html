@@ -113,8 +113,11 @@ Edit Project
     <script id="template-receiver-node" type="text/nunjucks">
       <li class="list-group-item" data-id="{{ receiver.id }}" style="display: none;">
         <a href="{{ url('/admin/receiver/' + receiver.id) }}">{{ receiver.name }}</a>
-        {% if receiver.universal %}<span class="label label-success">universal</span>{% endif %}
+        {% if receiver.universal %}
+        <span class="label label-success pull-right">universal</span>
+        {% else %}
         <button type="button" data-id="{{ receiver.id }}" class="btn btn-xs btn-warning pull-right receiver-remove">remove</button>
+        {% endif %}
       </li>
     </script>
     {% endraw %}
