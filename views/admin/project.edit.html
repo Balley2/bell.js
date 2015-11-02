@@ -80,7 +80,7 @@ Edit Project
     <script id="template-rule-node" type="text/nunjucks">
       <li class="list-group-item" data-id="{{ rule.id }}" style="display: none;">
         <kbd>{{ rule.pattern }}</kbd>
-        <button type="button" data-id="{{ rule.id }}" class="btn btn-xs btn-warning pull-right rule-delete">delete</button>
+        <button type="button" data-id="{{ rule.id }}" class="btn btn-xs btn-danger pull-right rule-delete">delete</button>
         <code class="pull-right">
           {% if rule.up %}trend ↑{% endif %}
           {% if rule.up and rule.down %}or{% endif %}
@@ -116,7 +116,7 @@ Edit Project
         {% if receiver.universal %}
         <span class="label label-success pull-right">universal</span>
         {% else %}
-        <button type="button" data-id="{{ receiver.id }}" class="btn btn-xs btn-warning pull-right receiver-remove">remove</button>
+        <button type="button" data-id="{{ receiver.id }}" class="btn btn-xs btn-danger pull-right receiver-remove">remove</button>
         {% endif %}
       </li>
     </script>
@@ -142,7 +142,7 @@ Edit Project
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-danger project-delete-confirmed">Confirmed</button>
+          <button type="button" class="btn btn-primary project-delete-confirmed">Confirmed</button>
         </div>
       </div>
     </div><!-- /.modal-dialog -->
