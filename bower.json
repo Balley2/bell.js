@@ -2,6 +2,7 @@
   "name": "bell.js",
   "dependencies": {
     "bootstrap": "3.3.5",
+    "bootswatch-dist": "simplex"
     "cubism": "1.6.0",
     "d3": "3.5.6",
     "jquery": "2.1.4",
