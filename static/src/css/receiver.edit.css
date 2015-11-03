@@ -1,0 +1,7 @@
+/**
+ * Admin receiver edit.
+ */
+.admin.receiver-edit .project-list .list-group-item {
+  list-style: decimal inside;
+  display: list-item;
+}

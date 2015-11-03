@@ -55,4 +55,12 @@ app.handler('receiver', function(self, util) {
   self.patch = function(id, data, cb) {
     return util.patch(util.url('/api/admin/receiver/' + id), data, cb);
   };
+  /**
+   * Get projects by receiver id.
+   * @param {Number} id
+   * @param {Function} cb
+   */
+  self.getProjects = function(id, cb) {
+    return util.get(util.url('/api/admin/receiver/' + id + '/projects'), cb);
+  };
 });
