@@ -5,7 +5,7 @@
     "type": "git",
     "url": "https://github.com/eleme/bell.js"
   },
-  "description": "Realtime anomalous metrics detection",
+  "description": "Real-time anomalies(outliers) detection system for periodic time series",
   "author": {
     "name": "Chao Wang",
     "email": "hit9@icloud.com",
