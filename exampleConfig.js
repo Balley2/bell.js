@@ -54,6 +54,7 @@
  *   host           alerter host to bind/connect. [default: '0.0.0.0']
  *   port           alerter port to listen/connect. [default: 2017]
  *   sender         module to send message (i.e. sms, email) for alerter. [default: null]
+ *   interval       alerter time interval, in seconds. [default: 20*60]
  */
 
 {
@@ -100,5 +101,6 @@
   alerter: {
     port: 2017,
     sender: null,
+    interval: 20*60,
   },
 }
