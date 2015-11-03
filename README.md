@@ -31,26 +31,38 @@ Installation
 
 1. Install `bell` as a system command:
 
-       $ npm instal bell.js -g
+    ```bash
+    $ npm instal bell.js -g
+    ```
 
 2. Create config file according to [exampleConfig.js](exampleConfig.js).
 3. Add module `bell` to statsd's backends in its config.js.
 
-       {, backends: ['bell']}
+    ```js
+    {
+    , backends: ['bell']
+    }
+    ```
 
 4. Start ssdb-server:
 
-       $ ssdb-server -f path/to/ssdb.conf
+    ```bash
+    $ ssdb-server -f path/to/ssdb.conf
+    ```
 
 5. Start beanstalkd:
 
-       $ beanstalkd
+    ```bash
+    $ beanstalkd
+    ```
 
 6. Start bell services:
 
-       $ bell analyzer -c config.js
-       $ bell listener -c config.js
-       $ bell webapp -c config.js
-       $ bell alerter -c config.js
-       $ bell cleaner -c config.js
-   And I suggest you manage these services with something like supervisord.
+    ```bash
+    $ bell analyzer -c config.js
+    $ bell listener -c config.js
+    $ bell webapp -c config.js
+    $ bell alerter -c config.js
+    $ bell cleaner -c config.js
+    ```
+    And I suggest you manage these services with something like supervisord.
