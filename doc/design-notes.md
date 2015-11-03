@@ -67,8 +67,8 @@ If you expand the this formula, you will find that it dilutes old data's contrib
 later data contributes more to the result, and the `factor` larger, the timeliness better.
 In a word, the result `t` follows the trending of sequence `m`.
 
-Data flow and storage schema
------------------------------
+Data flow
+---------
 
 * The data flow between bell services and external database or clients
   is described below:
@@ -81,14 +81,6 @@ Data flow and storage schema
               |              |
       history |         save v    visualize
               ------------ [ssdb] --------> [webapp]
-   ```
-
-* The datapont storage schema (using sorted set):
-
-   ```
-   key       |  score
-   ------------------------------------------------
-   timestamp | value:anomalous severity:timestamp
    ```
 
 Listener Net Protocol
