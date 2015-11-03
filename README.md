@@ -75,7 +75,7 @@ Bell has 5 services (or process entries):
 1. **listener**
 
     Receive incoming stats from statsd over tcp, pack to jobs and send them 
-    to job queue. It starts on port 2015 by default.
+    to job queue.
 
 2. **analyzer**
 
