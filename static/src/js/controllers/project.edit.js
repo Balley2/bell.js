@@ -77,7 +77,7 @@ app.controller('project.edit', function(self, handlers, util) {
    * Load rules.
    */
   self.loadRules = function() {
-    handlers.rule.gets(id, function(err, rules) {
+    handlers.project.getRules(id, function(err, rules) {
       if (err) {
         handlers.error.error(err, dom.rule.list.error);
         return;
@@ -89,7 +89,7 @@ app.controller('project.edit', function(self, handlers, util) {
    * Load receivers.
    */
   self.loadReceivers = function() {
-    handlers.receiver.gets(id, function(err, receivers) {
+    handlers.project.getReceivers(id, function(err, receivers) {
       if (err) {
         handlers.error.error(err, dom.receiver.list.error);
         return;

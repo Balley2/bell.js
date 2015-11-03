@@ -30,14 +30,6 @@ app.handler('receiver', function(self, util) {
     return util.post(util.url('/api/admin/project/' + id + '/receiver'), data, cb);
   };
   /**
-   * Get receivers by project id.
-   * @param {Number} id
-   * @param {Function} cb
-   */
-  self.gets = function(id, cb) {
-    return util.get(util.url('/api/admin/project/' + id + '/receivers'), cb);
-  };
-  /**
    * Remove receiver from project.
    * @param {Number} projectId
    * @param {Number} receiverId
@@ -45,5 +37,13 @@ app.handler('receiver', function(self, util) {
    */
   self.remove = function(projectId, receiverId, cb) {
     return util.del(util.url('/api/admin/project/' + projectId + '/receiver/' + receiverId), cb);
+  };
+  /**
+   * Get receiver by id.
+   * @param {Number} id
+   * @param {Function} cb
+   */
+  self.get = function(id, cb) {
+    return util.get(util.url('/api/admin/receiver/' + id), cb);
   };
 });

@@ -50,4 +50,20 @@ app.handler('project', function(self, util) {
   self.patch = function(id, name, cb) {
     return util.patch(util.url('/api/admin/project/' + id), {name: name}, cb);
   };
+  /**
+   * Get receivers by project id.
+   * @param {Number} id
+   * @param {Function} cb
+   */
+  self.getReceivers = function(id, cb) {
+    return util.get(util.url('/api/admin/project/' + id + '/receivers'), cb);
+  };
+  /**
+   * Get rules by project id.
+   * @param {Number} id
+   * @param {Function} cb // function(err, data)
+   */
+  self.getRules = function(id, cb) {
+    return util.get(util.url('/api/admin/project/' + id + '/rules'), cb);
+  };
 });

@@ -16,4 +16,61 @@ Edit Receiver
 {% endblock %}
 
 {% block mainContent %}
+<!-- Receiver Edit -->
+<div class="receiver-edit">
+  <form class="form-horizontal col-md-6">
+    <legend>Receiver Edit</legend>
+    <div class="error"></div>
+    <div class="form-group">
+      <label class="col-md-2">Name</label>
+      <div class="col-md-10">
+        <input name="name" type="text" class="form-control" placeholder="Name">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-md-2">Email</label>
+      <div class="col-md-10">
+        <input name="email" type="email" class="form-control" placeholder="Email">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-md-2">Phone</label>
+      <div class="col-md-10">
+        <input name="phone" type="phone" class="form-control" placeholder="Phone">
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-md-offset-2 col-md-10">
+        <div class="checkbox">
+          <label>
+            <input name="enableEmail" type="checkbox" checked="checked"> Enable email
+          </label>
+        </div>
+        <div class="checkbox">
+          <label>
+            <input name="enablePhone" type="checkbox" checked="checked"> Enable phone
+          </label>
+        </div>
+        <div class="checkbox">
+          <label>
+            <input name="universal" type="checkbox"> Universal
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <button type="submit" class="btn btn-primary">Save</button>
+      </div>
+    </div>
+  </form>
+</div>
+{% endblock %}
+
+<!-- Scripts -->
+{# Js entry onload #}
+{% block onload %}app.controllers['receiver.edit'].init(){% endblock %}
+
+{% block script %}
+{{ bindNumber("id", id) }}
 {% endblock %}

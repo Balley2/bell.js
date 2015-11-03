@@ -68,7 +68,7 @@ Receiver
 </div>
 <!-- Receiver List -->
 <div class="receiver-list">
-  <table class="table">
+  <table class="table table-hover">
     <legend>Receivers</legend>
     <div class="error"></div>
     <thead>
@@ -86,13 +86,25 @@ Receiver
   {% raw %}
   <script id="template-receiver-node" type="text/nunjucks">
     <tr data-id="{{ receiver.id }}" style="display: none;">
-      <td class="{% if receiver.enableEmail or receiver.enablePhone %}success{% else %}active{% endif%}">{{ receiver.name }}</td>
-      <td class="{% if receiver.enableEmail %}success{% else %}active{% endif %}">{{ receiver.email }}</td>
-      <td class="{% if receiver.enablePhone %}success{% else %}active{% endif %}">{{ receiver.phone }}</td>
-      <td class="{% if receiver.universal %}success{% else %}active{% endif%}">
+      <td><h5>{{ receiver.name }}</h5></td>
+      <td>
+        {% if receiver.enableEmail %}
+        {{ receiver.email }}
+        {% else %}
+        <s>{{ receiver.email }}</s>
+        {% endif %}
+      </td>
+      <td>
+        {% if receiver.enablePhone %}
+        {{ receiver.phone }}
+        {% else %}
+        <s>{{ receiver.phone }}</s>
+        {% endif %}
+      </td>
+      <td>
         {% if receiver.universal %}Yes{% else %}No{% endif %}
       </td>
-      <td class="info">
+      <td>
         <a href="{{ url('/admin/receiver/' + receiver.id) }}" class="btn btn-primary btn-xs">Edit</a>
       </td>
     </tr>

@@ -16,18 +16,10 @@ app.handler('rule', function(self, util) {
                      data, cb);
   };
   /**
-   * Get rules by project id.
-   * @param {Number} projectId
-   * @param {Function} cb // function(err, data)
-   */
-  self.gets = function(projectId, cb) {
-    return util.get(util.url('/api/admin/project/' + projectId + '/rules'), cb);
-  };
-  /**
    * Delete rules by id.
    * @param {Number} id
-   * @param {Function} cb // function(err, data)
-   */
+I  * @param {Function} cb // function(err, data)
+I  */
   self.del = function(id, cb) {
     return util.del(util.url('/api/admin/rule/' + id), cb);
   };

@@ -235,9 +235,15 @@ app.util.collectForm = function(form) {
  * @param {Object} data
  */
 app.util.fillForm = function(form, data) {
+  var val;
   $(form).find('input,textarea').each(function(i, child) {
     if (child.name in data) {
-      $(child).val(data[child.name]);
+      val = data[child.name];
+      if (child.type === 'checkbox') {
+        $(child).prop('checked', val);
+      } else {
+        $(child).val(val);
+      }
     }
   });
 };
