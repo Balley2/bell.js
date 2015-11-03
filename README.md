@@ -66,3 +66,49 @@ Installation
     $ bell cleaner -c config.js
     ```
     And I suggest you manage these services with something like supervisord.
+
+Services
+--------
+
+Bell has 5 services (or process entries):
+
+1. **listener**
+
+    Receive incoming stats from statsd over tcp, pack to jobs and send them 
+    to job queue. It starts on port 2015 by default.
+
+2. **analyzer**
+
+    Fetch jobs from queue, analyze current stats with history data via 
+    [3-sigma rule](doc/design-notes.md)
+    and send message to alerter once an anomaly was detected.
+
+3. **webapp**
+
+    Visualize analyzation results and provide alerting management.
+
+4. **alerter**
+
+    Alert via email or text message once enough anomalies were detected.
+
+5. **cleaner**
+
+    Clean metrics that has a long time not hitting bell.
+
+Alerter Sender
+---------------
+
+A sender is a nodejs module which should export a function `sendEmail` or
+`sendSms` (or both), see [exampleSender.js](exampleSender.js) for example.
+
+Implementation Notes
+--------------------
+
+- [Anomalies detection algorithm](doc/design-notes.md#anomalies-detection-algorithm)
+- [Eliminate periodicity](doc/design-notes.md#eliminate-periodicity)
+- [Anomalous Serverity Trending](doc/design-notes.md#anomalous-serverity-trending)
+
+License
+-------
+
+MIT Copyright (c) 2014 - 2015 Eleme, Inc.
