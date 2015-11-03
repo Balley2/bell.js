@@ -1,0 +1,52 @@
+{% extends 'admin/layout.html' %}
+
+{# Html class namespace #}
+{% block classNameSpace %}
+{{ super() }}
+project
+{% endblock %}
+
+{% block nav_admin_project_class %}
+class="active"
+{% endblock %}
+
+{# Main #}
+{% block mainTitle %}
+Project
+{% endblock %}
+{% block mainContent %}
+<!-- Project Create -->
+<div class="project-create">
+  <form class="form-inline">
+    <legend>Create</legend>
+    <div class="form-group">
+      <input name="name" type="text" class="form-control" placeholder="Project name">
+    </div>
+    <button type="submit" class="btn btn-primary">Create</button>
+  </form>
+</div><!-- /.container-project-create -->
+<!-- Project List -->
+<div class="project-list">
+  <ul class="list-group">
+    <legend>Projects</legend>
+  </ul>
+  {% raw %}
+  <script id="template-project-node" type="text/nunjucks">
+    <li class="list-group-item" data-id="{{ project.id }}" style="display: none;">
+      <a href="{{ url('/admin/project/' + project.id) }}">
+        {{ project.name }}
+      </a>
+      <a class="btn btn-primary btn-xs pull-right" href="{{ url('/admin/project/' + project.id) }}">
+        Edit
+      </a>
+      <a class="btn btn-info btn-xs pull-right" href="{{ url('/', {project: project.id}) }}">
+        View
+      </a>
+    </li>
+  </script>
+  {% endraw %}
+</div><!-- /.container-project-list -->
+{% endblock %}
+<!-- Scripts -->
+{# Js entry onload #}
+{% block onload %}app.controllers.project.init(){% endblock %}

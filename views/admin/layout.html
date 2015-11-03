@@ -1,0 +1,22 @@
+{% extends 'layout.html' %}
+
+{# Html class namespace #}
+{% block classNameSpace %}admin{% endblock %}
+
+{# Sidebar #}
+{% block sidebarTitle %}
+Navigation
+{% endblock %}
+
+{% block sidebarContent %}
+<ul class="nav nav-pills nav-stacked">
+  <li {% block nav_admin_project_class %}{% endblock %}><a href="{{ url('/admin/project') }}">Project</a></li>
+  <li {% block nav_admin_receiver_class %}{% endblock %}><a href="{{ url('/admin/receiver') }}">Receiver</a></li>
+  <li {% block nav_admin_config_class %}{% endblock %}><a href="{{ url('/admin/config') }}">Configuration</a></li>
+</ul>
+{% endblock %}
+
+{# Navbar right #}
+{% block navbarRight %}
+<li><a href="{{ url('/') }}">Index</a></li>
+{% endblock %}

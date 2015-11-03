@@ -1,0 +1,175 @@
+{% extends "layout.html" %}
+
+{# Get clean url by switching params with key-value pairs #}
+{% macro switch(pairs) %}
+{{ url('/', switchParams(params, pairs)) }}
+{% endmacro %}
+
+{# Html class namespace #}
+{% block classNameSpace %}index{% endblock %}
+
+{# Navbar right #}
+{% block navbarRight %}
+<li><a href="{{ url('/admin') }}">Administration</a></li>
+{% endblock %}
+
+{# Navbar search form #}
+{% block navbarCollapse %}
+<form class="navbar-form navbar-left" action="{{ url('/') }}" method="get">
+  <div class="form-group">
+    <div class="input-group">
+      <input name="pattern" type="text" class="form-control" placeholder="Search by wildcard">
+      <span class="input-group-btn">
+        <button class="btn btn-primary" type="submit">Go</button>
+      </span>
+    </div>
+  </div>
+</form>
+{% endblock %}
+
+{# Sidebar #}
+{% block sidebarTitle %}
+Projects
+{% endblock %}
+
+{% block sidebarContent %}
+<ul id="projects" class="nav nav-pills nav-stacked">
+  {% raw %}
+  <script id="template-project-node" type="text/nunjucks">
+    <li {% if current == project.id %}class="active"{% endif %}>
+      <a href="{{ url }}">{{ project.name }}</a>
+    </li>
+  </script>
+  {% endraw %}
+</ul>
+{% endblock %}
+
+{# Main #}
+{% block mainTitle %}
+{% if params.project %}
+Project:
+<span class="current-project-name">{{ params.project }}</span>
+<div class="pull-right">
+  <a class="btn btn-default btn-xs" href="{{ url('/admin/project/' + params.project) }}">Edit</a>
+</div>
+{% else %}
+Pattern: {{ params.pattern }}
+{% endif %}
+{% endblock %}
+
+{% block mainContent %}
+<!-- Query statistics -->
+<div id="query-statistics"></div>
+{% raw %}
+<script id="template-query-statistics" type="text/nunjucks">
+  {% if total == 0 %}
+    {% set className = "info" %}
+  {% elif mcount == 0 %}
+    {% set className = "success" %}
+  {% elif mcount / total > 0.5 %}
+    {% set className = "danger" %}
+  {% else %}
+    {% set className = "warning" %}
+  {% endif %}
+  <div class="alert alert-dismissible alert-{{ className }}">
+  <button type="button" class="close" data-dismiss="alert">x</button>
+  <p class="query-statistics">
+    <span>Number metrics hit: <strong>{{ total }}</strong></span>
+    <span>Number metrics return: <strong>{{ names.length }}</strong></span>
+    <span>Number metrics anomalous: <strong>{{ mcount }}</strong></span>
+  </p>
+  </div>
+</script>
+{% endraw %}
+
+<!-- Query options tabs -->
+<ul class="nav nav-tabs">
+  <!-- Tab `past` -->
+  {# tabMap = {past: meaning} #}
+  {% set tabMap = {
+  '0s': 'Now',
+  '3h': '3 hours ago',
+  '6h': '6 hours ago',
+  '1d': '1 day ago',
+  '2d': '2 days ago'
+  } %}
+  {% for key, val in tabMap %}
+  <li {% if params.past == key %}class="active"{% endif %}>
+    <a href="{{ switch({past: key}) }}">{{ val }}</a>
+  </li>
+  {% endfor %}
+  {% if not tabMap.hasOwnProperty(params.past) %}
+  <li class="active">
+    <a href="{{ switch({past: params.past}) }}">{{ params.past }}</a>
+  </li>
+  {% endif %}
+  <!-- Tab `reset` -->
+  <li class="dropdown pull-right">
+    <a href="{{ url('/', {project: params.project} if params.project else {pattern: params.pattern}) }}">
+      Reset
+    </a>
+  </li>
+  <!-- Tab `switch` -->
+  <li class="dropdown pull-right">
+    <a href="{{ switch({type: 'v' if params.type == 'm' else 'm'}) }}">Switch</a>
+  </li>
+  <!-- Tab `stop` -->
+  <li class="dropdown pull-right">
+    <a href="{{ switch({stop: 0 if params.stop == 1 else 1 })}}">Pause</a>
+  </li>
+  <!-- Tab sort -->
+  <li class="dropdown pull-right">
+    <a class="dropdown-toggle" data-toggle="dropdown" href="javascript: void(0);" aria-expanded="true">
+      Sort {{ params.sort }}
+      <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu">
+       <li><a href="{{ switch({sort: 'up'}) }}">Trending Up</a></li>
+       <li><a href="{{ switch({sort: 'down'}) }}">Trending Down</a></li>
+    </ul>
+  </li>
+  <!-- Tab limit -->
+  <li class="dropdown pull-right">
+    <a class="dropdown-toggle" data-toggle="dropdown" href="javascript: void(0);" aria-expanded="true">
+      Limit {{ params.limit }}
+      <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu">
+      {% for limit in [1, 30, 50, 100, 500, 1000] %}
+      <li><a href="{{ switch({limit: limit}) }}">{{ limit }}</a></li>
+      {% endfor %}
+    </ul>
+  </li>
+</ul>
+
+<!-- Chart -->
+<div class="chart-box-top chart-box-force-scrollbar">
+  <div class="chart-box-top-div">
+  </div>
+</div>
+<div class="chart-box chart-box-force-scrollbar">
+  <div class="chart" id="chart">
+    <div class="loader" id="loader">
+      <img src="{{ url('/public/img/spinner.gif') }}"/>
+    </div>
+  </div>
+</div>
+{% raw %}
+<script id="template-title" type="text/nunjucks">
+  <a id="title-{{ name }}" class="{{ className }}" href="{{ url }}">
+    <span id="title-trend-{{ name }}">{{ trendText }}</span>
+    {{ name }}
+  </a>
+</script>
+{% endraw %}
+{% endblock %}
+
+<!-- Scripts -->
+{# Js entry onload #}
+{% block onload %}app.controllers.index.init(){% endblock %}
+
+{% block script %}
+{{ super() }}
+{{ bindJSON('options', params) }}
+{{ bindNumber('interval', config.interval) }}
+{% endblock %}

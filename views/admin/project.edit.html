@@ -1,0 +1,161 @@
+{% extends 'admin/layout.html' %}
+
+{# Html class namespace #}
+{% block classNameSpace %}
+{{ super() }}
+project-edit
+{% endblock %}
+
+{% block nav_admin_project_class %}
+class="active"
+{% endblock %}
+
+{# Main #}
+{% block mainTitle %}
+Edit Project
+<div class="pull-right">
+  <a class="btn btn-default btn-xs" href="{{ url('/', {project: id}) }}">View</a>
+</div>
+{% endblock %}
+{% block mainContent %}
+<!-- Project Name -->
+<div class="project-edit-section section-project-name">
+  <legend>Name</legend>
+  <div class="row">
+    <form class="form-inline col-md-6">
+      <div class="error"></div>
+      <div class="form-group">
+        <input name="name" type="text" class="form-control">
+      </div>
+      <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+  </div>
+</div>
+
+<!-- Project Rules -->
+<div class="project-edit-section section-project-rules">
+  <legend>Rules</legend>
+  <!-- Project Add Rule -->
+  <form class="form-horizontal rule-add">
+    <div class="error"></div>
+    <div class="form-group">
+      <label class="col-md-2">Pattern</label>
+      <div class="col-md-10">
+        <input name="pattern" type="text" class="form-control" placeholder="Pattern">
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-md-2">Alerting</label>
+      <div class="col-md-10">
+        <div class="input-group">
+          <span class="input-group-addon">
+            <input name="up" type="checkbox" checked="checked">
+            on anomalous raising trend ↑ </span>
+          <span class="input-group-addon">
+            <input name="down" type="checkbox" checked="checked">
+            on anomalous decline trend ↓
+          </span>
+        </div>
+        <div class="input-group">
+          <span class="input-group-addon">
+            alert only when metric value >=
+          </span>
+          <input name="min" type="text" class="rule-value form-control" placeholder="optional number">
+        </div>
+        <div class="input-group">
+          <span class="input-group-addon">
+            alert only when metric value <=
+          </span>
+          <input name="max" type="text" class="rule-value form-control" placeholder="optional number">
+        </div>
+      </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Add</button>
+    <button type="reset" class="btn btn-default">Reset</button>
+  </form>
+  <hr>
+  <ol class="list-group rule-list col-md-10">
+    <div class="error"></div>
+    {% raw %}
+    <script id="template-rule-node" type="text/nunjucks">
+      <li class="list-group-item" data-id="{{ rule.id }}" style="display: none;">
+        <kbd>{{ rule.pattern }}</kbd>
+        <button type="button" data-id="{{ rule.id }}" class="btn btn-xs btn-danger pull-right rule-delete">delete</button>
+        <code class="pull-right">
+          {% if rule.up %}trend ↑{% endif %}
+          {% if rule.up and rule.down %}or{% endif %}
+          {% if rule.down %}trend ↓{% endif %}
+          {% if rule.min != null or rule.max != null %}and{% endif %}
+          {% if rule.min != null %}{{ rule.min }} <= {% endif %}
+          {% if rule.min != null or rule.max != null %}value{% endif %}
+          {% if rule.max != null %} <= {{ rule.max }}{% endif %}
+        </code>
+      </li>
+    </script>
+    {% endraw %}
+  </ol>
+</div>
+
+<!-- Project Receivers -->
+<div class="project-edit-section section-project-receivers">
+  <legend>Receivers</legend>
+  <div class="row">
+    <form class="form-inline col-md-6 receiver-add">
+      <div class="error"></div>
+      <div class="form-group">
+        <input name="name" type="text" class="form-control" placeholder="Receiver name">
+      </div>
+      <button type="submit" class="btn btn-primary">Add</button>
+    </form>
+  </div>
+  <hr>
+  <ol class="list-group receiver-list col-md-5">
+    <div class="error"></div>
+    {% raw %}
+    <script id="template-receiver-node" type="text/nunjucks">
+      <li class="list-group-item" data-id="{{ receiver.id }}" style="display: none;">
+        <a href="{{ url('/admin/receiver/' + receiver.id) }}">{{ receiver.name }}</a>
+        {% if receiver.universal %}
+        <span class="label label-success pull-right">universal</span>
+        {% else %}
+        <button type="button" data-id="{{ receiver.id }}" class="btn btn-xs btn-danger pull-right receiver-remove">remove</button>
+        {% endif %}
+      </li>
+    </script>
+    {% endraw %}
+  </ol>
+</div>
+
+<!-- Project Delete -->
+<div class="project-edit-section section-project-delete">
+  <legend>Delete</legend>
+  <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#project-delete-modal">Delete</button>
+  <div class="modal" tabindex="-1" id="project-delete-modal">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Confirm</h4>
+        </div>
+        <div class="modal-body">
+          <p>This will delete <strong>this project with all its rules and receivers</strong>,
+          do you want to proceed?</p>
+          <div class="error"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary project-delete-confirmed">Confirmed</button>
+        </div>
+      </div>
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+</div>
+{% endblock %}
+
+<!-- Scripts -->
+{# Js entry onload #}
+{% block onload %}app.controllers['project.edit'].init(){% endblock %}
+
+{% block script %}
+{{ bindNumber("id", id) }}
+{% endblock %}

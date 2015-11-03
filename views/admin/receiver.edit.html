@@ -1,0 +1,111 @@
+{% extends 'admin/layout.html' %}
+
+{# Html class namespace #}
+{% block classNameSpace %}
+{{ super() }}
+receiver-edit
+{% endblock %}
+
+{% block nav_admin_receiver_class %}
+class="active"
+{% endblock %}
+
+{# Main #}
+{% block mainTitle %}
+Edit Receiver
+{% endblock %}
+
+{% block mainContent %}
+<!-- Receiver Edit -->
+<div class="receiver-edit">
+  <div class="row">
+    <form class="form-horizontal col-md-6">
+      <legend>Receiver</legend>
+      <div class="error"></div>
+      <div class="form-group">
+        <label class="col-md-2">Name</label>
+        <div class="col-md-10">
+          <input name="name" type="text" class="form-control" placeholder="Name">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-md-2">Email</label>
+        <div class="col-md-10">
+          <input name="email" type="email" class="form-control" placeholder="Email">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-md-2">Phone</label>
+        <div class="col-md-10">
+          <input name="phone" type="phone" class="form-control" placeholder="Phone">
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+          <div class="checkbox">
+            <label>
+              <input name="enableEmail" type="checkbox" checked="checked"> Enable email
+            </label>
+          </div>
+          <div class="checkbox">
+            <label>
+              <input name="enablePhone" type="checkbox" checked="checked"> Enable phone
+            </label>
+          </div>
+          <div class="checkbox">
+            <label>
+              <input name="universal" type="checkbox"> Universal
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+          <button type="submit" class="btn btn-primary">Save</button>
+          <button type="button" class="btn btn-danger pull-right" data-toggle="modal" data-target="#receiver-delete-modal">Delete</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<!-- Receiver Delete -->
+<div class="modal" tabindex="-1" id="receiver-delete-modal">
+<div class="modal-dialog modal-sm">
+  <div class="modal-content">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      <h4 class="modal-title">Confirm</h4>
+    </div>
+    <div class="modal-body">
+      <p>This will delete <strong>this receiver with all its projects</strong>,
+      do you want to proceed?</p>
+      <div class="error"></div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+      <button type="button" class="btn btn-primary receiver-delete-confirmed">Confirmed</button>
+    </div>
+  </div>
+</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!-- Receiver Projects -->
+<div class="receiver-projects">
+<div class="list-group project-list col-md-6">
+  <legend>Projects</legend>
+  <div class="error"></div>
+  {% raw %}
+  <script id="template-project-node" type="text/nunjucks">
+    <a href="{{ url('/admin/project/' + project.id) }}" class="list-group-item">{{ project.name }}</a>
+  </script>
+  {% endraw %}
+</div>
+</div>
+{% endblock %}
+
+<!-- Scripts -->
+{# Js entry onload #}
+{% block onload %}app.controllers['receiver.edit'].init(){% endblock %}
+
+{% block script %}
+{{ bindNumber("id", id) }}
+{% endblock %}

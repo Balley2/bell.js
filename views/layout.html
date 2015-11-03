@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bell - Metrics Monitor</title>
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="{{ url('/public/img/bell.png') }}">
+    <!-- Include styles -->
+    <link href="{{ url('/public/css/all.min.css') }}" rel="stylesheet">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body class="layout {% block classNameSpace %} {% endblock%}" onload="{% block onload %}{% endblock %}">
+    <!-- Navbar -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="{{ url('/') }}">
+            Bell - Metrics Monitor </a>
+        </div>
+        <div class="collapse navbar-collapse">
+          {% block navbarCollapse %}
+          {% endblock %}
+          <ul class="nav navbar-nav navbar-right">
+            {% block navbarRight %}
+            {% endblock %}
+          </ul>
+        </div>
+      </div><!-- /.container-fluid -->
+    </nav>
+    <!-- Container -->
+    <div class="container-fluid container">
+      <div class="row">
+        <!-- Sidebar -->
+        <div class="col-md-2 sidebar">
+          <div class="panel panel-primary">
+            <div class="panel-heading">
+              <h3 class="panel-title">
+                {% block sidebarTitle %}
+                {% endblock %}
+              </h3>
+            </div>
+            <div class="panel-body">
+              {% block sidebarContent %}
+              {% endblock %}
+            </div>
+          </div>
+        </div><!-- /.sidebar -->
+        <!-- Main -->
+        <div class="col-md-10 main">
+          <div class="panel panel-primary">
+            <div class="panel-heading">
+              <h3 class="panel-title">
+                {% block mainTitle %}
+                {% endblock %}
+              </h3>
+            </div>
+            <div class="panel-body">
+              <div id="error">
+                {% raw %}
+                <script id="template-error" type="text/nunjucks">
+                  <div class="alert alert-{{ type }}">{{ msg }}</div>
+                </script>
+                {% endraw %}
+              </div>
+              {% block mainContent %}
+              {% endblock %}
+            </div>
+          </div>
+        </div><!-- /.main -->
+      </div>
+    </div><!-- /.container -->
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <p class="text-muted">Built and maintained by <a href="{{ package.author.url }}">{{ package.author.name }}</a>.
+        Code licensed under MIT (c) Eleme, Inc and hosted on <a href="{{ package.repository.url }}">Github</a>.</p>
+      </div>
+    </footer><!-- /.footer-->
+    <script>
+      {# Bind data to javascript global window #}
+      {% macro bindJSON(key, obj) %}
+      window._ctx.{{ key }} = {{ JSON.stringify(obj) | safe }};
+      {% endmacro %}
+      {% macro bindString(key, str) %}
+      window._ctx.{{ key }} = "{{ str | safe }}";
+      {% endmacro %}
+      {% macro bindNumber(key, val) %}
+      window._ctx.{{ key }} = {{ val }};
+      {% endmacro %}
+
+      window._ctx = {};
+      {% if config.webapp.root %}
+      window._ctx.root = "{{ config.webapp.root }}";
+      {% endif %}
+      {% block script %}
+      {% endblock %}
+    </script>
+    <!-- Include scripts -->
+    <script src="{{ url('/public/js/all.min.js') }}"></script>
+  </body>
+</html>

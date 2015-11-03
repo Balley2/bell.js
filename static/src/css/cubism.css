@@ -1,0 +1,60 @@
+/**
+ * Cubism custom styles.
+ */
+.index .axis {
+  font: 12px sans-serif;
+}
+
+.index .axis text {
+  -webkit-transition: fill-opacity 250ms linear;
+}
+
+.index .axis path {
+  display: none;
+}
+
+.index .axis line {
+  stroke: #333;
+  shape-rendering: crispEdges;
+}
+
+.index .horizon {
+  overflow: hidden;
+  position: relative;
+}
+
+.index .horizon {
+  border-top: solid 1px #000;
+  border-bottom: solid 1px #000;
+}
+
+.index .horizon + .horizon {
+  border-top: none;
+}
+
+.index .horizon canvas {
+  display: block;
+}
+
+.index .horizon .title,
+.index .horizon .value {
+  bottom: 0;
+  line-height: 32px;
+  margin: 0 6px;
+  position: absolute;
+  text-shadow: 0 1px 0 rgba(255,255,255,.5);
+  white-space: nowrap;
+}
+
+.index .horizon .title {
+  left: 0;
+}
+
+.index .horizon .value {
+  right: 0;
+}
+
+.index .line {
+  background: black;
+  z-index: 1000;
+}
