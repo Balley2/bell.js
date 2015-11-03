@@ -19,6 +19,10 @@ app.controller('receiver.edit', function(self, handlers, util) {
   self.init = function() {
     id = window._ctx.id;
     self.loadReceiver();
+    self.initEvents();
+  };
+  self.initEvents = function() {
+    dom.edit.form.submit(self.patchReceiver);
   };
   //------------------------------------------------------
   // Loaders
@@ -30,6 +34,26 @@ app.controller('receiver.edit', function(self, handlers, util) {
         return;
       }
       util.fillForm(dom.edit.form, receiver);
+    });
+  };
+  //------------------------------------------------------
+  // Event listeners
+  //------------------------------------------------------
+  /**
+   * @param {Event} event
+   */
+  self.patchReceiver = function(event) {
+    event.preventDefault();
+    var data = util.collectForm(dom.edit.form);
+    data.universal = data.universal === 'on';
+    data.enableEmail = data.enableEmail === 'on';
+    data.enablePhone = data.enablePhone === 'on';
+    handlers.receiver.patch(id, data, function(err, data) {
+      if (err) {
+        handlers.error.error(err, dom.edit.error);
+        return;
+      }
+      handlers.error.ok("Saved", dom.edit.error);
     });
   };
 });
