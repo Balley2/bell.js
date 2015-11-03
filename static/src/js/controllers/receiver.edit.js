@@ -12,7 +12,10 @@ app.controller('receiver.edit', function(self, handlers, util) {
   var dom = {};
   dom.edit = {};
   dom.edit.form = $('.receiver-edit form');
-  dom.edit.error = $('.receiver-edit .error');
+  dom.edit.error = $('.receiver-edit form .error');
+  dom.del = {};
+  dom.del.button = $('.receiver-delete-confirmed');
+  dom.del.error = $('#receiver-delete-modal .error');
   dom.projects = {};
   dom.projects.list = $('.receiver-projects .project-list');
   dom.projects.error = $('.receiver-projects .error');
@@ -28,6 +31,7 @@ app.controller('receiver.edit', function(self, handlers, util) {
   };
   self.initEvents = function() {
     dom.edit.form.submit(self.patchReceiver);
+    dom.del.button.click(self.deleteReceiver);
   };
   //------------------------------------------------------
   // Loaders
@@ -79,6 +83,21 @@ app.controller('receiver.edit', function(self, handlers, util) {
         return;
       }
       handlers.error.ok("Saved", dom.edit.error);
+    });
+  };
+  /**
+   * @param {Event} event
+   */
+  self.deleteReceiver = function(event) {
+    handlers.receiver.del(id, function(err, data) {
+      if (err) {
+        handlers.error.error(err, dom.del.error);
+        return;
+      };
+      handlers.error.ok("Deleted, redirecting page in 2 seconds..", dom.del.error);
+      setTimeout(function() {
+        window.location.href = util.url('/admin/receiver');
+      }, 2000);
     });
   };
 });

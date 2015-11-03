@@ -63,4 +63,12 @@ app.handler('receiver', function(self, util) {
   self.getProjects = function(id, cb) {
     return util.get(util.url('/api/admin/receiver/' + id + '/projects'), cb);
   };
+  /**
+   * Delete receiver by id.
+   * @param {Number} id
+   * @param {Function} cb
+   */
+  self.del = function(id, cb) {
+    return util.del(util.url('/api/admin/receiver/' + id), cb);
+  };
 });
