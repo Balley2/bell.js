@@ -93,7 +93,7 @@ app.controller('receiver.edit', function(self, handlers, util) {
       if (err) {
         handlers.error.error(err, dom.del.error);
         return;
-      };
+      }
       handlers.error.ok("Deleted, redirecting page in 2 seconds..", dom.del.error);
       setTimeout(function() {
         window.location.href = util.url('/admin/receiver');
