@@ -23,7 +23,8 @@
  *
  * Listener Options
  *   port           listener port to listen. [default: 2015]
- *   whitelist      metrics whitelist. [auto reloading, default: ['*']]
+ *   whitelist      metrics whitelist. if set empty `[]`, rule patterns from sqlite
+ *                  will be used. [auto reloading, default: ['*']]
  *   blacklist      metrics blacklist. [auto reloading, default: ['statsd.*']]
  *                  listener will allow one metric to pass only if it matches one
  *                  pattern in whitelist and dosen't match any pattern in blacklist.
