@@ -107,7 +107,7 @@ app.controller('project.edit', function(self, handlers, util) {
    */
   self.appendRuleNode = function(rule, speed) {
     var template = dom.rule.list.template.html();
-    var html = nunjucks.renderString(template, {rule: rule});
+    var html = nunjucks.renderString(template, {rule: rule, url: util.url});
     dom.rule.list.list.append(html);
     var selector = util.format(".rule-list li[data-id*=%d]", rule.id);
     $(selector).appendTo(dom.rule.list.list).show(speed);

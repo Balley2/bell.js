@@ -78,7 +78,7 @@ Edit Project
       {% raw %}
       <script id="template-rule-node" type="text/nunjucks">
         <li class="list-group-item" data-id="{{ rule.id }}" style="display: none;">
-        <kbd>{{ rule.pattern }}</kbd>
+        <kbd><a href="{{ url('/', {pattern: rule.pattern}) }}">{{ rule.pattern }}</a></kbd>
         <button type="button" data-id="{{ rule.id }}" class="btn btn-xs btn-danger pull-right rule-delete">delete</button>
         <code class="pull-right">
           {% if rule.up %}trend ↑{% endif %}
