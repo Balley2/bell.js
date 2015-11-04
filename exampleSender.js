@@ -5,12 +5,13 @@
 const util = require('util');
 
 /**
- * @param {String} email
+ * @param {Object} receiver
  * @param {Object} project
  * @param {Object} data
  * @param {Logger} log
  */
-exports.sendEmail = function(email, project, data, log) {
+exports.sendEmail = function(receiver, project, data, log) {
+  var email = receievr.email;
   var projectName = project.name;
   var date = new Date(data.stamp * 1000).toTimeString().slice(0, 8);
   var value = data.value.toFixed(2);
@@ -18,6 +19,6 @@ exports.sendEmail = function(email, project, data, log) {
   // format message and send email
 };
 
-exports.sendSms = function(phone, project, data, log) {
+exports.sendSms = function(receiver, project, data, log) {
   // similar with `sendEmail`
 };
