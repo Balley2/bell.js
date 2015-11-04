@@ -40,7 +40,7 @@ Installation
 
     ```js
     {
-    , backends: ['bell']
+    , backends: ['bell.js']
     }
     ```
 
