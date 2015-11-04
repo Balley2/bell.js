@@ -29,6 +29,11 @@
   margin-right: 10px;
 }
 
+.admin.project-edit .section-project-rules .rule-list kbd a {
+  color: white;
+}
+
+
 .admin.project-edit .section-project-receivers .form-inline input[name*=name] {
   width: 200px;
 }

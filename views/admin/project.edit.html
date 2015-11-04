@@ -18,10 +18,10 @@ Edit Project
 </div>
 {% endblock %}
 {% block mainContent %}
-<!-- Project Name -->
-<div class="project-edit-section section-project-name">
-  <legend>Name</legend>
-  <div class="row">
+<div class="container-fluid">
+  <!-- Project Name -->
+  <div class="project-edit-section section-project-name row">
+    <legend>Name</legend>
     <form class="form-inline col-md-6">
       <div class="error"></div>
       <div class="form-group">
@@ -30,56 +30,55 @@ Edit Project
       <button type="submit" class="btn btn-primary">Save</button>
     </form>
   </div>
-</div>
 
-<!-- Project Rules -->
-<div class="project-edit-section section-project-rules">
-  <legend>Rules</legend>
-  <!-- Project Add Rule -->
-  <form class="form-horizontal rule-add">
-    <div class="error"></div>
-    <div class="form-group">
-      <label class="col-md-2">Pattern</label>
-      <div class="col-md-10">
-        <input name="pattern" type="text" class="form-control" placeholder="Pattern">
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="col-md-2">Alerting</label>
-      <div class="col-md-10">
-        <div class="input-group">
-          <span class="input-group-addon">
-            <input name="up" type="checkbox" checked="checked">
-            on anomalous raising trend ↑ </span>
-          <span class="input-group-addon">
-            <input name="down" type="checkbox" checked="checked">
-            on anomalous decline trend ↓
-          </span>
-        </div>
-        <div class="input-group">
-          <span class="input-group-addon">
-            alert only when metric value >=
-          </span>
-          <input name="min" type="text" class="rule-value form-control" placeholder="optional number">
-        </div>
-        <div class="input-group">
-          <span class="input-group-addon">
-            alert only when metric value <=
-          </span>
-          <input name="max" type="text" class="rule-value form-control" placeholder="optional number">
+  <!-- Project Rules -->
+  <div class="project-edit-section section-project-rules row">
+    <legend>Rules</legend>
+    <!-- Project Add Rule -->
+    <form class="form-horizontal rule-add">
+      <div class="error"></div>
+      <div class="form-group">
+        <label class="col-md-2">Pattern</label>
+        <div class="col-md-10">
+          <input name="pattern" type="text" class="form-control" placeholder="Pattern">
         </div>
       </div>
-    </div>
-    <button type="submit" class="btn btn-primary">Add</button>
-    <button type="reset" class="btn btn-default">Reset</button>
-  </form>
-  <hr>
-  <ol class="list-group rule-list col-md-10">
-    <div class="error"></div>
-    {% raw %}
-    <script id="template-rule-node" type="text/nunjucks">
-      <li class="list-group-item" data-id="{{ rule.id }}" style="display: none;">
-        <kbd>{{ rule.pattern }}</kbd>
+      <div class="form-group">
+        <label class="col-md-2">Alerting</label>
+        <div class="col-md-10">
+          <div class="input-group">
+            <span class="input-group-addon">
+              <input name="up" type="checkbox" checked="checked">
+              on anomalous raising trend ↑ </span>
+            <span class="input-group-addon">
+              <input name="down" type="checkbox" checked="checked">
+              on anomalous decline trend ↓
+            </span>
+          </div>
+          <div class="input-group">
+            <span class="input-group-addon">
+              alert only when metric value >=
+            </span>
+            <input name="min" type="text" class="rule-value form-control" placeholder="optional number">
+          </div>
+          <div class="input-group">
+            <span class="input-group-addon">
+              alert only when metric value <=
+            </span>
+            <input name="max" type="text" class="rule-value form-control" placeholder="optional number">
+          </div>
+        </div>
+      </div>
+      <button type="submit" class="btn btn-primary">Add</button>
+      <button type="reset" class="btn btn-default">Reset</button>
+    </form>
+    <hr>
+    <ol class="list-group rule-list col-md-10">
+      <div class="error"></div>
+      {% raw %}
+      <script id="template-rule-node" type="text/nunjucks">
+        <li class="list-group-item" data-id="{{ rule.id }}" style="display: none;">
+        <kbd><a href="{{ url('/', {pattern: rule.pattern}) }}">{{ rule.pattern }}</a></kbd>
         <button type="button" data-id="{{ rule.id }}" class="btn btn-xs btn-danger pull-right rule-delete">delete</button>
         <code class="pull-right">
           {% if rule.up %}trend ↑{% endif %}
@@ -91,15 +90,14 @@ Edit Project
           {% if rule.max != null %} <= {{ rule.max }}{% endif %}
         </code>
       </li>
-    </script>
-    {% endraw %}
-  </ol>
-</div>
+      </script>
+      {% endraw %}
+    </ol>
+  </div>
 
-<!-- Project Receivers -->
-<div class="project-edit-section section-project-receivers">
-  <legend>Receivers</legend>
-  <div class="row">
+  <!-- Project Receivers -->
+  <div class="project-edit-section section-project-receivers row">
+    <legend>Receivers</legend>
     <form class="form-inline col-md-6 receiver-add">
       <div class="error"></div>
       <div class="form-group">
@@ -149,6 +147,7 @@ Edit Project
       </div>
     </div><!-- /.modal-dialog -->
   </div><!-- /.modal -->
+</div>
 </div>
 {% endblock %}
 
