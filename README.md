@@ -151,7 +151,7 @@ Bell has 5 services (or process entries):
 
     Clean metrics that has a long time not hitting bell.
 
-Start them all, and I suggest you manage these services with some process manager
+Start them all, and I suggest you to manage these services with some process manager
 like [supervisord](https://github.com/Supervisor/supervisor):
 
 ```bash
@@ -165,9 +165,10 @@ $ bell cleaner -c config.js
 Alerting Sender
 ---------------
 
-Alerting sender is the only item that is a little bit diffcult 
+Alerting sender is the only item that is a little bit difficult 
 but must be customized by yourself. It's a nodejs script (or module)
-which will be called from bell alerter on anomalies detected. The sender
+which will be called from bell alerter on anomalies detected, in order to
+alert receivers via emails or text messages. The sender script
 should export a function `sendEmail` or `sendSms` (or both), you may want to 
 see [exampleSender.js](exampleSender.js) for example.
 
