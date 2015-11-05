@@ -16,6 +16,7 @@ exports.sendEmail = function(receiver, project, data, log) {
   var date = new Date(data.stamp * 1000).toTimeString().slice(0, 8);
   var value = data.value.toFixed(2);
   var trend = data.trend.toFixed(2);
+  var mean = data.mean.toFixed(2);
   // format message and send email
 };
 
