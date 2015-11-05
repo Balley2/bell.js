@@ -12,12 +12,43 @@ metrics form [statsd](https://github.com/etsy/statsd), analyzes them with the
 [3-sigma](docs/design-notes.md), once enough anomalies were found in a short 
 time it alerts us via sms/email etc.
 
+Use Case
+--------
+
 We [eleme](github.com/eleme) use it to monitor our website/rpc interfaces,
 including api called frequency, api response time(time cost per call) and
 exceptions count. Our services send these statistics to statsd, statsd
 aggregates them every 10 seconds and broadcasts the results to its backends
 including bell, bell analyzes current stats with history data, calculates
 the trending, and alerts us if the trending behaves anomalous.
+
+For example, we have an api named `get_name`, this api's response time (in ms)
+is reported to bell from statsd every 10 seconds:
+
+```
+51, 53, 49, 48, 45, 50, 51, 52, 55, 56, .., 300
+```
+
+Bell will catch the latest stat `300` and report it as an anomaly.
+
+Why don't we just set a fixed threshold instead (i.e. 200ms)? This may also work 
+but we may have a lot of apis to monitor, some are fast (~10ms) and some are slow
+(~1000ms), it is hard to set a good threshold for each one, and also hard to set 
+an appropriate global threshold for all. Bell sloves this via [3-sigma](doc/design-notes.md),
+it gives dynamic thresholds for each metric ("learned" from history data). We 
+don't have to set a threshold for each metric, it will find the "thresholds" automatically.
+
+Features
+--------
+
+* Automatically anomalies detection.
+* Anomalies visualization on the web.
+* Alerting rules administration.
+* Metrics comes from [statsd](https://github.com/etsy/statsd).
+
+If you think that bell is too complicated, you may check out our
+[noise](https://github.com/eleme/noise), which is simpler and faster but only
+for anomalies detection.
 
 Requirements
 ------------
