@@ -32,6 +32,12 @@ co(function *() {
           function(l) { return log[l.toUpperCase()]; }, log.INFO)
   .parse(process.argv);
 
+  serviceName = program.args[0];
+
+  if (!serviceName) {
+    program.help();
+  }
+
   //----------------------------------------------------
   // Initialize logging
   //----------------------------------------------------
@@ -45,12 +51,6 @@ co(function *() {
   //----------------------------------------------------
   // Start service
   //----------------------------------------------------
-  serviceName = program.args[0];
-
-  if (!serviceName) {
-    program.help();
-  }
-
   service = {
     listener: require('./lib/listener'),
     analyzer: require('./lib/analyzer'),
