@@ -15,7 +15,7 @@ time it alerts us via sms/email etc.
 Use Case
 --------
 
-We [eleme](github.com/eleme) use it to monitor our website/rpc interfaces,
+We [eleme](https://github.com/eleme) use it to monitor our website/rpc interfaces,
 including api called frequency, api response time(time cost per call) and
 exceptions count. Our services send these statistics to statsd, statsd
 aggregates them every 10 seconds and broadcasts the results to its backends
@@ -42,13 +42,13 @@ Features
 --------
 
 * Automatically anomalies detection.
+* Designed for periodic metrics.
 * Anomalies visualization on the web.
 * Alerting rules administration.
-* Metrics comes from [statsd](https://github.com/etsy/statsd).
 
-If you think that bell is too complicated, you may check out our
+*If you think that bell is too complicated, you may check out our
 [noise](https://github.com/eleme/noise), which is simpler and faster but only
-for anomalies detection.
+for anomalies detection.*
 
 Requirements
 ------------
@@ -60,43 +60,68 @@ Requirements
 Installation
 ------------
 
-1. Install `bell` as a system command:
+Bell is written in [Node.js](https://nodejs.org), and requires node.js v0.12+
+(*generator feature*).
+
+Install `bell` as a system command via [npm](https://www.npmjs.com):
+
+```bash
+$ npm instal bell.js -g
+```
+
+Configuration
+-------------
+
+You can download [exampleConfig.js](https://github.com/eleme/bell.js/raw/master/exampleConfig.js)
+and edit the configuration items according to documentation and default values in the
+script comments.
+
+*Bell has [5 services](#services)(or components), they share the same configuration.*
+
+Statsd Integration
+------------------
+
+Currently, bell onlys support [statsd](https://github.com/etsy/statsd) as data source.
+
+In order to forward metrics to bell from statsd, we should add `bell.js` to statsd's
+backends:
+
+1. Install `bell.js` on your statsd server.
 
     ```bash
-    $ npm instal bell.js -g
+    $ cd path/to/statsd
+    $ npm install bell.js
     ```
-
-2. Create config file according to [exampleConfig.js](exampleConfig.js).
-3. Add module `bell` to statsd's backends in its config.js.
+2. Add module `bell.js` to statsd's backends:
 
     ```js
     {
     , backends: ['bell.js']
+    , bellHost: 'localhost'
+    , bellPort: 2015
     }
     ```
 
-4. Start ssdb-server:
+Storage and Job Queue
+---------------------
 
-    ```bash
-    $ ssdb-server -f path/to/ssdb.conf
-    ```
+Metrics and administration data are stored on disk:
 
-5. Start beanstalkd:
+* metrics and trend states are stored in [ssdb](https://github.com/ideawu/ssdb)
+* alerting rules are stored in sqlite.
 
-    ```bash
-    $ beanstalkd
-    ```
+And we use [beanstalkd](https://github.com/kr/beanstalkd) to dispatch analyzation
+jobs.
 
-6. Start bell services:
+* For ssdb, clone down `https://github.com/ideawu/ssdb` and run `make install`.
+* For beanstalkd, clone down `https://github.com/kr/beanstalkd` and run `make install`.
 
-    ```bash
-    $ bell analyzer -c config.js
-    $ bell listener -c config.js
-    $ bell webapp -c config.js
-    $ bell alerter -c config.js
-    $ bell cleaner -c config.js
-    ```
-    And I suggest you manage these services with something like supervisord.
+Then start ssdb-server and beanstalkd:
+
+```bash
+$ ssdb-server -f path/to/ssdb.conf
+$ beanstalkd
+```
 
 Services
 --------
@@ -126,11 +151,25 @@ Bell has 5 services (or process entries):
 
     Clean metrics that has a long time not hitting bell.
 
-Alerter Sender
+Start them all, and I suggest you manage these services with some process manager
+like [supervisord](https://github.com/Supervisor/supervisor):
+
+```bash
+$ bell analyzer -c config.js
+$ bell listener -c config.js
+$ bell webapp -c config.js
+$ bell alerter -c config.js
+$ bell cleaner -c config.js
+```
+
+Alerting Sender
 ---------------
 
-A sender is a nodejs module which should export a function `sendEmail` or
-`sendSms` (or both), see [exampleSender.js](exampleSender.js) for example.
+Alerting sender is the only item that is a little bit diffcult 
+but must be customized by yourself. It's a nodejs script (or module)
+which will be called from bell alerter on anomalies detected. The sender
+should export a function `sendEmail` or `sendSms` (or both), you may want to 
+see [exampleSender.js](exampleSender.js) for example.
 
 Implementation Notes
 --------------------
