@@ -115,7 +115,9 @@ Pattern: {{ params.pattern }}
   </li>
   <!-- Tab `stop` -->
   <li class="dropdown pull-right">
-    <a href="{{ switch({stop: 0 if params.stop == 1 else 1 })}}">Pause</a>
+    <a href="{{ switch({stop: 0 if params.stop == 1 else 1 })}}">
+      {% if params.stop == 1 %}Realtime{% else %}Pause{% endif %}
+    </a>
   </li>
   <!-- Tab sort -->
   <li class="dropdown pull-right">
