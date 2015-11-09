@@ -1,3 +1,9 @@
+2.0.1
+-----
+
+	* Update alerting fules (min and max with trending)
+	* Only sync data from sqlite on dbfile changes
+
 2.0.0
 -----
 
