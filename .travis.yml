@@ -2,9 +2,8 @@ language: node_js
 
 node_js:
   - "0.12"
-  - "iojs-v1.1.0"
-  - "iojs-v2.0.0"
   - "iojs"
+  - "4.0.0"
 
 script:
   - $(npm bin)/jshint .
