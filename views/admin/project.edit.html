@@ -49,21 +49,13 @@ Edit Project
           <div class="input-group">
             <span class="input-group-addon">
               <input name="up" type="checkbox" checked="checked">
-              on anomalous raising trend ↑ </span>
+              on anomalous trend ↑ and value >=</span>
+              <input name="min" type="text" class="rule-value form-control" placeholder="optional number">
+          </div>
+          <div class="input-group">
             <span class="input-group-addon">
               <input name="down" type="checkbox" checked="checked">
-              on anomalous decline trend ↓
-            </span>
-          </div>
-          <div class="input-group">
-            <span class="input-group-addon">
-              alert only when metric value >=
-            </span>
-            <input name="min" type="text" class="rule-value form-control" placeholder="optional number">
-          </div>
-          <div class="input-group">
-            <span class="input-group-addon">
-              alert only when metric value <=
+              on anomalous trend ↓ and value <=
             </span>
             <input name="max" type="text" class="rule-value form-control" placeholder="optional number">
           </div>
@@ -81,13 +73,15 @@ Edit Project
         <kbd><a href="{{ url('/', {pattern: rule.pattern}) }}">{{ rule.pattern }}</a></kbd>
         <button type="button" data-id="{{ rule.id }}" class="btn btn-xs btn-danger pull-right rule-delete">delete</button>
         <code class="pull-right">
-          {% if rule.up %}trend ↑{% endif %}
-          {% if rule.up and rule.down %}or{% endif %}
-          {% if rule.down %}trend ↓{% endif %}
-          {% if rule.min != null or rule.max != null %}and{% endif %}
-          {% if rule.min != null %}{{ rule.min }} <= {% endif %}
-          {% if rule.min != null or rule.max != null %}value{% endif %}
-          {% if rule.max != null %} <= {{ rule.max }}{% endif %}
+          {% if rule.up %}
+            {% if rule.min != null %}({% endif %}trend ↑
+            {% if rule.min != null %}&& value >= {{ rule.min }}){% endif %}
+          {% endif %}
+          {% if rule.up and rule. down %} || {% endif %}
+          {% if rule.down %}
+            {% if rule.max != null %}({% endif %}trend ↓
+            {% if rule.max != null %}&& value <= {{ rule.max }}){% endif %}
+          {% endif %}
         </code>
       </li>
       </script>
