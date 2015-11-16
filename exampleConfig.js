@@ -40,10 +40,8 @@
  *                      (as a percentage of periodicity). [auto reloading, default: 0.01]
  *   trendingFactor     the factor to calculate trending value via weighted moving
  *                      average algorithm. [auto reloading, default: 0.1]
- *   fillBlanks         fill in stats for inactive timers, counters, gauges and sets.
- *                      [default: false]
- *   fillBlankCounters  fill in blank counters as zeros. [default: false]
- *   fillBlankTimers    fill in blank timers as zeros. [default: false]
+ *   fillBlankCounters  fill in blank inactive counters as zeros. [default: false]
+ *   fillBlankTimers    fill in blank inactive timers as zeros. [default: false]
  *
  * Webapp Options
  *   port               webapp port to listen. [default: 2016]
