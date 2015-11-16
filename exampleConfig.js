@@ -2,60 +2,64 @@
  * Configurations for eleme/bell.js.
  *
  * Global Options
- *   interval       incoming metrics time interval (in sec). [default: 10]
- *   autoReload     if set true, config will be auto reread and applied, note
- *                  that not all options are auto reloading. [default: true]
+ *   interval           incoming metrics time interval (in sec). [default: 10]
+ *   autoReload         if set true, config will be auto reread and applied, note
+ *                      that not all options are auto reloading. [default: true]
  *
  * Beanstalkd Options
- *   host           hostname/IP of beanstalkd server. [default: '0.0.0.0']
- *   port           port of beanstalkd server. [default: '0.0.0.0']
- *   tube           tube to use/watch. [default: 'bell']
+ *   host               hostname/IP of beanstalkd server. [default: '0.0.0.0']
+ *   port               port of beanstalkd server. [default: '0.0.0.0']
+ *   tube               tube to use/watch. [default: 'bell']
  *
  * SSDB Options:
- *   host           hostname/IP of ssdb server. [default: '0.0.0.0']
- *   port           port of ssdb server. [default: 8888]
- *   auth           auth to connect to ssdb server. [default: null]
- *   size           connection pool size. [default: 6]
- *   prefix         the prefix to name bell zset/hash.. [default: 'bell.']
+ *   host               hostname/IP of ssdb server. [default: '0.0.0.0']
+ *   port               port of ssdb server. [default: 8888]
+ *   auth               auth to connect to ssdb server. [default: null]
+ *   size               connection pool size. [default: 6]
+ *   prefix             the prefix to name bell zset/hash.. [default: 'bell.']
  *
  * SQLite Options:
- *   file           file path for sqlite (maintains admin etc.) [default: 'bell.db']
+ *   file               file path for sqlite (maintains admin etc.) [default: 'bell.db']
  *
  * Listener Options
- *   port           listener port to listen. [default: 2015]
- *   whitelist      metrics whitelist. if set empty `[]`, rule patterns from sqlite
- *                  will be used. [auto reloading, default: ['*']]
- *   blacklist      metrics blacklist. [auto reloading, default: ['statsd.*']]
- *                  listener will allow one metric to pass only if it matches one
- *                  pattern in whitelist and dosen't match any pattern in blacklist.
+ *   port               listener port to listen. [default: 2015]
+ *   whitelist          metrics whitelist. if set empty `[]`, rule patterns from sqlite
+ *                      will be used. [auto reloading, default: ['*']]
+ *   blacklist          metrics blacklist. [auto reloading, default: ['statsd.*']]
+ *                      listener will allow one metric to pass only if it matches one
+ *                      pattern in whitelist and dosen't match any pattern in blacklist.
  *
  * Analyzer Options
- *   workers        number of analyzer workers to start. [default: 4]
- *   strict         strict mode flag. [auto reloading, default: true]
- *   startSize      analyzers won't start until the data set is larger than
- *                  this size. [default: 50]
- *   periodicity    metrics periodicity (in sec). [default: 24*3600 (1 day)]
- *   expiration     datapoint expiration (in ms) for all metrics. [default: 5*24*3600 (5 days)]
- *   filterOffset   analyzers filter history data within some offset
- *                  (as a percentage of periodicity). [auto reloading, default: 0.01]
- *   trendingFactor the factor to calculate trending value via weighted moving
- *                  average algorithm. [auto reloading, default: 0.1]
+ *   workers            number of analyzer workers to start. [default: 4]
+ *   strict             strict mode flag. [auto reloading, default: true]
+ *   startSize          analyzers won't start until the data set is larger than
+ *                      this size. [default: 50]
+ *   periodicity        metrics periodicity (in sec). [default: 24*3600 (1 day)]
+ *   expiration         datapoint expiration (in ms) for all metrics. [default: 5*24*3600 (5 days)]
+ *   filterOffset       analyzers filter history data within some offset
+ *                      (as a percentage of periodicity). [auto reloading, default: 0.01]
+ *   trendingFactor     the factor to calculate trending value via weighted moving
+ *                      average algorithm. [auto reloading, default: 0.1]
+ *   fillBlanks         fill in stats for inactive timers, counters, gauges and sets.
+ *                      [default: false]
+ *   fillBlankCounters  fill in blank counters as zeros. [default: false]
+ *   fillBlankTimers    fill in blank timers as zeros. [default: false]
  *
  * Webapp Options
- *   port           webapp port to listen. [default: 2016]
- *   workers        number of webapp workers to start. [default: 2]
- *   auth           username and password for admin basic auth. [default: 'admin:admin']
- *   root           webapp server root path. [default: null]
+ *   port               webapp port to listen. [default: 2016]
+ *   workers            number of webapp workers to start. [default: 2]
+ *   auth               username and password for admin basic auth. [default: 'admin:admin']
+ *   root               webapp server root path. [default: null]
  *
  * Cleaner Options
- *   interval       cleaning time interval (in secs). [default: 10*60 (10min)]
- *   threshold      one metric will be cleaned if the age it hitting bell
- *                  exceeds this threshold (in sec). [default: 2*24*3600 (2 day)]
+ *   interval           cleaning time interval (in secs). [default: 10*60 (10min)]
+ *   threshold          one metric will be cleaned if the age it hitting bell
+ *                      exceeds this threshold (in sec). [default: 2*24*3600 (2 day)]
  * Alerter Options
- *   host           alerter host to bind/connect. [default: '0.0.0.0']
- *   port           alerter port to listen/connect. [default: 2017]
- *   sender         module to send message (i.e. sms, email) for alerter. [default: null]
- *   interval       alerter time interval, in seconds. [default: 20*60]
+ *   host               alerter host to bind/connect. [default: '0.0.0.0']
+ *   port               alerter port to listen/connect. [default: 2017]
+ *   sender             module to send message (i.e. sms, email) for alerter. [default: null]
+ *   interval           alerter time interval, in seconds. [default: 20*60]
  */
 
 {
