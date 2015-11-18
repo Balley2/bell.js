@@ -15,7 +15,7 @@ gulp.task('clean', function() {
 // Minify css
 gulp.task('css', function() {
   var files = [
-    'static/lib/bootswatch-dist/css/bootstrap.css',
+    'node_modules/bootswatch/simplex/bootstrap.css',
     'static/src/css/*.css',
   ];
   return gulp.src(files)
@@ -29,11 +29,11 @@ gulp.task('css', function() {
 // Minify js
 gulp.task('js', function() {
   var files = [
-    'static/lib/jquery/dist/jquery.js',
-    'static/lib/bootstrap/dist/js/bootstrap.js',
-    'static/lib/d3/d3.js',
-    'static/lib/cubism/cubism.v1.js',
-    'static/lib/nunjucks/browser/nunjucks.js',
+    'node_modules/jquery/dist/jquery.js',
+    'node_modules/bootstrap/dist/js/bootstrap.js',
+    'node_modules/d3/d3.js',
+    'node_modules/cubism/cubism.v1.js',
+    'node_modules/nunjucks/browser/nunjucks.js',
     'static/src/js/app.js',
     'static/src/js/util.js',
     'static/src/js/handlers/*.js',
