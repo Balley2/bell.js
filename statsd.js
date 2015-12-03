@@ -11,7 +11,7 @@
  *   bellIgnores, default: ['statsd.*']
  *   bellTimerDataFields, default: ['mean_90', 'count_ps']
  *
- * Metric types supported: `counter_rates` & `timer_data`
+ * Metric types supported: `counter_rates` & `timer_data` & `gauge`
  */
 
 'use strict';
@@ -40,7 +40,10 @@ var makers = {
       datapoints.push([name, [time, val]]);
     }
     return datapoints;
-  }
+  },
+  'gauges': function(key, val, time) {
+    return [['gauge.' + key, [time, val]]];
+  },
 };
 
 /**
