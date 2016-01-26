@@ -1,3 +1,6 @@
+Plz use https://github.com/eleme/banshee instead.
+=================================================
+
 Bell.js
 =======
 
